@@ -1,0 +1,10 @@
+version: "2"
+sql:
+  - engine: "sqlite"
+    schema: "adapters/db/sqlc/schema.sql"
+    queries: "adapters/db/sqlc/queries"
+    gen:
+      go:
+        package: "repositories"
+        out: "adapters/db/repositories"
+        sql_package: "database/sql"
