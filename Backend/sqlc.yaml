@@ -5,6 +5,6 @@ sql:
     queries: "shared/db/sqlc/queries"
     gen:
       go:
-        package: "repositories"
-        out: "shared/db/repositories"
+        package: "repositorios"
+        out: "shared/db/repositorios"
         sql_package: "database/sql"

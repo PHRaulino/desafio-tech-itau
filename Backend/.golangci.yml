@@ -1,0 +1,101 @@
+# Configuração para GolangCI-Lint v2.1.6 (jun/2025)
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  exclusions:
+    paths:
+      - ./vendor
+      - ./wire_gen.go
+  enable:
+    - lll
+    - errcheck
+    - errorlint
+    - prealloc
+    - wastedassign
+    - gofmt
+    - goimports
+    - misspell
+    - unconvert
+    - gocyclo
+    - cyclop
+    - dupl
+    - funlen
+    - staticcheck
+    - bodyclose
+    - gosec
+    - gosimple
+    - nakedret
+    - whitespace
+    - stylecheck
+    - revive
+    - copyloopvar
+    - paralleltest
+    - tagliatelle
+    - unused
+    - usestdlibvars
+    - testpackage
+    - contextcheck
+    - nilerr
+    - exhaustruct
+
+  settings:
+    lll:
+      line-length: 100
+      tab-width: 4
+    cyclop:
+      max-complexity: 10
+    funlen:
+      lines: 40
+      statements: 50
+    tagliatelle:
+      case:
+        rules:
+          json: snake
+    gosec:
+      excludes:
+        - G101
+        - G102
+        - G103
+        - G104
+        - G106
+        - G107
+        - G108
+        - G109
+        - G110
+        - G111
+        - G112
+        - G114
+        - G115
+        - G201
+        - G202
+        - G203
+        - G204
+        - G301
+        - G302
+        - G303
+        - G304
+        - G305
+        - G306
+        - G307
+        - G401
+        - G402
+        - G403
+        - G404
+        - G405
+        - G406
+        - G501
+        - G502
+        - G503
+        - G504
+        - G505
+        - G506
+        - G507
+        - G601
+        - G602
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

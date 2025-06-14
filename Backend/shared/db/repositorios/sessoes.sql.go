@@ -3,7 +3,7 @@
 //   sqlc v1.29.0
 // source: sessoes.sql
 
-package repositories
+package repositorios
 
 import (
 	"context"

@@ -2,7 +2,7 @@
 // versions:
 //   sqlc v1.29.0
 
-package repositories
+package repositorios
 
 import (
 	"database/sql"
