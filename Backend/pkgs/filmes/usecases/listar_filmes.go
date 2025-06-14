@@ -8,7 +8,6 @@ type ListarFilmesUseCase struct {
 	repo core.RepoFilmes
 }
 
-// NewGetAllAddressUseCase creates a new instance of GetAllAddressUseCase.
 func NewListarFilmesUseCase(repo core.RepoFilmes) *ListarFilmesUseCase {
 	return &ListarFilmesUseCase{repo: repo}
 }

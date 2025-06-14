@@ -1,4 +1,3 @@
-// pacote para listar os filmes em cartaz
 package core
 
 import "time"

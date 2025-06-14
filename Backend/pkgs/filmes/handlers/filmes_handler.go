@@ -43,7 +43,6 @@ func (h *FilmesHandler) listarFilmes(w httpPorts.Response, _ httpPorts.Request) 
 	}
 }
 
-// RegisterRoutes registers the budget-related routes with the provided HTTP router.
 func (h *FilmesHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router := *httpRouter
 	router.HandleFunc("GET /filmes", h.listarFilmes)
