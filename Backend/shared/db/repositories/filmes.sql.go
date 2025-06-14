@@ -11,7 +11,7 @@ import (
 
 const listaFilmes = `-- name: ListaFilmes :many
 SELECT
-    id, nome, data_lancamento, classificacao, descricao, trailer, capa, expectativa_publico, ultima_atualizacao
+    id, nome, data_lancamento, classificacao, descricao, trailer, capa, data_criacao, ultima_atualizacao
 FROM
     "filmes"
 `
@@ -33,7 +33,7 @@ func (q *Queries) ListaFilmes(ctx context.Context) ([]Filme, error) {
 			&i.Descricao,
 			&i.Trailer,
 			&i.Capa,
-			&i.ExpectativaPublico,
+			&i.DataCriacao,
 			&i.UltimaAtualizacao,
 		); err != nil {
 			return nil, err

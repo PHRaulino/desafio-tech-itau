@@ -11,7 +11,7 @@ import (
 
 const listaSessoes = `-- name: ListaSessoes :many
 SELECT
-    id, filme_id, sala_id, data_horario, ultima_atualizacao
+    id, filme_id, sala_id, data_horario, data_criacao, ultima_atualizacao
 FROM
     "sessoes"
 `
@@ -30,6 +30,7 @@ func (q *Queries) ListaSessoes(ctx context.Context) ([]Sesso, error) {
 			&i.FilmeID,
 			&i.SalaID,
 			&i.DataHorario,
+			&i.DataCriacao,
 			&i.UltimaAtualizacao,
 		); err != nil {
 			return nil, err

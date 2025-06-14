@@ -13,6 +13,7 @@ type Assento struct {
 	Numero            sql.NullInt64
 	Fileria           sql.NullString
 	SalaID            sql.NullString
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
 
@@ -20,34 +21,36 @@ type Cinema struct {
 	ID                string
 	Nome              sql.NullString
 	Localizacao       sql.NullString
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
 
 type Combo struct {
-	ID                 string
-	Nome               sql.NullString
-	Descricao          sql.NullString
-	Valor              sql.NullFloat64
-	ChaveClassificacao sql.NullString
-	UltimaAtualizacao  sql.NullTime
+	ID                string
+	Nome              sql.NullString
+	Descricao         sql.NullString
+	Valor             sql.NullFloat64
+	DataCriacao       sql.NullTime
+	UltimaAtualizacao sql.NullTime
 }
 
 type CombosProduto struct {
 	ComboID           sql.NullString
 	ProdutoID         sql.NullString
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
 
 type Filme struct {
-	ID                 string
-	Nome               sql.NullString
-	DataLancamento     sql.NullTime
-	Classificacao      sql.NullString
-	Descricao          sql.NullString
-	Trailer            sql.NullString
-	Capa               sql.NullString
-	ExpectativaPublico sql.NullInt64
-	UltimaAtualizacao  sql.NullTime
+	ID                string
+	Nome              sql.NullString
+	DataLancamento    sql.NullTime
+	Classificacao     sql.NullString
+	Descricao         sql.NullString
+	Trailer           sql.NullString
+	Capa              sql.NullString
+	DataCriacao       sql.NullTime
+	UltimaAtualizacao sql.NullTime
 }
 
 type Ingresso struct {
@@ -57,6 +60,7 @@ type Ingresso struct {
 	UsuarioID         sql.NullString
 	Status            sql.NullString
 	Valor             sql.NullFloat64
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
 
@@ -66,25 +70,28 @@ type Pedido struct {
 	Data              sql.NullTime
 	ValorTotal        sql.NullFloat64
 	Status            sql.NullString
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
 
 type PedidosCombo struct {
-	PedidoID           sql.NullString
-	ComboID            sql.NullString
-	ChaveClassificacao sql.NullString
-	UltimaAtualizacao  sql.NullTime
+	PedidoID          sql.NullString
+	ComboID           sql.NullString
+	DataCriacao       sql.NullTime
+	UltimaAtualizacao sql.NullTime
 }
 
 type PedidosIngresso struct {
 	PedidoID          sql.NullString
 	IngressoID        sql.NullString
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
 
 type PedidosProduto struct {
 	PedidoID          sql.NullString
 	ProdutoID         sql.NullString
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
 
@@ -93,6 +100,7 @@ type Produto struct {
 	Nome              sql.NullString
 	Descricao         sql.NullString
 	Valor             sql.NullFloat64
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
 
@@ -100,6 +108,7 @@ type Sala struct {
 	ID                string
 	Numero            sql.NullInt64
 	CinemaID          sql.NullString
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
 
@@ -108,6 +117,7 @@ type Sesso struct {
 	FilmeID           sql.NullString
 	SalaID            sql.NullString
 	DataHorario       sql.NullTime
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
 
@@ -115,5 +125,14 @@ type Usuario struct {
 	ID                string
 	Email             sql.NullString
 	DataNascimento    sql.NullTime
+	DataCriacao       sql.NullTime
+	UltimaAtualizacao sql.NullTime
+}
+
+type ValorIngresso struct {
+	ID                string
+	Valor             sql.NullFloat64
+	Tipo              sql.NullString
+	DataCriacao       sql.NullTime
 	UltimaAtualizacao sql.NullTime
 }
