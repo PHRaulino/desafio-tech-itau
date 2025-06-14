@@ -1,0 +1,164 @@
+Enum "status_pedido" {
+  "pago"
+  "pendente"
+  "cancelado"
+}
+
+Enum "status_ingresso" {
+  "disponivel"
+  "utilizado"
+}
+
+Enum "tipo_ingresso" {
+  "inteira"
+  "meia"
+}
+
+Table usuarios {
+  id uuid [pk]
+  email varchar
+  data_nascimento datetime
+  data_criacao datetime
+  ultima_atualizacao datetime
+}
+
+Table cinemas {
+  id uuid [pk]
+  nome varchar
+  localizacao varchar
+  data_criacao datetime
+  ultima_atualizacao datetime
+}
+
+Table salas {
+  id uuid [pk]
+  numero int
+  cinema_id uuid [ref: > cinemas.id]
+  data_criacao datetime
+  ultima_atualizacao datetime
+}
+
+Table assentos {
+  id uuid [pk]
+  numero int
+  fileria varchar
+  sala_id uuid [ref: > salas.id]
+  data_criacao datetime
+  ultima_atualizacao datetime
+}
+
+Table filmes {
+  id uuid [pk]
+  nome varchar
+  data_lancamento date
+  classificacao varchar
+  descricao text
+  trailer varchar
+  capa varchar
+  data_criacao datetime
+  ultima_atualizacao datetime
+}
+
+Table sessoes {
+  id uuid [pk]
+  filme_id uuid [ref: > filmes.id]
+  sala_id uuid [ref: > salas.id]
+  data_horario timestamp
+  data_criacao datetime
+  ultima_atualizacao datetime
+}
+
+Table ingressos {
+  id uuid [pk]
+  sessao_id uuid [ref: > sessoes.id]
+  assento_id uuid [ref: > assentos.id]
+  usuario_id uuid [ref: > usuarios.id]
+  status status_ingresso
+  valor numeric
+  data_criacao datetime
+  ultima_atualizacao datetime
+
+  indexes {
+    (sessao_id, assento_id) [unique]
+  }
+}
+
+Table produtos {
+  id uuid [pk]
+  nome varchar
+  descricao text
+  valor numeric
+  data_criacao datetime
+  ultima_atualizacao datetime
+}
+
+Table combos {
+  id uuid [pk]
+  nome varchar
+  descricao text
+  valor numeric
+  data_criacao datetime
+  ultima_atualizacao datetime
+}
+
+Table combos_produtos {
+  combo_id uuid [ref: > combos.id]
+  produto_id uuid [ref: > produtos.id]
+  data_criacao datetime
+  ultima_atualizacao datetime
+
+  indexes {
+    (combo_id, produto_id) [pk]
+  }
+}
+
+Table pedidos {
+  id uuid [pk]
+  usuario_id uuid [ref: > usuarios.id]
+  data timestamp
+  valor_total numeric
+  status status_pedido
+  data_criacao datetime
+  ultima_atualizacao datetime
+}
+
+Table pedidos_ingressos {
+  pedido_id uuid [ref: > pedidos.id]
+  ingresso_id uuid [ref: > ingressos.id]
+  data_criacao datetime
+  ultima_atualizacao datetime
+
+  indexes {
+    (pedido_id, ingresso_id) [pk]
+  }
+}
+
+Table pedidos_produtos {
+  pedido_id uuid [ref: > pedidos.id]
+  produto_id uuid [ref: > produtos.id]
+  data_criacao datetime
+  ultima_atualizacao datetime
+
+  indexes {
+    (pedido_id, produto_id) [pk]
+  }
+}
+
+Table pedidos_combos {
+  pedido_id uuid [ref: > pedidos.id]
+  combo_id uuid [ref: > combos.id]
+  data_criacao datetime
+  ultima_atualizacao datetime
+
+  indexes {
+    (pedido_id, combo_id) [pk]
+  }
+}
+
+Table valor_ingresso {
+  id uuid [pk]
+  valor numeric
+  tipo tipo_ingresso
+  data_criacao datetime
+  ultima_atualizacao datetime
+}
