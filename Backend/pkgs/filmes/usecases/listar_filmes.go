@@ -1,10 +1,20 @@
 package usecases
 
-import models "github.com/phraulino/cinetuber/pkgs/filmes/core"
+import (
+	core "github.com/phraulino/cinetuber/pkgs/filmes/core"
+)
 
+type ListarFilmesUseCase struct {
+	repo core.RepoFilmes
+}
 
-func ListarFilmes(repo models.RepoFilmes) ([]*models.Filme, error) {
-	filmes, err := repo.ListarTodos()
+// NewGetAllAddressUseCase creates a new instance of GetAllAddressUseCase.
+func NewListarFilmesUseCase(repo core.RepoFilmes) *ListarFilmesUseCase {
+	return &ListarFilmesUseCase{repo: repo}
+}
+
+func (c *ListarFilmesUseCase) Execute() ([]*core.Filme, error) {
+	filmes, err := c.repo.ListarTodos()
 	if err != nil {
 		return nil, err
 	}

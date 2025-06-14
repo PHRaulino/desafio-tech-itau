@@ -89,7 +89,7 @@ INSERT INTO
   filmes (
     id,
     nome,
-    data_lancamento,
+    lancamento,
     classificacao,
     descricao,
     trailer,

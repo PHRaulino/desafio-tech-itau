@@ -1,0 +1,18 @@
+{
+  "gopls": {
+    "ui.semanticTokens": false,
+    "buildFlags": ["-tags=wireinject"]
+  },
+  "editor.formatOnSave": true,
+  "files.autoSave": "afterDelay",
+  "editor.defaultFormatter": "golang.go",
+  "go.lintTool": "golangci-lint",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/wire_gen.go": true
+  }
+}
