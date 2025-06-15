@@ -1,6 +1,5 @@
 package core
 
-
-type RepoFilmes interface {
-	ListarTodos() ([]*Filme, error)
+type RepoValorIngresso interface {
+	ConsultaValor(tipoIngresso string) (*ValorIngresso, error)
 }

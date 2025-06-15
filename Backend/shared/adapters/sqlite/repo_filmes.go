@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	core "github.com/phraulino/cinetuber/pkgs/filmes/core"
+	"github.com/phraulino/cinetuber/pkgs/filmes/core"
 	sqlcRepositorio "github.com/phraulino/cinetuber/shared/db/repositorios"
 )
 

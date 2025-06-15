@@ -5,17 +5,17 @@ import (
 	"net/http"
 
 	"github.com/phraulino/cinetuber/pkgs/filmes/core"
-	listaFilmesUseCase "github.com/phraulino/cinetuber/pkgs/filmes/usecases"
+	"github.com/phraulino/cinetuber/pkgs/filmes/usecases"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
 	httpHelpers "github.com/phraulino/cinetuber/shared/http/utils"
 )
 
 type FilmesHandler struct {
-	listaFilmesUseCase *listaFilmesUseCase.ListarFilmesUseCase
+	listaFilmesUseCase *usecases.ListarFilmesUseCase
 }
 
 func NewFilmesHandler(
-	listaFilmesUseCase *listaFilmesUseCase.ListarFilmesUseCase,
+	listaFilmesUseCase *usecases.ListarFilmesUseCase,
 ) *FilmesHandler {
 	return &FilmesHandler{
 		listaFilmesUseCase: listaFilmesUseCase,

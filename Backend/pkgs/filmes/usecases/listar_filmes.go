@@ -1,7 +1,7 @@
 package usecases
 
 import (
-	core "github.com/phraulino/cinetuber/pkgs/filmes/core"
+	"github.com/phraulino/cinetuber/pkgs/filmes/core"
 )
 
 type ListarFilmesUseCase struct {
