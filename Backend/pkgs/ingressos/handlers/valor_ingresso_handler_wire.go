@@ -6,16 +6,16 @@ package handlers
 import (
 	"database/sql"
 
+	"github.com/phraulino/cinetuber/pkgs/ingressos/adapters"
 	"github.com/phraulino/cinetuber/pkgs/ingressos/core"
 	"github.com/phraulino/cinetuber/pkgs/ingressos/usecases"
-	RepoSQLite "github.com/phraulino/cinetuber/shared/adapters/sqlite"
 
 	"github.com/google/wire"
 )
 
 var valorIngressoSet = wire.NewSet(
-	RepoSQLite.NewSQLLiteRepoValorIngresso,
-	wire.Bind(new(core.RepoValorIngresso), new(*RepoSQLite.SQLLiteRepoValorIngresso)),
+	adapters.NewSQLLiteRepoValorIngresso,
+	wire.Bind(new(core.RepoValorIngresso), new(*adapters.SQLLiteRepoValorIngresso)),
 	usecases.NewConsultaValorIngressoUseCase,
 )
 

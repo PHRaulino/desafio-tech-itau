@@ -8,9 +8,9 @@ package handlers
 
 import (
 	"github.com/google/wire"
+	"github.com/phraulino/cinetuber/pkgs/pagamentos/adapters"
 	"github.com/phraulino/cinetuber/pkgs/pagamentos/core"
 	"github.com/phraulino/cinetuber/pkgs/pagamentos/usecases"
-	"github.com/phraulino/cinetuber/shared/adapters/pagamento"
 )
 
 // Injectors from pagamento_handler_wire.go:

@@ -9,9 +9,9 @@ package handlers
 import (
 	"database/sql"
 	"github.com/google/wire"
+	"github.com/phraulino/cinetuber/pkgs/filmes/adapters"
 	"github.com/phraulino/cinetuber/pkgs/filmes/core"
 	"github.com/phraulino/cinetuber/pkgs/filmes/usecases"
-	"github.com/phraulino/cinetuber/shared/adapters/sqlite"
 )
 
 // Injectors from filmes_handler_wire.go:

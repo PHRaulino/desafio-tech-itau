@@ -4,9 +4,9 @@
 package handlers
 
 import (
+	"github.com/phraulino/cinetuber/pkgs/pagamentos/adapters"
 	"github.com/phraulino/cinetuber/pkgs/pagamentos/core"
 	"github.com/phraulino/cinetuber/pkgs/pagamentos/usecases"
-	adapters "github.com/phraulino/cinetuber/shared/adapters/pagamento"
 
 	"github.com/google/wire"
 )
