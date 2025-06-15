@@ -9,6 +9,7 @@ import (
 	filmesHandler "github.com/phraulino/cinetuber/pkgs/filmes/handlers"
 	ingressosHandler "github.com/phraulino/cinetuber/pkgs/ingressos/handlers"
 	pagamentoHandler "github.com/phraulino/cinetuber/pkgs/pagamentos/handlers"
+	produtosHandler "github.com/phraulino/cinetuber/pkgs/produtos/handlers"
 	httpAdapter "github.com/phraulino/cinetuber/shared/adapters/http/net_http"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
 )
@@ -39,6 +40,9 @@ func New() {
 
 	pagamentoH := pagamentoHandler.InitializePagamentoHandler()
 	pagamentoH.RegisterRoutes(&router)
+
+	produtosH := produtosHandler.InitializeProdutosHandler(db)
+	produtosH.RegisterRoutes(&router)
 
 	if err := router.ListenAndServe("8080"); err != nil {
 		log.Fatal("Falha ao iniciar o servidor: ", err)

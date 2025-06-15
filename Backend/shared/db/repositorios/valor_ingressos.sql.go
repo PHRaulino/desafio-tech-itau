@@ -16,7 +16,8 @@ FROM
     "valor_ingresso"
 WHERE
     "tipo" = ?
-LIMIT 1
+LIMIT
+    1
 `
 
 func (q *Queries) ConsultaValorIngresso(ctx context.Context, tipo string) (ValorIngresso, error) {

@@ -25,13 +25,13 @@ func NewConsultaValorIngressoHandler(
 
 func (h *ConsultaValorIngressoHandler) listarFilmes(w httpPorts.Response, r httpPorts.Request) {
 	tipoIngresso := r.GetQueryParams("tipo_ingresso")
-	valorIngresso, err := h.ingressoUseCase.Execute(tipoIngresso)
 
 	if tipoIngresso == "" {
 		httpHelpers.HTTPError(w, errorsIngressos.ErrNenhumTipoEnviado.Error(), http.StatusBadRequest)
 		return
 	}
 
+	valorIngresso, err := h.ingressoUseCase.Execute(tipoIngresso)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
 		return

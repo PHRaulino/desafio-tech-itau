@@ -14,5 +14,8 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     "**/wire_gen.go": true
+  },
+  "[sql]": {
+    "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
   }
 }
