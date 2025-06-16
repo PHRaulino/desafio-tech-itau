@@ -37,7 +37,7 @@ INSERT INTO
   assentos (
     id,
     numero,
-    fileria,
+    fileira,
     sala_id,
     data_criacao,
     ultima_atualizacao
@@ -116,7 +116,8 @@ INSERT INTO
     id,
     filme_id,
     sala_id,
-    data_horario,
+    status,
+    data_sessao,
     data_criacao,
     ultima_atualizacao
   )
@@ -125,6 +126,7 @@ VALUES
     'ceddee5e-b4df-4b12-a22f-e7e76aeb9d82',
     'b37485a7-fcac-4d6e-a924-80468c6b33c0',
     '2e19142e-4e6b-4311-b25e-6694a4ba6dd3',
+    'aberta',
     '2025-07-01T20:00:00',
     '2025-06-14T20:14:50.829095',
     '2025-06-14T20:14:50.829095'

@@ -30,7 +30,7 @@ CREATE TABLE
     assentos (
         id TEXT PRIMARY KEY,
         numero INTEGER NOT NULL,
-        fileria TEXT NOT NULL,
+        fileira TEXT NOT NULL,
         sala_id TEXT NOT NULL,
         data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         ultima_atualizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -55,7 +55,8 @@ CREATE TABLE
         id TEXT PRIMARY KEY,
         filme_id TEXT NOT NULL,
         sala_id TEXT NOT NULL,
-        data_horario TIMESTAMP NOT NULL,
+        status TEXT NOT NULL CHECK (status IN ('finalizada', 'aberta', 'lotada')),
+        data_sessao TIMESTAMP NOT NULL,
         data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         ultima_atualizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (filme_id) REFERENCES filmes (id),
@@ -68,7 +69,9 @@ CREATE TABLE
         sessao_id TEXT NOT NULL,
         assento_id TEXT NOT NULL,
         usuario_id TEXT NOT NULL,
-        status TEXT NOT NULL CHECK (status IN ('disponivel', 'utilizado')),
+        status TEXT NOT NULL CHECK (
+            status IN ('disponivel', 'utilizado', 'reservado')
+        ),
         valor NUMERIC NOT NULL,
         data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         ultima_atualizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

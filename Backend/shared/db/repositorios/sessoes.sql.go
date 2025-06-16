@@ -7,31 +7,215 @@ package repositorios
 
 import (
 	"context"
+	"time"
 )
 
-const listaSessoes = `-- name: ListaSessoes :many
-SELECT
-    id, filme_id, sala_id, data_horario, data_criacao, ultima_atualizacao
-FROM
-    "sessoes"
+const criaSessao = `-- name: CriaSessao :exec
+INSERT INTO sessoes
+    (
+        id,
+        filme_id,
+        sala_id,
+        status,
+        data_sessao,
+        data_criacao,
+        ultima_atualizacao
+   )
+   VALUES
+    (
+        ?1,
+        ?2,
+        ?3,
+        'aberta',
+        ?4,
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    )
 `
 
-func (q *Queries) ListaSessoes(ctx context.Context) ([]Sesso, error) {
-	rows, err := q.db.QueryContext(ctx, listaSessoes)
+type CriaSessaoParams struct {
+	SessaoID   string
+	FilmeID    string
+	SalaID     string
+	DataSessao time.Time
+}
+
+func (q *Queries) CriaSessao(ctx context.Context, arg CriaSessaoParams) error {
+	_, err := q.db.ExecContext(ctx, criaSessao,
+		arg.SessaoID,
+		arg.FilmeID,
+		arg.SalaID,
+		arg.DataSessao,
+	)
+	return err
+}
+
+const deletaIngresso = `-- name: DeletaIngresso :exec
+DELETE FROM ingressos
+WHERE ingressos.id = ?1
+`
+
+func (q *Queries) DeletaIngresso(ctx context.Context, ingressoID string) error {
+	_, err := q.db.ExecContext(ctx, deletaIngresso, ingressoID)
+	return err
+}
+
+const listaAssentos = `-- name: ListaAssentos :many
+WITH assentos_sessao as (
+    SELECT assentos.id,
+    assentos.sala_id,
+    assentos.fileira,
+    assentos.numero FROM assentos
+    INNER JOIN sessoes ON assentos.sala_id = sessoes.sala_id
+    WHERE sessoes.id = ?1
+), ingressos_sessao as (
+    SELECT ingressos.assento_id, ingressos.status FROM ingressos
+    WHERE ingressos.sessao_id = ?1
+)
+SELECT
+    assentos_sessao.id as assento_id,
+    assentos_sessao.sala_id,
+    assentos_sessao.fileira,
+    assentos_sessao.numero,
+    CAST(CONCAT(assentos_sessao.fileira, assentos_sessao.numero) AS VARCHAR) AS descricao,
+    CAST(CASE
+        WHEN ingressos_sessao.status IS NULL THEN 'disponivel'
+        WHEN ingressos_sessao.status = 'disponivel' THEN 'ocupado'
+        WHEN ingressos_sessao.status = 'reservado' THEN 'reservado'
+    ELSE ingressos_sessao.status
+END AS VARCHAR) AS status
+FROM assentos_sessao
+LEFT JOIN ingressos_sessao
+ON assentos_sessao.id = ingressos_sessao.assento_id
+`
+
+type ListaAssentosRow struct {
+	AssentoID string
+	SalaID    string
+	Fileira   string
+	Numero    int64
+	Descricao string
+	Status    string
+}
+
+func (q *Queries) ListaAssentos(ctx context.Context, sessaoID string) ([]ListaAssentosRow, error) {
+	rows, err := q.db.QueryContext(ctx, listaAssentos, sessaoID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Sesso
+	var items []ListaAssentosRow
 	for rows.Next() {
-		var i Sesso
+		var i ListaAssentosRow
+		if err := rows.Scan(
+			&i.AssentoID,
+			&i.SalaID,
+			&i.Fileira,
+			&i.Numero,
+			&i.Descricao,
+			&i.Status,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listaAssentosReservados = `-- name: ListaAssentosReservados :many
+SELECT ingressos.id FROM ingressos
+WHERE ingressos.sessao_id = ?1
+AND ingressos.status = 'reservado'
+`
+
+func (q *Queries) ListaAssentosReservados(ctx context.Context, sessaoID string) ([]string, error) {
+	rows, err := q.db.QueryContext(ctx, listaAssentosReservados, sessaoID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []string
+	for rows.Next() {
+		var id string
+		if err := rows.Scan(&id); err != nil {
+			return nil, err
+		}
+		items = append(items, id)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listaSessoes = `-- name: ListaSessoes :many
+SELECT
+    sessoes.id,
+    sessoes.filme_id,
+    sessoes.sala_id,
+    CAST(CONCAT('Sala ', salas.numero) AS VARCHAR) AS sala_descricao,
+    cinemas.nome AS nome_cinema,
+    sessoes.status,
+    sessoes.data_sessao
+FROM
+    sessoes
+INNER JOIN salas ON sessoes.sala_id = salas.id
+INNER JOIN cinemas ON salas.cinema_id = salas.cinema_id
+WHERE
+    (?1 IS NULL OR sessoes.filme_id = ?1)
+    AND (?2 IS NULL OR sessoes.sala_id = ?2)
+    AND (?3 IS NULL OR sessoes.data_sessao = ?3)
+    AND (?4 IS NULL OR salas.cinema_id = ?4)
+`
+
+type ListaSessoesParams struct {
+	FilmeID    interface{}
+	SalaID     interface{}
+	DataSessao interface{}
+	CinemaID   interface{}
+}
+
+type ListaSessoesRow struct {
+	ID            string
+	FilmeID       string
+	SalaID        string
+	SalaDescricao string
+	NomeCinema    string
+	Status        string
+	DataSessao    time.Time
+}
+
+func (q *Queries) ListaSessoes(ctx context.Context, arg ListaSessoesParams) ([]ListaSessoesRow, error) {
+	rows, err := q.db.QueryContext(ctx, listaSessoes,
+		arg.FilmeID,
+		arg.SalaID,
+		arg.DataSessao,
+		arg.CinemaID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListaSessoesRow
+	for rows.Next() {
+		var i ListaSessoesRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.FilmeID,
 			&i.SalaID,
-			&i.DataHorario,
-			&i.DataCriacao,
-			&i.UltimaAtualizacao,
+			&i.SalaDescricao,
+			&i.NomeCinema,
+			&i.Status,
+			&i.DataSessao,
 		); err != nil {
 			return nil, err
 		}

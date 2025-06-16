@@ -1,31 +1,77 @@
 -- name: ListaSessoes :many
 SELECT
-    *
+    sessoes.id,
+    sessoes.filme_id,
+    sessoes.sala_id,
+    CAST(CONCAT('Sala ', salas.numero) AS VARCHAR) AS sala_descricao,
+    cinemas.nome AS nome_cinema,
+    sessoes.status,
+    sessoes.data_sessao
 FROM
-    "sessoes";
+    sessoes
+INNER JOIN salas ON sessoes.sala_id = salas.id
+INNER JOIN cinemas ON salas.cinema_id = salas.cinema_id
+WHERE
+    (:filme_id IS NULL OR sessoes.filme_id = :filme_id)
+    AND (:sala_id IS NULL OR sessoes.sala_id = :sala_id)
+    AND (:data_sessao IS NULL OR sessoes.data_sessao = :data_sessao)
+    AND (:cinema_id IS NULL OR salas.cinema_id = :cinema_id);
 
-SELECT 
-    sessoes.id,
-    sessoes.filme_id ,
-    sessoes.sala_id ,
-    sessoes.data_horario ,
-    sessoes.data_criacao ,
-    sessoes.ultima_atualizacao, 
-    salas.numero
-FROM "sessoes" sessoes
-inner join "salas" salas 
-ON salas.id = sessoes.sala_id;
+-- name: CriaSessao :exec
+INSERT INTO sessoes
+    (
+        id,
+        filme_id,
+        sala_id,
+        status,
+        data_sessao,
+        data_criacao,
+        ultima_atualizacao
+   )
+   VALUES
+    (
+        :sessao_id,
+        :filme_id,
+        :sala_id,
+        'aberta',
+        :data_sessao,
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    );
 
-
-SELECT 
-    sessoes.id,
-    sessoes.filme_id ,
-    sessoes.sala_id ,
-    sessoes.data_horario ,  
-    assentos.numero,
+-- name: ListaAssentos :many
+WITH assentos_sessao as (
+    SELECT assentos.id,
+    assentos.sala_id,
     assentos.fileira,
-    assentos.sala_id
-FROM "sessoes" sessoes
-inner join "assentos" assentos 
-ON assentos.id = sessoes.sala_id;
+    assentos.numero FROM assentos
+    INNER JOIN sessoes ON assentos.sala_id = sessoes.sala_id
+    WHERE sessoes.id = :sessao_id
+), ingressos_sessao as (
+    SELECT ingressos.assento_id, ingressos.status FROM ingressos
+    WHERE ingressos.sessao_id = :sessao_id
+)
+SELECT
+    assentos_sessao.id as assento_id,
+    assentos_sessao.sala_id,
+    assentos_sessao.fileira,
+    assentos_sessao.numero,
+    CAST(CONCAT(assentos_sessao.fileira, assentos_sessao.numero) AS VARCHAR) AS descricao,
+    CAST(CASE
+        WHEN ingressos_sessao.status IS NULL THEN 'disponivel'
+        WHEN ingressos_sessao.status = 'disponivel' THEN 'ocupado'
+        WHEN ingressos_sessao.status = 'reservado' THEN 'reservado'
+    ELSE ingressos_sessao.status
+END AS VARCHAR) AS status
+FROM assentos_sessao
+LEFT JOIN ingressos_sessao
+ON assentos_sessao.id = ingressos_sessao.assento_id;
 
+-- name: ListaAssentosReservados :many
+SELECT ingressos.id FROM ingressos
+WHERE ingressos.sessao_id = :sessao_id
+AND ingressos.status = 'reservado';
+
+-- name: DeletaIngresso :exec
+DELETE FROM ingressos
+WHERE ingressos.id = :ingresso_id;

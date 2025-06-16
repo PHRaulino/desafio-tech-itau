@@ -12,7 +12,7 @@ import (
 type Assento struct {
 	ID                string
 	Numero            int64
-	Fileria           string
+	Fileira           string
 	SalaID            string
 	DataCriacao       time.Time
 	UltimaAtualizacao time.Time
@@ -114,7 +114,8 @@ type Sesso struct {
 	ID                string
 	FilmeID           string
 	SalaID            string
-	DataHorario       time.Time
+	Status            string
+	DataSessao        time.Time
 	DataCriacao       time.Time
 	UltimaAtualizacao time.Time
 }

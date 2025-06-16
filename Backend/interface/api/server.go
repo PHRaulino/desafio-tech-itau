@@ -11,6 +11,7 @@ import (
 	pagamentoHandler "github.com/phraulino/cinetuber/pkgs/pagamentos/handlers"
 	pedidosHandler "github.com/phraulino/cinetuber/pkgs/pedidos/handlers"
 	produtosHandler "github.com/phraulino/cinetuber/pkgs/produtos/handlers"
+	sessoesHandler "github.com/phraulino/cinetuber/pkgs/sessoes/handlers"
 	httpAdapter "github.com/phraulino/cinetuber/shared/adapters/http/net_http"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
 )
@@ -42,6 +43,7 @@ func New() {
 		ingressosHandler.InitializeHandler(db),
 		produtosHandler.InitializeHandler(db),
 		pedidosHandler.InitializeHandler(db),
+		sessoesHandler.InitializeHandler(db),
 		pagamentoHandler.InitializeHandler(),
 	}
 
