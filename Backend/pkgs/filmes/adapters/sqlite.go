@@ -29,6 +29,7 @@ func (r *SQLLiteRepoFilmes) ListarTodos(ctx context.Context) ([]*core.Filme, err
 	filmes := make([]*core.Filme, 0, len(filmesSqlc))
 	for _, filmeSqlc := range filmesSqlc {
 		filme := &core.Filme{
+			ID:            filmeSqlc.ID,
 			Nome:          filmeSqlc.Nome,
 			Descricao:     filmeSqlc.Descricao,
 			Capa:          filmeSqlc.Capa,
