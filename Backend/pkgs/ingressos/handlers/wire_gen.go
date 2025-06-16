@@ -16,7 +16,7 @@ import (
 
 // Injectors from valor_ingresso_handler_wire.go:
 
-func InitializeConsultaValorIngressoHandler(db *sql.DB) *ConsultaValorIngressoHandler {
+func InitializeHandler(db *sql.DB) *ConsultaValorIngressoHandler {
 	sqlLiteRepoValorIngresso := adapters.NewSQLLiteRepoValorIngresso(db)
 	consultaValorIngressoUseCase := usecases.NewConsultaValorIngressoUseCase(sqlLiteRepoValorIngresso)
 	consultaValorIngressoHandler := NewConsultaValorIngressoHandler(consultaValorIngressoUseCase)

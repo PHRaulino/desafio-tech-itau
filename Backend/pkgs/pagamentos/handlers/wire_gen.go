@@ -15,7 +15,7 @@ import (
 
 // Injectors from pagamento_handler_wire.go:
 
-func InitializePagamentoHandler() *PagamentoHandler {
+func InitializeHandler() *PagamentoHandler {
 	repoPagamento := adapters.NewRepoPagamento()
 	pagamentoUseCase := usecases.NewPagamentoUseCase(repoPagamento)
 	pagamentoHandler := NewPagamentoHandler(pagamentoUseCase)

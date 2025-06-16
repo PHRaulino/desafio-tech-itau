@@ -9,10 +9,15 @@ import (
 	filmesHandler "github.com/phraulino/cinetuber/pkgs/filmes/handlers"
 	ingressosHandler "github.com/phraulino/cinetuber/pkgs/ingressos/handlers"
 	pagamentoHandler "github.com/phraulino/cinetuber/pkgs/pagamentos/handlers"
+	pedidosHandler "github.com/phraulino/cinetuber/pkgs/pedidos/handlers"
 	produtosHandler "github.com/phraulino/cinetuber/pkgs/produtos/handlers"
 	httpAdapter "github.com/phraulino/cinetuber/shared/adapters/http/net_http"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
 )
+
+type Handler interface {
+	RegisterRoutes(router *httpPorts.Router)
+}
 
 func New() {
 	db, err := sql.Open("sqlite3", "cinetuber.db")
@@ -32,17 +37,17 @@ func New() {
 
 	var router httpPorts.Router = httpAdapter.NewNetHTTPRouterAdapter()
 
-	filmesH := filmesHandler.InitializeFilmesHandler(db)
-	filmesH.RegisterRoutes(&router)
+	handlers := []Handler{
+		filmesHandler.InitializeHandler(db),
+		ingressosHandler.InitializeHandler(db),
+		produtosHandler.InitializeHandler(db),
+		pedidosHandler.InitializeHandler(db),
+		pagamentoHandler.InitializeHandler(),
+	}
 
-	valorIngressosH := ingressosHandler.InitializeConsultaValorIngressoHandler(db)
-	valorIngressosH.RegisterRoutes(&router)
-
-	pagamentoH := pagamentoHandler.InitializePagamentoHandler()
-	pagamentoH.RegisterRoutes(&router)
-
-	produtosH := produtosHandler.InitializeProdutosHandler(db)
-	produtosH.RegisterRoutes(&router)
+	for _, h := range handlers {
+		h.RegisterRoutes(&router)
+	}
 
 	if err := router.ListenAndServe("8080"); err != nil {
 		log.Fatal("Falha ao iniciar o servidor: ", err)

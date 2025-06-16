@@ -5,6 +5,7 @@
 package repositorios
 
 import (
+	"database/sql"
 	"time"
 )
 
@@ -67,16 +68,7 @@ type Ingresso struct {
 type Pedido struct {
 	ID                string
 	UsuarioID         string
-	Data              time.Time
-	ValorTotal        float64
 	Status            string
-	DataCriacao       time.Time
-	UltimaAtualizacao time.Time
-}
-
-type PedidosCombo struct {
-	PedidoID          string
-	ComboID           string
 	DataCriacao       time.Time
 	UltimaAtualizacao time.Time
 }
@@ -90,7 +82,13 @@ type PedidosIngresso struct {
 
 type PedidosProduto struct {
 	PedidoID          string
-	ProdutoID         string
+	ProdutoID         sql.NullString
+	ComboID           sql.NullString
+	Nome              string
+	Descricao         string
+	Quantidade        float64
+	Total             float64
+	Tipo              string
 	DataCriacao       time.Time
 	UltimaAtualizacao time.Time
 }

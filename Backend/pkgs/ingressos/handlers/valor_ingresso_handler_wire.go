@@ -19,7 +19,7 @@ var valorIngressoSet = wire.NewSet(
 	usecases.NewConsultaValorIngressoUseCase,
 )
 
-func InitializeConsultaValorIngressoHandler(db *sql.DB) *ConsultaValorIngressoHandler {
+func InitializeHandler(db *sql.DB) *ConsultaValorIngressoHandler {
 	wire.Build(valorIngressoSet, NewConsultaValorIngressoHandler)
 	return &ConsultaValorIngressoHandler{}
 }

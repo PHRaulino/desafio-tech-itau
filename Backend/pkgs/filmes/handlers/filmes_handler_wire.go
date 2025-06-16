@@ -19,7 +19,7 @@ var filmesSet = wire.NewSet(
 	usecases.NewListarFilmesUseCase,
 )
 
-func InitializeFilmesHandler(db *sql.DB) *FilmesHandler {
+func InitializeHandler(db *sql.DB) *FilmesHandler {
 	wire.Build(filmesSet, NewFilmesHandler)
 	return &FilmesHandler{}
 }

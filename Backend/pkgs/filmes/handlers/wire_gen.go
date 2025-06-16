@@ -16,7 +16,7 @@ import (
 
 // Injectors from filmes_handler_wire.go:
 
-func InitializeFilmesHandler(db *sql.DB) *FilmesHandler {
+func InitializeHandler(db *sql.DB) *FilmesHandler {
 	sqlLiteRepoFilmes := adapters.NewSQLLiteRepoFilmes(db)
 	listarFilmesUseCase := usecases.NewListarFilmesUseCase(sqlLiteRepoFilmes)
 	filmesHandler := NewFilmesHandler(listarFilmesUseCase)

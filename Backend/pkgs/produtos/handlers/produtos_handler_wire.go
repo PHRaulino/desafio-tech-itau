@@ -21,7 +21,7 @@ var ProdutosSet = wire.NewSet(
 	usecases.NewListaProdutosPorComboUseCase,
 )
 
-func InitializeProdutosHandler(db *sql.DB) *ProdutosHandler {
+func InitializeHandler(db *sql.DB) *ProdutosHandler {
 	wire.Build(ProdutosSet, NewProdutosHandler)
 	return &ProdutosHandler{}
 }

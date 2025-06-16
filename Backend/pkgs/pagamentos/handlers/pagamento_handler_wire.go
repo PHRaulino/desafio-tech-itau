@@ -17,7 +17,7 @@ var PagamentoSet = wire.NewSet(
 	usecases.NewPagamentoUseCase,
 )
 
-func InitializePagamentoHandler() *PagamentoHandler {
+func InitializeHandler() *PagamentoHandler {
 	wire.Build(PagamentoSet, NewPagamentoHandler)
 	return &PagamentoHandler{}
 }

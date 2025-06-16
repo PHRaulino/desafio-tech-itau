@@ -2,6 +2,7 @@ package adapters
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io"
 	"net/http"
@@ -42,6 +43,10 @@ func (a *NetHTTPRequestAdapter) PathValue(key string) string {
 
 func (a *NetHTTPRequestAdapter) GetHeader(key string) string {
 	return a.req.Header.Get(key)
+}
+
+func (a *NetHTTPRequestAdapter) Context() context.Context {
+	return a.req.Context()
 }
 
 type NetHTTPResponseAdapter struct {

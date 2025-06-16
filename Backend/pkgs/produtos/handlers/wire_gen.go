@@ -16,7 +16,7 @@ import (
 
 // Injectors from produtos_handler_wire.go:
 
-func InitializeProdutosHandler(db *sql.DB) *ProdutosHandler {
+func InitializeHandler(db *sql.DB) *ProdutosHandler {
 	sqlLiteRepoProdutos := adapters.NewSQLLiteRepoProdutos(db)
 	listaCombosUseCase := usecases.NewListaCombosUseCase(sqlLiteRepoProdutos)
 	listaProdutosUseCase := usecases.NewListaProdutosUseCase(sqlLiteRepoProdutos)

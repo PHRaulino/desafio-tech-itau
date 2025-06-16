@@ -1,5 +1,7 @@
 package ports
 
+import "context"
+
 type ResponseAPI struct {
 	Message string `json:"message"`
 }
@@ -10,6 +12,7 @@ type Request interface {
 	GetPath() string
 	GetQueryParams(key string) string
 	PathValue(key string) string
+	Context() context.Context
 }
 
 type Response interface {
