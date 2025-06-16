@@ -20,8 +20,8 @@ func NewSQLLiteRepoValorIngresso(db *sql.DB) *SQLLiteRepoValorIngresso {
 	}
 }
 
-func (r *SQLLiteRepoValorIngresso) ConsultaValor(tipoIngresso string) (*core.ValorIngresso, error) {
-	valorIngressoSqlc, err := r.queries.ConsultaValorIngresso(context.Background(), tipoIngresso)
+func (r *SQLLiteRepoValorIngresso) ConsultaValor(ctx context.Context, tipoIngresso string) (*core.ValorIngresso, error) {
+	valorIngressoSqlc, err := r.queries.ConsultaValorIngresso(ctx, tipoIngresso)
 	if err != nil {
 		return nil, err
 	}

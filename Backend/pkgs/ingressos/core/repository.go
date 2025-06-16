@@ -1,5 +1,7 @@
 package core
 
+import "context"
+
 type RepoValorIngresso interface {
-	ConsultaValor(tipoIngresso string) (*ValorIngresso, error)
+	ConsultaValor(ctx context.Context, tipoIngresso string) (*ValorIngresso, error)
 }

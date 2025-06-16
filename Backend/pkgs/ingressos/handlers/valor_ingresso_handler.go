@@ -24,6 +24,8 @@ func NewConsultaValorIngressoHandler(
 }
 
 func (h *ConsultaValorIngressoHandler) listarFilmes(w httpPorts.Response, r httpPorts.Request) {
+	ctx := r.Context()
+
 	tipoIngresso := r.GetQueryParams("tipo_ingresso")
 
 	if tipoIngresso == "" {
@@ -31,7 +33,7 @@ func (h *ConsultaValorIngressoHandler) listarFilmes(w httpPorts.Response, r http
 		return
 	}
 
-	valorIngresso, err := h.ingressoUseCase.Execute(tipoIngresso)
+	valorIngresso, err := h.ingressoUseCase.Execute(ctx, tipoIngresso)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
 		return

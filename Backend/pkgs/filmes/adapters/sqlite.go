@@ -20,8 +20,8 @@ func NewSQLLiteRepoFilmes(db *sql.DB) *SQLLiteRepoFilmes {
 	}
 }
 
-func (r *SQLLiteRepoFilmes) ListarTodos() ([]*core.Filme, error) {
-	filmesSqlc, err := r.queries.ListaFilmes(context.Background())
+func (r *SQLLiteRepoFilmes) ListarTodos(ctx context.Context) ([]*core.Filme, error) {
+	filmesSqlc, err := r.queries.ListaFilmes(ctx)
 	if err != nil {
 		return nil, err
 	}

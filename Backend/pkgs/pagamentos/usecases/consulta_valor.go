@@ -1,6 +1,8 @@
 package usecases
 
 import (
+	"context"
+
 	"github.com/phraulino/cinetuber/pkgs/pagamentos/core"
 )
 
@@ -12,8 +14,8 @@ func NewPagamentoUseCase(repo core.RepoPagamento) *PagamentoUseCase {
 	return &PagamentoUseCase{repo: repo}
 }
 
-func (c *PagamentoUseCase) Execute(valor float64) (*core.Pagamento, error) {
-	Pagamento, err := c.repo.Efetuar(valor)
+func (c *PagamentoUseCase) Execute(ctx context.Context, valor float64) (*core.Pagamento, error) {
+	Pagamento, err := c.repo.Efetuar(ctx, valor)
 	if err != nil {
 		return nil, err
 	}

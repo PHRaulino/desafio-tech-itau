@@ -1,6 +1,8 @@
 package usecases
 
 import (
+	"context"
+
 	"github.com/phraulino/cinetuber/pkgs/ingressos/core"
 )
 
@@ -12,8 +14,8 @@ func NewConsultaValorIngressoUseCase(repo core.RepoValorIngresso) *ConsultaValor
 	return &ConsultaValorIngressoUseCase{repo: repo}
 }
 
-func (c *ConsultaValorIngressoUseCase) Execute(tipoIngresso string) (*core.ValorIngresso, error) {
-	valorIngresso, err := c.repo.ConsultaValor(tipoIngresso)
+func (c *ConsultaValorIngressoUseCase) Execute(ctx context.Context, tipoIngresso string) (*core.ValorIngresso, error) {
+	valorIngresso, err := c.repo.ConsultaValor(ctx, tipoIngresso)
 	if err != nil {
 		return nil, err
 	}

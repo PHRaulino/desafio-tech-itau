@@ -1,6 +1,8 @@
 package usecases
 
 import (
+	"context"
+
 	"github.com/phraulino/cinetuber/pkgs/filmes/core"
 )
 
@@ -12,8 +14,8 @@ func NewListarFilmesUseCase(repo core.RepoFilmes) *ListarFilmesUseCase {
 	return &ListarFilmesUseCase{repo: repo}
 }
 
-func (c *ListarFilmesUseCase) Execute() ([]*core.Filme, error) {
-	filmes, err := c.repo.ListarTodos()
+func (c *ListarFilmesUseCase) Execute(ctx context.Context) ([]*core.Filme, error) {
+	filmes, err := c.repo.ListarTodos(ctx)
 	if err != nil {
 		return nil, err
 	}

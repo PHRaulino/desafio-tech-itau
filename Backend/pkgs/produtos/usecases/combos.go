@@ -1,6 +1,8 @@
 package usecases
 
 import (
+	"context"
+
 	"github.com/phraulino/cinetuber/pkgs/produtos/core"
 )
 
@@ -12,8 +14,8 @@ func NewListaCombosUseCase(repo core.RepoProdutos) *ListaCombosUseCase {
 	return &ListaCombosUseCase{repo: repo}
 }
 
-func (c *ListaCombosUseCase) Execute() ([]*core.Combo, error) {
-	Combos, err := c.repo.ListaCombos()
+func (c *ListaCombosUseCase) Execute(ctx context.Context) ([]*core.Combo, error) {
+	Combos, err := c.repo.ListaCombos(ctx)
 	if err != nil {
 		return nil, err
 	}

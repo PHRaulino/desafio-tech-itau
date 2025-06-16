@@ -1,5 +1,7 @@
 package core
 
+import "context"
+
 type RepoFilmes interface {
-	ListarTodos() ([]*Filme, error)
+	ListarTodos(ctx context.Context) ([]*Filme, error)
 }

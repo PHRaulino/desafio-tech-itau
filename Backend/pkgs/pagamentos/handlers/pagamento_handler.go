@@ -23,6 +23,7 @@ func NewPagamentoHandler(
 }
 
 func (h *PagamentoHandler) efetuarPagamento(w httpPorts.Response, r httpPorts.Request) {
+	ctx := r.Context()
 	bodyBytes, err := r.GetBody()
 	if err != nil {
 		httpHelpers.HTTPError(w, "failed to read request body", http.StatusBadRequest)
@@ -35,7 +36,7 @@ func (h *PagamentoHandler) efetuarPagamento(w httpPorts.Response, r httpPorts.Re
 		return
 	}
 
-	Pagamento, err := h.pagamentoUseCase.Execute(infosPagamento.Valor)
+	Pagamento, err := h.pagamentoUseCase.Execute(ctx, infosPagamento.Valor)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
 		return

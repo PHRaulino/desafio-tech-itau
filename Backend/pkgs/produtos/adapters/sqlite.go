@@ -20,8 +20,8 @@ func NewSQLLiteRepoProdutos(db *sql.DB) *SQLLiteRepoProdutos {
 	}
 }
 
-func (r *SQLLiteRepoProdutos) ListaCombos() ([]*core.Combo, error) {
-	combosSqlc, err := r.queries.ListaCombos(context.Background())
+func (r *SQLLiteRepoProdutos) ListaCombos(ctx context.Context) ([]*core.Combo, error) {
+	combosSqlc, err := r.queries.ListaCombos(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41,8 +41,8 @@ func (r *SQLLiteRepoProdutos) ListaCombos() ([]*core.Combo, error) {
 	return combos, nil
 }
 
-func (r *SQLLiteRepoProdutos) ListaProdutos() ([]*core.Produto, error) {
-	produtosSqlc, err := r.queries.ListaProdutos(context.Background())
+func (r *SQLLiteRepoProdutos) ListaProdutos(ctx context.Context) ([]*core.Produto, error) {
+	produtosSqlc, err := r.queries.ListaProdutos(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62,8 +62,8 @@ func (r *SQLLiteRepoProdutos) ListaProdutos() ([]*core.Produto, error) {
 	return produtos, nil
 }
 
-func (r *SQLLiteRepoProdutos) ListaProdutosPorCombo(comboID string) ([]*core.Produto, error) {
-	produtosSqlc, err := r.queries.ListaProdutosPorCombo(context.Background(), comboID)
+func (r *SQLLiteRepoProdutos) ListaProdutosPorCombo(ctx context.Context, comboID string) ([]*core.Produto, error) {
+	produtosSqlc, err := r.queries.ListaProdutosPorCombo(ctx, comboID)
 	if err != nil {
 		return nil, err
 	}

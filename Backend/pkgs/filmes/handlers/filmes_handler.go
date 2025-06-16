@@ -22,8 +22,9 @@ func NewFilmesHandler(
 	}
 }
 
-func (h *FilmesHandler) listarFilmes(w httpPorts.Response, _ httpPorts.Request) {
-	filmes, err := h.listaFilmesUseCase.Execute()
+func (h *FilmesHandler) listarFilmes(w httpPorts.Response, r httpPorts.Request) {
+	ctx := r.Context()
+	filmes, err := h.listaFilmesUseCase.Execute(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
 		return

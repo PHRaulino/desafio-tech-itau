@@ -28,8 +28,10 @@ func NewProdutosHandler(
 	}
 }
 
-func (h *ProdutosHandler) listaCombos(w httpPorts.Response, _ httpPorts.Request) {
-	Combos, err := h.listaCombosUseCase.Execute()
+func (h *ProdutosHandler) listaCombos(w httpPorts.Response, r httpPorts.Request) {
+	ctx := r.Context()
+
+	Combos, err := h.listaCombosUseCase.Execute(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
 		return
@@ -49,8 +51,9 @@ func (h *ProdutosHandler) listaCombos(w httpPorts.Response, _ httpPorts.Request)
 	}
 }
 
-func (h *ProdutosHandler) listaProdutos(w httpPorts.Response, _ httpPorts.Request) {
-	Produtos, err := h.listaProdutosUseCase.Execute()
+func (h *ProdutosHandler) listaProdutos(w httpPorts.Response, r httpPorts.Request) {
+	ctx := r.Context()
+	Produtos, err := h.listaProdutosUseCase.Execute(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
 		return
@@ -71,9 +74,11 @@ func (h *ProdutosHandler) listaProdutos(w httpPorts.Response, _ httpPorts.Reques
 }
 
 func (h *ProdutosHandler) listaProdutosPorCombo(w httpPorts.Response, r httpPorts.Request) {
+	ctx := r.Context()
+
 	comboID := r.PathValue("combo_id")
 
-	Produtos, err := h.listaProdutosPorComboUseCase.Execute(comboID)
+	Produtos, err := h.listaProdutosPorComboUseCase.Execute(ctx, comboID)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
 		return

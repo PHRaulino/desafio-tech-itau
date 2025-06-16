@@ -1,6 +1,7 @@
 package adapters
 
 import (
+	"context"
 	"time"
 
 	"github.com/phraulino/cinetuber/pkgs/pagamentos/core"
@@ -12,7 +13,7 @@ func NewRepoPagamento() *RepoPagamento {
 	return &RepoPagamento{}
 }
 
-func (r *RepoPagamento) Efetuar(valor float64) (*core.Pagamento, error) {
+func (r *RepoPagamento) Efetuar(ctx context.Context, valor float64) (*core.Pagamento, error) {
 	time.Sleep(2 * time.Second)
 
 	return &core.Pagamento{

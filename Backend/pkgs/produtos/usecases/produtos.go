@@ -1,6 +1,8 @@
 package usecases
 
 import (
+	"context"
+
 	"github.com/phraulino/cinetuber/pkgs/produtos/core"
 )
 
@@ -12,8 +14,8 @@ func NewListaProdutosUseCase(repo core.RepoProdutos) *ListaProdutosUseCase {
 	return &ListaProdutosUseCase{repo: repo}
 }
 
-func (c *ListaProdutosUseCase) Execute() ([]*core.Produto, error) {
-	Produtos, err := c.repo.ListaProdutos()
+func (c *ListaProdutosUseCase) Execute(ctx context.Context) ([]*core.Produto, error) {
+	Produtos, err := c.repo.ListaProdutos(ctx)
 	if err != nil {
 		return nil, err
 	}

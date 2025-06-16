@@ -1,7 +1,9 @@
 package core
 
+import "context"
+
 type RepoProdutos interface {
-	ListaCombos() ([]*Combo, error)
-	ListaProdutos() ([]*Produto, error)
-	ListaProdutosPorCombo(comboID string) ([]*Produto, error)
+	ListaCombos(ctx context.Context) ([]*Combo, error)
+	ListaProdutos(ctx context.Context) ([]*Produto, error)
+	ListaProdutosPorCombo(ctx context.Context, comboID string) ([]*Produto, error)
 }
