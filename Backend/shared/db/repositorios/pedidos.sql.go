@@ -294,7 +294,10 @@ WITH
             pedidos_produtos.descricao,
             CAST(pedidos_produtos.quantidade AS INTEGER) quantidade,
             pedidos_produtos.total,
-            pedidos_produtos.tipo
+            'reservado' AS status,
+            pedidos_produtos.tipo,
+            '' AS sessao_id,
+            '' AS assento_id
         FROM
             pedidos_produtos
         WHERE
@@ -306,7 +309,10 @@ WITH
             filmes_sessao.nome_filme || ' - ' || assentos.fileira || assentos.numero || ' (Sala: ' || filmes_sessao.nome_sala || ')' AS descricao,
             1 as quantidade,
             ingressos.valor as total,
-            'ingresso' AS tipo
+            ingressos.status AS status,
+            'ingresso' AS tipo,
+            ingressos.sessao_id AS sessao_id,
+            ingressos.assento_id AS assento_id
         FROM
             pedidos_ingressos
             INNER JOIN ingressos ON pedidos_ingressos.ingresso_id = ingressos.id
@@ -316,12 +322,12 @@ WITH
             pedidos_ingressos.pedido_id = ?1
     )
 SELECT
-    nome, descricao, quantidade, total, tipo
+    nome, descricao, quantidade, total, status, tipo, sessao_id, assento_id
 FROM
     pedidos_produtos_detalhe
 UNION ALL
 SELECT
-    nome, descricao, quantidade, total, tipo
+    nome, descricao, quantidade, total, status, tipo, sessao_id, assento_id
 FROM
     pedidos_ingressos_detalhe
 `
@@ -331,7 +337,10 @@ type ListaItensPorPedidoRow struct {
 	Descricao  string
 	Quantidade int64
 	Total      float64
+	Status     string
 	Tipo       string
+	SessaoID   string
+	AssentoID  string
 }
 
 func (q *Queries) ListaItensPorPedido(ctx context.Context, pedidoID string) ([]ListaItensPorPedidoRow, error) {
@@ -348,7 +357,10 @@ func (q *Queries) ListaItensPorPedido(ctx context.Context, pedidoID string) ([]L
 			&i.Descricao,
 			&i.Quantidade,
 			&i.Total,
+			&i.Status,
 			&i.Tipo,
+			&i.SessaoID,
+			&i.AssentoID,
 		); err != nil {
 			return nil, err
 		}

@@ -63,12 +63,21 @@ func (r *SQLLiteRepoPedidos) ConsultaPedido(ctx context.Context, pedidoID string
 	itensPedido := make([]*core.ItemPedido, 0, len(itensPedidoSqlc))
 
 	for _, itemPedido := range itensPedidoSqlc {
+
 		item := &core.ItemPedido{
 			Nome:       itemPedido.Nome,
 			Descricao:  itemPedido.Descricao,
 			Tipo:       itemPedido.Tipo,
 			Quantidade: itemPedido.Quantidade,
+			Status:     itemPedido.Status,
 			Total:      itemPedido.Total,
+		}
+
+		if itemPedido.Tipo == "ingresso" {
+			item.DadosIngresso = &core.DadosIngresso{
+				AssentoID: itemPedido.AssentoID,
+				SessaoID:  itemPedido.SessaoID,
+			}
 		}
 
 		itensPedido = append(itensPedido, item)

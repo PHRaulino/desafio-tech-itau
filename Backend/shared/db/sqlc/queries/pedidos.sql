@@ -17,7 +17,10 @@ WITH
             pedidos_produtos.descricao,
             CAST(pedidos_produtos.quantidade AS INTEGER) quantidade,
             pedidos_produtos.total,
-            pedidos_produtos.tipo
+            'reservado' AS status,
+            pedidos_produtos.tipo,
+            '' AS sessao_id,
+            '' AS assento_id
         FROM
             pedidos_produtos
         WHERE
@@ -29,7 +32,10 @@ WITH
             filmes_sessao.nome_filme || ' - ' || assentos.fileira || assentos.numero || ' (Sala: ' || filmes_sessao.nome_sala || ')' AS descricao,
             1 as quantidade,
             ingressos.valor as total,
-            'ingresso' AS tipo
+            ingressos.status AS status,
+            'ingresso' AS tipo,
+            ingressos.sessao_id AS sessao_id,
+            ingressos.assento_id AS assento_id
         FROM
             pedidos_ingressos
             INNER JOIN ingressos ON pedidos_ingressos.ingresso_id = ingressos.id
