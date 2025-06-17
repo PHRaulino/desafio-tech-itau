@@ -14,12 +14,12 @@ import (
 )
 
 var valorIngressoSet = wire.NewSet(
-	adapters.NewSQLLiteRepoValorIngresso,
-	wire.Bind(new(core.RepoValorIngresso), new(*adapters.SQLLiteRepoValorIngresso)),
+	adapters.NewSQLLiteRepoIngresso,
+	wire.Bind(new(core.RepoIngresso), new(*adapters.SQLLiteRepoIngressos)),
 	usecases.NewConsultaValorIngressoUseCase,
 )
 
-func InitializeHandler(db *sql.DB) *ConsultaValorIngressoHandler {
-	wire.Build(valorIngressoSet, NewConsultaValorIngressoHandler)
-	return &ConsultaValorIngressoHandler{}
+func InitializeHandler(db *sql.DB) *IngressoHandler {
+	wire.Build(valorIngressoSet, NewIngressoHandler)
+	return &IngressoHandler{}
 }

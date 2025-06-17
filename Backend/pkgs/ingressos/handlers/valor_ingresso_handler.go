@@ -11,19 +11,19 @@ import (
 	httpHelpers "github.com/phraulino/cinetuber/shared/http/utils"
 )
 
-type ConsultaValorIngressoHandler struct {
+type IngressoHandler struct {
 	ingressoUseCase *usecases.ConsultaValorIngressoUseCase
 }
 
-func NewConsultaValorIngressoHandler(
+func NewIngressoHandler(
 	ingressoUseCase *usecases.ConsultaValorIngressoUseCase,
-) *ConsultaValorIngressoHandler {
-	return &ConsultaValorIngressoHandler{
+) *IngressoHandler {
+	return &IngressoHandler{
 		ingressoUseCase: ingressoUseCase,
 	}
 }
 
-func (h *ConsultaValorIngressoHandler) listarFilmes(w httpPorts.Response, r httpPorts.Request) {
+func (h *IngressoHandler) listarFilmes(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
 	tipoIngresso := r.GetQueryParams("tipo_ingresso")
@@ -53,7 +53,7 @@ func (h *ConsultaValorIngressoHandler) listarFilmes(w httpPorts.Response, r http
 	}
 }
 
-func (h *ConsultaValorIngressoHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
+func (h *IngressoHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router := *httpRouter
 	router.HandleFunc("GET /ingresso/valor", h.listarFilmes)
 }

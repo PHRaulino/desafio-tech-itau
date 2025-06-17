@@ -19,9 +19,9 @@ import (
 func InitializeHandler(db *sql.DB) *PedidosHandler {
 	sqlLiteRepoPedidos := adapters.NewSQLLiteRepoPedidos(db)
 	consultaPedidoUseCase := usecases.NewConsultaPedidoUseCase(sqlLiteRepoPedidos)
-	criaPedidoUseCase := usecases.NewCriaPedidoUseCase(sqlLiteRepoPedidos)
-	adicionaItemPedidoUseCase := usecases.NewAdicionaItemPedidoUseCase(sqlLiteRepoPedidos)
-	pedidosHandler := NewPedidosHandler(consultaPedidoUseCase, criaPedidoUseCase, adicionaItemPedidoUseCase)
+	iCriaPedidoUseCase := usecases.NewCriaPedidoUseCase(sqlLiteRepoPedidos)
+	iAdicionaItemPedidoUseCase := usecases.NewAdicionaItemPedidoUseCase(sqlLiteRepoPedidos)
+	pedidosHandler := NewPedidosHandler(consultaPedidoUseCase, iCriaPedidoUseCase, iAdicionaItemPedidoUseCase)
 	return pedidosHandler
 }
 

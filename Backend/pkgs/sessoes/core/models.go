@@ -13,9 +13,14 @@ type Sessao struct {
 }
 
 type CriaSessao struct {
-	FilmeID       string    `json:"filme_id"`
-	SalaID        string    `json:"sala_id"`
-	DataSessao    time.Time `json:"data_sessao"`
+	FilmeID    string    `json:"filme_id"`
+	SalaID     string    `json:"sala_id"`
+	DataSessao time.Time `json:"data_sessao"`
+}
+type CriaReserva struct {
+	SessaoID     string `json:"sessao_id"`
+	UsuarioID    string `json:"usuario_id"`
+	TipoIngresso string `json:"tipo_ingresso"`
 }
 
 type SessaoAssento struct {

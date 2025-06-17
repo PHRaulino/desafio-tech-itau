@@ -101,7 +101,10 @@ func (r *SQLLiteRepoSessoes) ListaAssentosReservados(ctx context.Context, sessao
 }
 
 func (r *SQLLiteRepoSessoes) LiberarAssento(ctx context.Context, ingressoID string) error {
-	err := r.queries.DeletaIngresso(ctx, ingressoID)
+	err := r.queries.AtualizaStatusIngresso(ctx, sqlcRepositorio.AtualizaStatusIngressoParams{
+		Status:     "expirado",
+		IngressoID: ingressoID,
+	})
 	if err != nil {
 		return err
 	}

@@ -303,7 +303,7 @@ WITH
     pedidos_ingressos_detalhe AS (
         SELECT
             filmes_sessao.nome_filme AS nome,
-            filmes_sessao.nome_filme || ' - ' || assentos.fileria || assentos.numero || ' (Sala: ' || filmes_sessao.nome_sala || ')' AS descricao,
+            filmes_sessao.nome_filme || ' - ' || assentos.fileira || assentos.numero || ' (Sala: ' || filmes_sessao.nome_sala || ')' AS descricao,
             1 as quantidade,
             ingressos.valor as total,
             'ingresso' AS tipo

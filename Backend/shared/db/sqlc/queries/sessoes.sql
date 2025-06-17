@@ -50,6 +50,7 @@ WITH assentos_sessao as (
 ), ingressos_sessao as (
     SELECT ingressos.assento_id, ingressos.status FROM ingressos
     WHERE ingressos.sessao_id = :sessao_id
+    AND ingressos.status NOT IN ('expirado', 'invalido')
 )
 SELECT
     assentos_sessao.id as assento_id,
@@ -59,7 +60,7 @@ SELECT
     CAST(CONCAT(assentos_sessao.fileira, assentos_sessao.numero) AS VARCHAR) AS descricao,
     CAST(CASE
         WHEN ingressos_sessao.status IS NULL THEN 'disponivel'
-        WHEN ingressos_sessao.status = 'disponivel' THEN 'ocupado'
+        WHEN ingressos_sessao.status = 'confirmado' THEN 'ocupado'
         WHEN ingressos_sessao.status = 'reservado' THEN 'reservado'
     ELSE ingressos_sessao.status
 END AS VARCHAR) AS status
@@ -71,7 +72,3 @@ ON assentos_sessao.id = ingressos_sessao.assento_id;
 SELECT ingressos.id FROM ingressos
 WHERE ingressos.sessao_id = :sessao_id
 AND ingressos.status = 'reservado';
-
--- name: DeletaIngresso :exec
-DELETE FROM ingressos
-WHERE ingressos.id = :ingresso_id;

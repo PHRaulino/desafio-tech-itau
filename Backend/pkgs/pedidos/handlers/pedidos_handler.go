@@ -13,14 +13,14 @@ import (
 
 type PedidosHandler struct {
 	consultaPedidoUseCase     *usecases.ConsultaPedidoUseCase
-	criaPedidoUseCase         *usecases.CriaPedidoUseCase
-	adicionaItemPedidoUseCase *usecases.AdicionaItemPedidoUseCase
+	criaPedidoUseCase         usecases.ICriaPedidoUseCase
+	adicionaItemPedidoUseCase usecases.IAdicionaItemPedidoUseCase
 }
 
 func NewPedidosHandler(
 	consultaPedidoUseCase *usecases.ConsultaPedidoUseCase,
-	criaPedidoUseCase *usecases.CriaPedidoUseCase,
-	adicionaItemPedidoUseCase *usecases.AdicionaItemPedidoUseCase,
+	criaPedidoUseCase usecases.ICriaPedidoUseCase,
+	adicionaItemPedidoUseCase usecases.IAdicionaItemPedidoUseCase,
 ) *PedidosHandler {
 	return &PedidosHandler{
 		consultaPedidoUseCase:     consultaPedidoUseCase,
@@ -107,7 +107,7 @@ func (h *PedidosHandler) adicionaItemAoPedido(w httpPorts.Response, r httpPorts.
 	}
 
 	for _, item := range payloadItem {
-		err := h.adicionaItemPedidoUseCase.Execute(ctx, pedidoID, item)
+		err := h.adicionaItemPedidoUseCase.Execute(ctx, pedidoID, item.ItemID, item.Tipo, item.Quantidade)
 		if err != nil {
 			httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
 			return

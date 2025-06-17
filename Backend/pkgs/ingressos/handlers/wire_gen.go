@@ -16,13 +16,13 @@ import (
 
 // Injectors from valor_ingresso_handler_wire.go:
 
-func InitializeHandler(db *sql.DB) *ConsultaValorIngressoHandler {
-	sqlLiteRepoValorIngresso := adapters.NewSQLLiteRepoValorIngresso(db)
-	consultaValorIngressoUseCase := usecases.NewConsultaValorIngressoUseCase(sqlLiteRepoValorIngresso)
-	consultaValorIngressoHandler := NewConsultaValorIngressoHandler(consultaValorIngressoUseCase)
-	return consultaValorIngressoHandler
+func InitializeHandler(db *sql.DB) *IngressoHandler {
+	sqlLiteRepoIngressos := adapters.NewSQLLiteRepoIngresso(db)
+	consultaValorIngressoUseCase := usecases.NewConsultaValorIngressoUseCase(sqlLiteRepoIngressos)
+	ingressoHandler := NewIngressoHandler(consultaValorIngressoUseCase)
+	return ingressoHandler
 }
 
 // valor_ingresso_handler_wire.go:
 
-var valorIngressoSet = wire.NewSet(adapters.NewSQLLiteRepoValorIngresso, wire.Bind(new(core.RepoValorIngresso), new(*adapters.SQLLiteRepoValorIngresso)), usecases.NewConsultaValorIngressoUseCase)
+var valorIngressoSet = wire.NewSet(adapters.NewSQLLiteRepoIngresso, wire.Bind(new(core.RepoIngresso), new(*adapters.SQLLiteRepoIngressos)), usecases.NewConsultaValorIngressoUseCase)

@@ -6,11 +6,16 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/pedidos/core"
 )
 
+type ICriaPedidoUseCase interface {
+	Execute(ctx context.Context, usuarioID string) (string, error)
+}
+
+
 type CriaPedidoUseCase struct {
 	repo core.RepoPedidos
 }
 
-func NewCriaPedidoUseCase(repo core.RepoPedidos) *CriaPedidoUseCase {
+func NewCriaPedidoUseCase(repo core.RepoPedidos) ICriaPedidoUseCase {
 	return &CriaPedidoUseCase{repo: repo}
 }
 

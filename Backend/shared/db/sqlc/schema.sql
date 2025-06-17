@@ -70,7 +70,12 @@ CREATE TABLE
         assento_id TEXT NOT NULL,
         usuario_id TEXT NOT NULL,
         status TEXT NOT NULL CHECK (
-            status IN ('disponivel', 'utilizado', 'reservado')
+            status IN (
+                'confirmado',
+                'reservado',
+                'expirado',
+                'invalido'
+            )
         ),
         valor NUMERIC NOT NULL,
         data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -78,7 +83,7 @@ CREATE TABLE
         FOREIGN KEY (sessao_id) REFERENCES sessoes (id),
         FOREIGN KEY (assento_id) REFERENCES assentos (id),
         FOREIGN KEY (usuario_id) REFERENCES usuarios (id),
-        UNIQUE (sessao_id, assento_id)
+        UNIQUE (sessao_id, assento_id, usuario_id)
     );
 
 CREATE TABLE

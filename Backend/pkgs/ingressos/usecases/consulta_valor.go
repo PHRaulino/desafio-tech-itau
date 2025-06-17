@@ -7,10 +7,10 @@ import (
 )
 
 type ConsultaValorIngressoUseCase struct {
-	repo core.RepoValorIngresso
+	repo core.RepoIngresso
 }
 
-func NewConsultaValorIngressoUseCase(repo core.RepoValorIngresso) *ConsultaValorIngressoUseCase {
+func NewConsultaValorIngressoUseCase(repo core.RepoIngresso) *ConsultaValorIngressoUseCase {
 	return &ConsultaValorIngressoUseCase{repo: repo}
 }
 

@@ -7,40 +7,45 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/pedidos/core"
 )
 
+type IAdicionaItemPedidoUseCase interface {
+	Execute(ctx context.Context, pedidoID, itemID, itemTipo string, itemQuantidade float64) error
+}
+
+
 type AdicionaItemPedidoUseCase struct {
 	repo core.RepoPedidos
 }
 
-func NewAdicionaItemPedidoUseCase(repo core.RepoPedidos) *AdicionaItemPedidoUseCase {
+func NewAdicionaItemPedidoUseCase(repo core.RepoPedidos) IAdicionaItemPedidoUseCase {
 	return &AdicionaItemPedidoUseCase{repo: repo}
 }
 
-func (c *AdicionaItemPedidoUseCase) Execute(ctx context.Context, pedidoID string, payload core.AddItemPedido) error {
+func (c *AdicionaItemPedidoUseCase) Execute(ctx context.Context, pedidoID, itemID, itemTipo string, itemQuantidade float64) error {
 	var err error
 
-	if payload.Tipo != "ingresso" {
+	if itemTipo != "ingresso" {
 		var quantidadeAtual float64
-		quantidadeAtual = c.repo.VerificaQuantidadeItemPedido(ctx, pedidoID, payload.ItemID, payload.Tipo)
+		quantidadeAtual = c.repo.VerificaQuantidadeItemPedido(ctx, pedidoID, itemID, itemTipo)
 
-		if quantidadeAtual != payload.Quantidade {
-			switch payload.Tipo {
+		if quantidadeAtual != itemQuantidade {
+			switch itemTipo {
 			case "avulso":
-				err = c.repo.RemoveProdutoPedido(ctx, pedidoID, payload.ItemID, payload.Tipo)
+				err = c.repo.RemoveProdutoPedido(ctx, pedidoID, itemID, itemTipo)
 			case "combo":
-				err = c.repo.RemoveComboPedido(ctx, pedidoID, payload.ItemID, payload.Tipo)
+				err = c.repo.RemoveComboPedido(ctx, pedidoID, itemID, itemTipo)
 			}
 		} else {
 			return nil
 		}
 
 	}
-	switch payload.Tipo {
+	switch itemTipo {
 	case "avulso":
-		err = c.repo.AdicionaProdutoPedido(ctx, pedidoID, payload.ItemID, payload.Quantidade)
+		err = c.repo.AdicionaProdutoPedido(ctx, pedidoID, itemID, itemQuantidade)
 	case "combo":
-		err = c.repo.AdicionaProdutosComboPedido(ctx, pedidoID, payload.ItemID, payload.Quantidade)
+		err = c.repo.AdicionaProdutosComboPedido(ctx, pedidoID, itemID, itemQuantidade)
 	case "ingresso":
-		err = c.repo.AdicionaIngressoPedido(ctx, pedidoID, payload.ItemID)
+		err = c.repo.AdicionaIngressoPedido(ctx, pedidoID, itemID)
 	default:
 		return errors.New("tipo de item inválido")
 	}

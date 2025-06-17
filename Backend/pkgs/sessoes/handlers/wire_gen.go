@@ -9,23 +9,37 @@ package handlers
 import (
 	"database/sql"
 	"github.com/google/wire"
+	adapters3 "github.com/phraulino/cinetuber/pkgs/ingressos/adapters"
+	"github.com/phraulino/cinetuber/pkgs/ingressos/core"
+	usecases3 "github.com/phraulino/cinetuber/pkgs/ingressos/usecases"
+	adapters2 "github.com/phraulino/cinetuber/pkgs/pedidos/adapters"
+	core2 "github.com/phraulino/cinetuber/pkgs/pedidos/core"
+	usecases2 "github.com/phraulino/cinetuber/pkgs/pedidos/usecases"
 	"github.com/phraulino/cinetuber/pkgs/sessoes/adapters"
-	"github.com/phraulino/cinetuber/pkgs/sessoes/core"
+	core3 "github.com/phraulino/cinetuber/pkgs/sessoes/core"
 	"github.com/phraulino/cinetuber/pkgs/sessoes/usecases"
 )
 
-// Injectors from pedidos_handler_wire.go:
+// Injectors from sessoes_handler_wire.go:
 
 func InitializeHandler(db *sql.DB) *SessoesHandler {
 	sqlLiteRepoSessoes := adapters.NewSQLLiteRepoSessoes(db)
 	criaSessaoUseCase := usecases.NewCriaSessaoUseCase(sqlLiteRepoSessoes)
-	listaSessoesUseCase := usecases.NewListaSessoesUseCase(sqlLiteRepoSessoes)
 	cacheEmMemoriaRepoReservas := adapters.NewCacheEmMemoriaRepoReservas()
+	sqlLiteRepoPedidos := adapters2.NewSQLLiteRepoPedidos(db)
+	iCriaPedidoUseCase := usecases2.NewCriaPedidoUseCase(sqlLiteRepoPedidos)
+	sqlLiteRepoIngressos := adapters3.NewSQLLiteRepoIngresso(db)
+	iCriaIngressoUseCase := usecases3.NewCriaIngressoUseCase(sqlLiteRepoIngressos)
+	iAdicionaItemPedidoUseCase := usecases2.NewAdicionaItemPedidoUseCase(sqlLiteRepoPedidos)
+	atualizaIngressoUseCase := usecases3.NewAtualizaIngressoUseCase(sqlLiteRepoIngressos)
+	buscaIngressoUseCase := usecases3.NewBuscaIngressoUseCase(sqlLiteRepoIngressos)
+	criaReservaUseCase := usecases.NewCriaReservaUseCase(cacheEmMemoriaRepoReservas, iCriaPedidoUseCase, iCriaIngressoUseCase, iAdicionaItemPedidoUseCase, atualizaIngressoUseCase, buscaIngressoUseCase)
+	listaSessoesUseCase := usecases.NewListaSessoesUseCase(sqlLiteRepoSessoes)
 	listaAssentosUseCase := usecases.NewListaAssentosUseCase(sqlLiteRepoSessoes, cacheEmMemoriaRepoReservas)
-	sessoesHandler := NewSessoesHandler(criaSessaoUseCase, listaSessoesUseCase, listaAssentosUseCase)
+	sessoesHandler := NewSessoesHandler(criaSessaoUseCase, criaReservaUseCase, listaSessoesUseCase, listaAssentosUseCase)
 	return sessoesHandler
 }
 
-// pedidos_handler_wire.go:
+// sessoes_handler_wire.go:
 
-var SessoesSet = wire.NewSet(adapters.NewSQLLiteRepoSessoes, adapters.NewCacheEmMemoriaRepoReservas, wire.Bind(new(core.RepoSessoes), new(*adapters.SQLLiteRepoSessoes)), wire.Bind(new(core.RepoReserva), new(*adapters.CacheEmMemoriaRepoReservas)), usecases.NewCriaSessaoUseCase, usecases.NewListaSessoesUseCase, usecases.NewListaAssentosUseCase)
+var SessoesSet = wire.NewSet(adapters3.NewSQLLiteRepoIngresso, adapters2.NewSQLLiteRepoPedidos, adapters.NewSQLLiteRepoSessoes, adapters.NewCacheEmMemoriaRepoReservas, wire.Bind(new(core.RepoIngresso), new(*adapters3.SQLLiteRepoIngressos)), wire.Bind(new(core2.RepoPedidos), new(*adapters2.SQLLiteRepoPedidos)), wire.Bind(new(core3.RepoSessoes), new(*adapters.SQLLiteRepoSessoes)), wire.Bind(new(core3.RepoReserva), new(*adapters.CacheEmMemoriaRepoReservas)), usecases.NewCriaSessaoUseCase, usecases.NewCriaReservaUseCase, usecases.NewListaSessoesUseCase, usecases.NewListaAssentosUseCase, usecases3.NewCriaIngressoUseCase, usecases3.NewBuscaIngressoUseCase, usecases3.NewAtualizaIngressoUseCase, usecases2.NewCriaPedidoUseCase, usecases2.NewAdicionaItemPedidoUseCase)
