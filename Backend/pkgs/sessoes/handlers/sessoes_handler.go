@@ -13,17 +13,17 @@ import (
 )
 
 type SessoesHandler struct {
-	criaSessaoUseCase    *usecases.CriaSessaoUseCase
+	criaSessaoUseCase    usecases.CriaSessaoUseCase
 	criaReservaUseCase   usecases.CriaReservaUseCase
-	listaSessoesUseCase  *usecases.ListaSessoesUseCase
-	listaAssentosUseCase *usecases.ListaAssentosUseCase
+	listaSessoesUseCase  usecases.ListaSessoesUseCase
+	listaAssentosUseCase usecases.ListaAssentosUseCase
 }
 
 func NewSessoesHandler(
-	criaSessaoUseCase *usecases.CriaSessaoUseCase,
+	criaSessaoUseCase usecases.CriaSessaoUseCase,
 	criaReservaUseCase usecases.CriaReservaUseCase,
-	listaSessoesUseCase *usecases.ListaSessoesUseCase,
-	listaAssentosUseCase *usecases.ListaAssentosUseCase,
+	listaSessoesUseCase usecases.ListaSessoesUseCase,
+	listaAssentosUseCase usecases.ListaAssentosUseCase,
 ) *SessoesHandler {
 	return &SessoesHandler{
 		criaSessaoUseCase:    criaSessaoUseCase,

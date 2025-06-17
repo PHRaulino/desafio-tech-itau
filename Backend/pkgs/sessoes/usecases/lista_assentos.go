@@ -6,16 +6,26 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/sessoes/core"
 )
 
-type ListaAssentosUseCase struct {
+type ListaAssentosUseCase interface {
+	Execute(ctx context.Context, sessaoID string) ([]*core.SessaoAssento, error)
+}
+
+type ListaAssentosUseCaseImpl struct {
 	repoSessao  core.RepoSessoes
 	repoReserva core.RepoReserva
 }
 
-func NewListaAssentosUseCase(repoSessao core.RepoSessoes, repoReserva core.RepoReserva) *ListaAssentosUseCase {
-	return &ListaAssentosUseCase{repoSessao: repoSessao, repoReserva: repoReserva}
+func NewListaAssentosUseCase(
+	repoSessao core.RepoSessoes,
+	repoReserva core.RepoReserva,
+) ListaAssentosUseCase {
+	return &ListaAssentosUseCaseImpl{
+		repoSessao:  repoSessao,
+		repoReserva: repoReserva,
+	}
 }
 
-func (c *ListaAssentosUseCase) Execute(ctx context.Context, sessaoID string) ([]*core.SessaoAssento, error) {
+func (c *ListaAssentosUseCaseImpl) Execute(ctx context.Context, sessaoID string) ([]*core.SessaoAssento, error) {
 	ingressosReservados, err := c.repoSessao.ListaAssentosReservados(ctx, sessaoID)
 	if err != nil {
 		return nil, err

@@ -8,15 +8,19 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/sessoes/errors"
 )
 
-type CriaSessaoUseCase struct {
+type CriaSessaoUseCase interface {
+	Execute(ctx context.Context, payload *core.CriaSessao) (string, error)
+}
+
+type CriaSessaoUseCaseImpl struct {
 	repo core.RepoSessoes
 }
 
-func NewCriaSessaoUseCase(repo core.RepoSessoes) *CriaSessaoUseCase {
-	return &CriaSessaoUseCase{repo: repo}
+func NewCriaSessaoUseCase(repo core.RepoSessoes) CriaSessaoUseCase {
+	return &CriaSessaoUseCaseImpl{repo: repo}
 }
 
-func (c *CriaSessaoUseCase) Execute(ctx context.Context, payload *core.CriaSessao) (string, error) {
+func (c *CriaSessaoUseCaseImpl) Execute(ctx context.Context, payload *core.CriaSessao) (string, error) {
 	if payload.DataSessao.Before(time.Now()) {
 		return "", errors.ErrDataDaSessaoAnteriorHoje
 	}
