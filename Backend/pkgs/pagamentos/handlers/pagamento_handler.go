@@ -11,11 +11,11 @@ import (
 )
 
 type PagamentoHandler struct {
-	pagamentoUseCase *usecases.PagamentoUseCase
+	pagamentoUseCase usecases.PagamentoUseCase
 }
 
 func NewPagamentoHandler(
-	pagamentoUseCase *usecases.PagamentoUseCase,
+	pagamentoUseCase usecases.PagamentoUseCase,
 ) *PagamentoHandler {
 	return &PagamentoHandler{
 		pagamentoUseCase: pagamentoUseCase,
