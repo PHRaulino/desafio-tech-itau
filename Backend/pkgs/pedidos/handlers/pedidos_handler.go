@@ -12,15 +12,15 @@ import (
 )
 
 type PedidosHandler struct {
-	consultaPedidoUseCase     *usecases.ConsultaPedidoUseCase
-	criaPedidoUseCase         usecases.ICriaPedidoUseCase
-	adicionaItemPedidoUseCase usecases.IAdicionaItemPedidoUseCase
+	consultaPedidoUseCase     usecases.ConsultaPedidoUseCase
+	criaPedidoUseCase         usecases.CriaPedidoUseCase
+	adicionaItemPedidoUseCase usecases.AdicionaItemPedidoUseCase
 }
 
 func NewPedidosHandler(
-	consultaPedidoUseCase *usecases.ConsultaPedidoUseCase,
-	criaPedidoUseCase usecases.ICriaPedidoUseCase,
-	adicionaItemPedidoUseCase usecases.IAdicionaItemPedidoUseCase,
+	consultaPedidoUseCase usecases.ConsultaPedidoUseCase,
+	criaPedidoUseCase usecases.CriaPedidoUseCase,
+	adicionaItemPedidoUseCase usecases.AdicionaItemPedidoUseCase,
 ) *PedidosHandler {
 	return &PedidosHandler{
 		consultaPedidoUseCase:     consultaPedidoUseCase,

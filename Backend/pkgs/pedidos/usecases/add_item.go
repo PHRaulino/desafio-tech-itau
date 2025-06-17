@@ -7,20 +7,19 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/pedidos/core"
 )
 
-type IAdicionaItemPedidoUseCase interface {
+type AdicionaItemPedidoUseCase interface {
 	Execute(ctx context.Context, pedidoID, itemID, itemTipo string, itemQuantidade float64) error
 }
 
-
-type AdicionaItemPedidoUseCase struct {
+type AdicionaItemPedidoUseCaseImpl struct {
 	repo core.RepoPedidos
 }
 
-func NewAdicionaItemPedidoUseCase(repo core.RepoPedidos) IAdicionaItemPedidoUseCase {
-	return &AdicionaItemPedidoUseCase{repo: repo}
+func NewAdicionaItemPedidoUseCase(repo core.RepoPedidos) AdicionaItemPedidoUseCase {
+	return &AdicionaItemPedidoUseCaseImpl{repo: repo}
 }
 
-func (c *AdicionaItemPedidoUseCase) Execute(ctx context.Context, pedidoID, itemID, itemTipo string, itemQuantidade float64) error {
+func (c *AdicionaItemPedidoUseCaseImpl) Execute(ctx context.Context, pedidoID, itemID, itemTipo string, itemQuantidade float64) error {
 	var err error
 
 	if itemTipo != "ingresso" {
