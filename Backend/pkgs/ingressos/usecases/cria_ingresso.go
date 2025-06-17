@@ -6,19 +6,19 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/ingressos/core"
 )
 
-type ICriaIngressoUseCase interface {
+type CriaIngressoUseCase interface {
 	Execute(ctx context.Context, ingressoID, sessaoID, usuarioID, assentoID, tipoIngresso string) error
 }
 
-type CriaIngressoUseCase struct {
+type CriaIngressoUseCaseImpl struct {
 	repo core.RepoIngresso
 }
 
-func NewCriaIngressoUseCase(repo core.RepoIngresso) ICriaIngressoUseCase {
-	return &CriaIngressoUseCase{repo: repo}
+func NewCriaIngressoUseCase(repo core.RepoIngresso) CriaIngressoUseCase {
+	return &CriaIngressoUseCaseImpl{repo: repo}
 }
 
-func (c *CriaIngressoUseCase) Execute(ctx context.Context, ingressoID, sessaoID, usuarioID, assentoID, tipoIngresso string) error {
+func (c *CriaIngressoUseCaseImpl) Execute(ctx context.Context, ingressoID, sessaoID, usuarioID, assentoID, tipoIngresso string) error {
 	var err error
 	var valorIngresso *core.ValorIngresso
 

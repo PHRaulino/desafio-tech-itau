@@ -18,7 +18,7 @@ type CriaReservaUseCase interface {
 type CriaReservaUseCaseImpl struct {
 	repoReserva            core.RepoReserva
 	criaPedido             pedidosUseCase.ICriaPedidoUseCase
-	criaIngresso           ingressosUseCase.ICriaIngressoUseCase
+	criaIngresso           ingressosUseCase.CriaIngressoUseCase
 	adicionaIngressoPedido pedidosUseCase.IAdicionaItemPedidoUseCase
 	atualizaIngresso       ingressosUseCase.AtualizaIngressoUseCase
 	buscaIngressos         ingressosUseCase.BuscaIngressoUseCase
@@ -27,7 +27,7 @@ type CriaReservaUseCaseImpl struct {
 func NewCriaReservaUseCase(
 	repoReserva core.RepoReserva,
 	criaPedido pedidosUseCase.ICriaPedidoUseCase,
-	criaIngresso ingressosUseCase.ICriaIngressoUseCase,
+	criaIngresso ingressosUseCase.CriaIngressoUseCase,
 	adicionaIngressoPedido pedidosUseCase.IAdicionaItemPedidoUseCase,
 	atualizaIngresso ingressosUseCase.AtualizaIngressoUseCase,
 	buscaIngressos ingressosUseCase.BuscaIngressoUseCase,

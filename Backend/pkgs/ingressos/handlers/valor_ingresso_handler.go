@@ -12,11 +12,11 @@ import (
 )
 
 type IngressoHandler struct {
-	ingressoUseCase *usecases.ConsultaValorIngressoUseCase
+	ingressoUseCase usecases.ConsultaValorIngressoUseCase
 }
 
 func NewIngressoHandler(
-	ingressoUseCase *usecases.ConsultaValorIngressoUseCase,
+	ingressoUseCase usecases.ConsultaValorIngressoUseCase,
 ) *IngressoHandler {
 	return &IngressoHandler{
 		ingressoUseCase: ingressoUseCase,
