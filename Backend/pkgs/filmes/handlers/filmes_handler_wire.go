@@ -16,7 +16,7 @@ import (
 var filmesSet = wire.NewSet(
 	adapters.NewSQLLiteRepoFilmes,
 	wire.Bind(new(core.RepoFilmes), new(*adapters.SQLLiteRepoFilmes)),
-	usecases.NewListarFilmesUseCase,
+	usecases.NewListaFilmesUseCase,
 )
 
 func InitializeHandler(db *sql.DB) *FilmesHandler {

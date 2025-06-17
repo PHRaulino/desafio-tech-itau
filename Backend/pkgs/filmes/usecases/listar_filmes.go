@@ -6,15 +6,19 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/filmes/core"
 )
 
-type ListarFilmesUseCase struct {
+type ListaFilmesUseCase interface {
+	Execute(ctx context.Context) ([]*core.Filme, error)
+}
+
+type ListarFilmesUseCaseImpl struct {
 	repo core.RepoFilmes
 }
 
-func NewListarFilmesUseCase(repo core.RepoFilmes) *ListarFilmesUseCase {
-	return &ListarFilmesUseCase{repo: repo}
+func NewListaFilmesUseCase(repo core.RepoFilmes) ListaFilmesUseCase {
+	return &ListarFilmesUseCaseImpl{repo: repo}
 }
 
-func (c *ListarFilmesUseCase) Execute(ctx context.Context) ([]*core.Filme, error) {
+func (c *ListarFilmesUseCaseImpl) Execute(ctx context.Context) ([]*core.Filme, error) {
 	filmes, err := c.repo.ListarTodos(ctx)
 	if err != nil {
 		return nil, err

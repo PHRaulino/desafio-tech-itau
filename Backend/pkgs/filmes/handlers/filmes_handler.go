@@ -11,11 +11,11 @@ import (
 )
 
 type FilmesHandler struct {
-	listaFilmesUseCase *usecases.ListarFilmesUseCase
+	listaFilmesUseCase usecases.ListaFilmesUseCase
 }
 
 func NewFilmesHandler(
-	listaFilmesUseCase *usecases.ListarFilmesUseCase,
+	listaFilmesUseCase usecases.ListaFilmesUseCase,
 ) *FilmesHandler {
 	return &FilmesHandler{
 		listaFilmesUseCase: listaFilmesUseCase,

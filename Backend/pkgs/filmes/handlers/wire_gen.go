@@ -18,11 +18,11 @@ import (
 
 func InitializeHandler(db *sql.DB) *FilmesHandler {
 	sqlLiteRepoFilmes := adapters.NewSQLLiteRepoFilmes(db)
-	listarFilmesUseCase := usecases.NewListarFilmesUseCase(sqlLiteRepoFilmes)
-	filmesHandler := NewFilmesHandler(listarFilmesUseCase)
+	listaFilmesUseCase := usecases.NewListaFilmesUseCase(sqlLiteRepoFilmes)
+	filmesHandler := NewFilmesHandler(listaFilmesUseCase)
 	return filmesHandler
 }
 
 // filmes_handler_wire.go:
 
-var filmesSet = wire.NewSet(adapters.NewSQLLiteRepoFilmes, wire.Bind(new(core.RepoFilmes), new(*adapters.SQLLiteRepoFilmes)), usecases.NewListarFilmesUseCase)
+var filmesSet = wire.NewSet(adapters.NewSQLLiteRepoFilmes, wire.Bind(new(core.RepoFilmes), new(*adapters.SQLLiteRepoFilmes)), usecases.NewListaFilmesUseCase)
