@@ -6,15 +6,19 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/produtos/core"
 )
 
-type ListaCombosUseCase struct {
+type ListaCombosUseCase interface {
+	Execute(ctx context.Context) ([]*core.Combo, error)
+}
+
+type ListaCombosUseCaseImpl struct {
 	repo core.RepoProdutos
 }
 
-func NewListaCombosUseCase(repo core.RepoProdutos) *ListaCombosUseCase {
-	return &ListaCombosUseCase{repo: repo}
+func NewListaCombosUseCase(repo core.RepoProdutos) ListaCombosUseCase {
+	return &ListaCombosUseCaseImpl{repo: repo}
 }
 
-func (c *ListaCombosUseCase) Execute(ctx context.Context) ([]*core.Combo, error) {
+func (c *ListaCombosUseCaseImpl) Execute(ctx context.Context) ([]*core.Combo, error) {
 	Combos, err := c.repo.ListaCombos(ctx)
 	if err != nil {
 		return nil, err

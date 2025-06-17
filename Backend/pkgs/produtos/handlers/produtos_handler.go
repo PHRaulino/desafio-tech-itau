@@ -11,15 +11,15 @@ import (
 )
 
 type ProdutosHandler struct {
-	listaCombosUseCase           *usecases.ListaCombosUseCase
-	listaProdutosUseCase         *usecases.ListaProdutosUseCase
-	listaProdutosPorComboUseCase *usecases.ListaProdutosPorComboUseCase
+	listaCombosUseCase           usecases.ListaCombosUseCase
+	listaProdutosUseCase         usecases.ListaProdutosUseCase
+	listaProdutosPorComboUseCase usecases.ListaProdutosPorComboUseCase
 }
 
 func NewProdutosHandler(
-	listaCombosUseCase *usecases.ListaCombosUseCase,
-	listaProdutosUseCase *usecases.ListaProdutosUseCase,
-	listaProdutosPorComboUseCase *usecases.ListaProdutosPorComboUseCase,
+	listaCombosUseCase usecases.ListaCombosUseCase,
+	listaProdutosUseCase usecases.ListaProdutosUseCase,
+	listaProdutosPorComboUseCase usecases.ListaProdutosPorComboUseCase,
 ) *ProdutosHandler {
 	return &ProdutosHandler{
 		listaCombosUseCase:           listaCombosUseCase,

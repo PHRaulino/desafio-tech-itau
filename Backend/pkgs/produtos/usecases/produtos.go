@@ -6,15 +6,19 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/produtos/core"
 )
 
-type ListaProdutosUseCase struct {
+type ListaProdutosUseCase interface {
+	Execute(ctx context.Context) ([]*core.Produto, error)
+}
+
+type ListaProdutosUseCaseImpl struct {
 	repo core.RepoProdutos
 }
 
-func NewListaProdutosUseCase(repo core.RepoProdutos) *ListaProdutosUseCase {
-	return &ListaProdutosUseCase{repo: repo}
+func NewListaProdutosUseCase(repo core.RepoProdutos) ListaProdutosUseCase {
+	return &ListaProdutosUseCaseImpl{repo: repo}
 }
 
-func (c *ListaProdutosUseCase) Execute(ctx context.Context) ([]*core.Produto, error) {
+func (c *ListaProdutosUseCaseImpl) Execute(ctx context.Context) ([]*core.Produto, error) {
 	Produtos, err := c.repo.ListaProdutos(ctx)
 	if err != nil {
 		return nil, err
