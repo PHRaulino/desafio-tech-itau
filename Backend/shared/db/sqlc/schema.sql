@@ -72,6 +72,7 @@ CREATE TABLE
         status TEXT NOT NULL CHECK (
             status IN (
                 'confirmado',
+                'em pagamento',
                 'reservado',
                 'expirado',
                 'invalido'
@@ -121,7 +122,7 @@ CREATE TABLE
     pedidos (
         id TEXT PRIMARY KEY,
         usuario_id TEXT NOT NULL,
-        status TEXT NOT NULL CHECK (status IN ('pago', 'pendente', 'cancelado')),
+        status TEXT NOT NULL CHECK (status IN ('pago', 'em pagamento', 'pendente', 'cancelado')),
         data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         ultima_atualizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (usuario_id) REFERENCES usuarios (id)

@@ -44,7 +44,7 @@ func New() {
 		produtosHandler.InitializeHandler(db),
 		pedidosHandler.InitializeHandler(db),
 		sessoesHandler.InitializeHandler(db),
-		pagamentoHandler.InitializeHandler(),
+		pagamentoHandler.InitializeHandler(db),
 	}
 
 	for _, h := range handlers {

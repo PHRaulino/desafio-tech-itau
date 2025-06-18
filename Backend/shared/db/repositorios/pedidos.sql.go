@@ -296,6 +296,7 @@ WITH
             pedidos_produtos.total,
             'reservado' AS status,
             pedidos_produtos.tipo,
+            '' AS ingresso_id,
             '' AS sessao_id,
             '' AS assento_id
         FROM
@@ -311,6 +312,7 @@ WITH
             ingressos.valor as total,
             ingressos.status AS status,
             'ingresso' AS tipo,
+            ingressos.id AS ingresso_id,
             ingressos.sessao_id AS sessao_id,
             ingressos.assento_id AS assento_id
         FROM
@@ -322,12 +324,12 @@ WITH
             pedidos_ingressos.pedido_id = ?1
     )
 SELECT
-    nome, descricao, quantidade, total, status, tipo, sessao_id, assento_id
+    nome, descricao, quantidade, total, status, tipo, ingresso_id, sessao_id, assento_id
 FROM
     pedidos_produtos_detalhe
 UNION ALL
 SELECT
-    nome, descricao, quantidade, total, status, tipo, sessao_id, assento_id
+    nome, descricao, quantidade, total, status, tipo, ingresso_id, sessao_id, assento_id
 FROM
     pedidos_ingressos_detalhe
 `
@@ -339,6 +341,7 @@ type ListaItensPorPedidoRow struct {
 	Total      float64
 	Status     string
 	Tipo       string
+	IngressoID string
 	SessaoID   string
 	AssentoID  string
 }
@@ -359,6 +362,7 @@ func (q *Queries) ListaItensPorPedido(ctx context.Context, pedidoID string) ([]L
 			&i.Total,
 			&i.Status,
 			&i.Tipo,
+			&i.IngressoID,
 			&i.SessaoID,
 			&i.AssentoID,
 		); err != nil {

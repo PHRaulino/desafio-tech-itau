@@ -13,17 +13,20 @@ import (
 
 type PedidosHandler struct {
 	consultaPedidoUseCase     usecases.ConsultaPedidoUseCase
+	checkoutPedidoUseCase     usecases.CheckoutPedidoUseCase
 	criaPedidoUseCase         usecases.CriaPedidoUseCase
 	adicionaItemPedidoUseCase usecases.AdicionaItemPedidoUseCase
 }
 
 func NewPedidosHandler(
 	consultaPedidoUseCase usecases.ConsultaPedidoUseCase,
+	checkoutPedidoUseCase usecases.CheckoutPedidoUseCase,
 	criaPedidoUseCase usecases.CriaPedidoUseCase,
 	adicionaItemPedidoUseCase usecases.AdicionaItemPedidoUseCase,
 ) *PedidosHandler {
 	return &PedidosHandler{
 		consultaPedidoUseCase:     consultaPedidoUseCase,
+		checkoutPedidoUseCase:     checkoutPedidoUseCase,
 		criaPedidoUseCase:         criaPedidoUseCase,
 		adicionaItemPedidoUseCase: adicionaItemPedidoUseCase,
 	}
@@ -84,6 +87,31 @@ func (h *PedidosHandler) criaPedido(w httpPorts.Response, r httpPorts.Request) {
 	}
 }
 
+func (h *PedidosHandler) checkoutPedido(w httpPorts.Response, r httpPorts.Request) {
+	ctx := r.Context()
+
+	pedidoID := r.PathValue("pedido_id")
+
+	err := h.checkoutPedidoUseCase.Execute(ctx, pedidoID)
+	if err != nil {
+		httpHelpers.HTTPError(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+
+	response := struct {
+		Mensagem string `json:"data"`
+	}{
+		Mensagem: "Checkout realizado com sucesso!",
+	}
+	err = json.NewEncoder(w).Encode(response)
+	if err != nil {
+		httpHelpers.HTTPError(w, err.Error(), 409)
+		return
+	}
+}
+
 func (h *PedidosHandler) adicionaItemAoPedido(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
@@ -121,5 +149,6 @@ func (h *PedidosHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router := *httpRouter
 	router.HandleFunc("POST /pedidos", h.criaPedido)
 	router.HandleFunc("GET /pedidos/{pedido_id}", h.consultaPedido)
+	router.HandleFunc("POST /pedidos/{pedido_id}/checkout", h.checkoutPedido)
 	router.HandleFunc("POST /pedidos/{pedido_id}/itens", h.adicionaItemAoPedido)
 }

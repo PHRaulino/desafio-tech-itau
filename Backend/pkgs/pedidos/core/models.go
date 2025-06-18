@@ -12,6 +12,7 @@ type Pedido struct {
 }
 
 type DadosIngresso struct {
+	IngressoID string `json:"ingresso_id"`
 	AssentoID string `json:"assento_id"`
 	SessaoID  string `json:"sessao_id"`
 }

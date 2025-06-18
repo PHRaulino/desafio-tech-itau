@@ -19,6 +19,7 @@ WITH
             pedidos_produtos.total,
             'reservado' AS status,
             pedidos_produtos.tipo,
+            '' AS ingresso_id,
             '' AS sessao_id,
             '' AS assento_id
         FROM
@@ -34,6 +35,7 @@ WITH
             ingressos.valor as total,
             ingressos.status AS status,
             'ingresso' AS tipo,
+            ingressos.id AS ingresso_id,
             ingressos.sessao_id AS sessao_id,
             ingressos.assento_id AS assento_id
         FROM

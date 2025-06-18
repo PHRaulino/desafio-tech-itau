@@ -18,7 +18,6 @@ type CriaSessao struct {
 	DataSessao time.Time `json:"data_sessao"`
 }
 type CriaReserva struct {
-	SessaoID     string `json:"sessao_id"`
 	UsuarioID    string `json:"usuario_id"`
 	TipoIngresso string `json:"tipo_ingresso"`
 }

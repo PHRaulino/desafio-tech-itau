@@ -75,6 +75,7 @@ func (r *SQLLiteRepoPedidos) ConsultaPedido(ctx context.Context, pedidoID string
 
 		if itemPedido.Tipo == "ingresso" {
 			item.DadosIngresso = &core.DadosIngresso{
+				IngressoID: itemPedido.IngressoID,
 				AssentoID: itemPedido.AssentoID,
 				SessaoID:  itemPedido.SessaoID,
 			}

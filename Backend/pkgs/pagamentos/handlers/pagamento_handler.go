@@ -36,7 +36,7 @@ func (h *PagamentoHandler) efetuarPagamento(w httpPorts.Response, r httpPorts.Re
 		return
 	}
 
-	Pagamento, err := h.pagamentoUseCase.Execute(ctx, infosPagamento.Valor)
+	infos, err := h.pagamentoUseCase.Execute(ctx, infosPagamento.PedidoID)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
 		return
@@ -47,7 +47,7 @@ func (h *PagamentoHandler) efetuarPagamento(w httpPorts.Response, r httpPorts.Re
 	response := struct {
 		Data *core.Pagamento `json:"data"`
 	}{
-		Data: Pagamento,
+		Data: infos,
 	}
 	err = json.NewEncoder(w).Encode(response)
 	if err != nil {

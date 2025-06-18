@@ -72,7 +72,7 @@ SELECT
     CAST(CASE
         WHEN ingressos_sessao.status IS NULL THEN 'disponivel'
         WHEN ingressos_sessao.status = 'confirmado' THEN 'ocupado'
-        WHEN ingressos_sessao.status = 'reservado' THEN 'reservado'
+        WHEN ingressos_sessao.status in ('reservado', 'em pagamento') THEN 'reservado'
     ELSE ingressos_sessao.status
 END AS VARCHAR) AS status
 FROM assentos_sessao

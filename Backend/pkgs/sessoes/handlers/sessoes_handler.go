@@ -154,6 +154,12 @@ func (h *SessoesHandler) reservarAssento(w httpPorts.Response, r httpPorts.Reque
 		return
 	}
 
+	sessaoID := r.PathValue("sessao_id")
+	if assentoID == "" {
+		httpHelpers.HTTPError(w, errors.ErrNenhumaSessaoValidaPassada.Error(), http.StatusBadRequest)
+		return
+	}
+
 	bodyBytes, err := r.GetBody()
 	if err != nil {
 		httpHelpers.HTTPError(w, "Falha ao receber body da request", http.StatusBadRequest)
@@ -166,7 +172,7 @@ func (h *SessoesHandler) reservarAssento(w httpPorts.Response, r httpPorts.Reque
 		return
 	}
 
-	err = h.criaReservaUseCase.Execute(ctx, payloadReserva.SessaoID, payloadReserva.UsuarioID, assentoID, payloadReserva.TipoIngresso)
+	err = h.criaReservaUseCase.Execute(ctx, sessaoID, payloadReserva.UsuarioID, assentoID, payloadReserva.TipoIngresso)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusBadRequest)
 		return

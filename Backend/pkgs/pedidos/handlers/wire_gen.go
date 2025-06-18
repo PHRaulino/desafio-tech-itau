@@ -9,6 +9,9 @@ package handlers
 import (
 	"database/sql"
 	"github.com/google/wire"
+	adapters2 "github.com/phraulino/cinetuber/pkgs/ingressos/adapters"
+	core2 "github.com/phraulino/cinetuber/pkgs/ingressos/core"
+	usecases2 "github.com/phraulino/cinetuber/pkgs/ingressos/usecases"
 	"github.com/phraulino/cinetuber/pkgs/pedidos/adapters"
 	"github.com/phraulino/cinetuber/pkgs/pedidos/core"
 	"github.com/phraulino/cinetuber/pkgs/pedidos/usecases"
@@ -19,12 +22,15 @@ import (
 func InitializeHandler(db *sql.DB) *PedidosHandler {
 	sqlLiteRepoPedidos := adapters.NewSQLLiteRepoPedidos(db)
 	consultaPedidoUseCase := usecases.NewConsultaPedidoUseCase(sqlLiteRepoPedidos)
+	sqlLiteRepoIngressos := adapters2.NewSQLLiteRepoIngresso(db)
+	atualizaIngressoUseCase := usecases2.NewAtualizaIngressoUseCase(sqlLiteRepoIngressos)
+	checkoutPedidoUseCase := usecases.NewCheckoutPedidoUseCase(sqlLiteRepoPedidos, atualizaIngressoUseCase)
 	criaPedidoUseCase := usecases.NewCriaPedidoUseCase(sqlLiteRepoPedidos)
 	adicionaItemPedidoUseCase := usecases.NewAdicionaItemPedidoUseCase(sqlLiteRepoPedidos)
-	pedidosHandler := NewPedidosHandler(consultaPedidoUseCase, criaPedidoUseCase, adicionaItemPedidoUseCase)
+	pedidosHandler := NewPedidosHandler(consultaPedidoUseCase, checkoutPedidoUseCase, criaPedidoUseCase, adicionaItemPedidoUseCase)
 	return pedidosHandler
 }
 
 // pedidos_handler_wire.go:
 
-var PedidosSet = wire.NewSet(adapters.NewSQLLiteRepoPedidos, wire.Bind(new(core.RepoPedidos), new(*adapters.SQLLiteRepoPedidos)), usecases.NewCriaPedidoUseCase, usecases.NewConsultaPedidoUseCase, usecases.NewAdicionaItemPedidoUseCase)
+var PedidosSet = wire.NewSet(adapters.NewSQLLiteRepoPedidos, adapters2.NewSQLLiteRepoIngresso, wire.Bind(new(core.RepoPedidos), new(*adapters.SQLLiteRepoPedidos)), wire.Bind(new(core2.RepoIngresso), new(*adapters2.SQLLiteRepoIngressos)), usecases.NewCriaPedidoUseCase, usecases.NewConsultaPedidoUseCase, usecases.NewAdicionaItemPedidoUseCase, usecases.NewCheckoutPedidoUseCase, usecases2.NewAtualizaIngressoUseCase)
