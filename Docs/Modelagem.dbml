@@ -1,12 +1,16 @@
 Enum "status_pedido" {
   "pago"
+  "em pagamnto"
   "pendente"
   "cancelado"
 }
 
 Enum "status_ingresso" {
-  "disponivel"
-  "utilizado"
+  "confirmado"
+  "em pagamento"
+  "reservado"
+  "expirado"
+  "invalido"
 }
 
 Enum "tipo_ingresso" {
@@ -14,98 +18,110 @@ Enum "tipo_ingresso" {
   "meia"
 }
 
+Enum "tipo_pedido" {
+  "combo"
+  "avulso"
+}
+
+Enum "status_sessao" {
+  "finalizada"
+  "aberta"
+  "lotada"
+}
+
 Table usuarios {
   id uuid [pk]
-  email varchar
-  data_nascimento datetime
-  data_criacao datetime
-  ultima_atualizacao datetime
+  email varchar [not null, unique]
+  data_nascimento datetime [not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table cinemas {
   id uuid [pk]
-  nome varchar
-  localizacao varchar
-  data_criacao datetime
-  ultima_atualizacao datetime
+  nome varchar [not null, unique]
+  localizacao varchar [not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table salas {
   id uuid [pk]
-  numero int
-  cinema_id uuid [ref: > cinemas.id]
-  data_criacao datetime
-  ultima_atualizacao datetime
+  numero int [not null]
+  cinema_id uuid [ref: > cinemas.id, not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table assentos {
   id uuid [pk]
-  numero int
-  fileria varchar
-  sala_id uuid [ref: > salas.id]
-  data_criacao datetime
-  ultima_atualizacao datetime
+  numero int [not null]
+  fileira varchar [not null]
+  sala_id uuid [ref: > salas.id, not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table filmes {
   id uuid [pk]
-  nome varchar
-  data_lancamento date
-  classificacao varchar
-  descricao text
-  trailer varchar
-  capa varchar
-  data_criacao datetime
-  ultima_atualizacao datetime
+  nome varchar [not null, unique]
+  lancamento date [not null]
+  classificacao varchar [not null]
+  descricao text [not null]
+  trailer varchar [not null]
+  capa varchar [not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table sessoes {
   id uuid [pk]
-  filme_id uuid [ref: > filmes.id]
-  sala_id uuid [ref: > salas.id]
-  data_horario timestamp
-  data_criacao datetime
-  ultima_atualizacao datetime
+  filme_id uuid [ref: > filmes.id, not null]
+  sala_id uuid [ref: > salas.id, not null]
+  status status_sessao [not null]
+  data_sessao timestamp [not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table ingressos {
   id uuid [pk]
-  sessao_id uuid [ref: > sessoes.id]
-  assento_id uuid [ref: > assentos.id]
-  usuario_id uuid [ref: > usuarios.id]
-  status status_ingresso
-  valor numeric
-  data_criacao datetime
-  ultima_atualizacao datetime
+  sessao_id uuid [ref: > sessoes.id, not null]
+  assento_id uuid [ref: > assentos.id, not null]
+  usuario_id uuid [ref: > usuarios.id, not null]
+  status status_ingresso [not null]
+  valor numeric [not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 
   indexes {
-    (sessao_id, assento_id) [unique]
+    (sessao_id, assento_id, usuario_id) [unique]
   }
 }
 
 Table produtos {
   id uuid [pk]
-  nome varchar
-  descricao text
-  valor numeric
-  data_criacao datetime
-  ultima_atualizacao datetime
+  nome varchar [not null, unique]
+  descricao text [not null]
+  valor numeric [not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table combos {
   id uuid [pk]
-  nome varchar
-  descricao text
-  valor numeric
-  data_criacao datetime
-  ultima_atualizacao datetime
+  nome varchar [not null, unique]
+  descricao text [not null]
+  valor numeric [not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table combos_produtos {
-  combo_id uuid [ref: > combos.id]
-  produto_id uuid [ref: > produtos.id]
-  data_criacao datetime
-  ultima_atualizacao datetime
+  combo_id uuid [ref: > combos.id, not null]
+  produto_id uuid [ref: > produtos.id, not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 
   indexes {
     (combo_id, produto_id) [pk]
@@ -114,19 +130,17 @@ Table combos_produtos {
 
 Table pedidos {
   id uuid [pk]
-  usuario_id uuid [ref: > usuarios.id]
-  data timestamp
-  valor_total numeric
-  status status_pedido
-  data_criacao datetime
-  ultima_atualizacao datetime
+  usuario_id uuid [ref: > usuarios.id, not null]
+  status status_pedido [not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table pedidos_ingressos {
-  pedido_id uuid [ref: > pedidos.id]
-  ingresso_id uuid [ref: > ingressos.id]
-  data_criacao datetime
-  ultima_atualizacao datetime
+  pedido_id uuid [ref: > pedidos.id, not null]
+  ingresso_id uuid [ref: > ingressos.id, not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 
   indexes {
     (pedido_id, ingresso_id) [pk]
@@ -134,31 +148,22 @@ Table pedidos_ingressos {
 }
 
 Table pedidos_produtos {
-  pedido_id uuid [ref: > pedidos.id]
-  produto_id uuid [ref: > produtos.id]
-  data_criacao datetime
-  ultima_atualizacao datetime
-
-  indexes {
-    (pedido_id, produto_id) [pk]
-  }
-}
-
-Table pedidos_combos {
-  pedido_id uuid [ref: > pedidos.id]
-  combo_id uuid [ref: > combos.id]
-  data_criacao datetime
-  ultima_atualizacao datetime
-
-  indexes {
-    (pedido_id, combo_id) [pk]
-  }
+  pedido_id uuid [ref: > pedidos.id, not null]
+  produto_id uuid [ref: > produtos.id, note: "Opcional, apenas para rastreamento"]
+  combo_id uuid [ref: > combos.id, note: "Opcional, apenas para rastreamento"]
+  nome varchar [not null]
+  descricao text [not null]
+  quantidade numeric [not null]
+  total numeric [not null]
+  tipo tipo_pedido [not null]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table valor_ingresso {
   id uuid [pk]
-  valor numeric
-  tipo tipo_ingresso
-  data_criacao datetime
-  ultima_atualizacao datetime
+  valor numeric [not null]
+  tipo tipo_ingresso [not null, unique]
+  data_criacao datetime [not null, default: `CURRENT_TIMESTAMP`]
+  ultima_atualizacao datetime [not null, default: `CURRENT_TIMESTAMP`]
 }

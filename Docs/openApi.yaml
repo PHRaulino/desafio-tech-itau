@@ -5,13 +5,11 @@ info:
   description: API REST para gestão de reservas, compras de ingressos e produtos
   contact:
     name: PH Raulino
-    email: phraulino@email.com
+    email: phraulino@outlook.com
     url: https://github.com/phraulino
 
 
 servers:
-  - url: https://api.bilhetagem.dev
-    description: Ambiente de Produção
   - url: http://localhost:8080
     description: Ambiente de Desenvolvimento
 
