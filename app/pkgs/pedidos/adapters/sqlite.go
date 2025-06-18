@@ -44,7 +44,32 @@ func (r *SQLLiteRepoPedidos) BuscaPedidoPendente(ctx context.Context, usuarioID 
 	return pedidoID
 }
 
-func (r *SQLLiteRepoPedidos) ConsultaPedido(ctx context.Context, pedidoID string) (*core.Pedido, error) {
+func (r *SQLLiteRepoPedidos) ListaPedidos(ctx context.Context, filtros *core.PedidosFiltros) ([]*core.Pedido, error) {
+	pedidosSqlc, err := r.queries.ListaPedidos(ctx, sqlcRepositorio.ListaPedidosParams{
+		UsuarioID: filtros.UsuarioID,
+		Status:    filtros.Status,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	pedidos := make([]*core.Pedido, 0, len(pedidosSqlc))
+
+	for _, pedidoSqlc := range pedidosSqlc {
+
+		pedido := &core.Pedido{
+			UsuarioID:  pedidoSqlc.UsuarioID,
+			Status:     pedidoSqlc.Status,
+			DataPedido: pedidoSqlc.DataCriacao,
+		}
+
+		pedidos = append(pedidos, pedido)
+	}
+
+	return pedidos, nil
+}
+
+func (r *SQLLiteRepoPedidos) ConsultaPedido(ctx context.Context, pedidoID string) (*core.PedidoCompleto, error) {
 	pedidoSqlc, err := r.queries.ConsultaPedido(ctx, pedidoID)
 	if err != nil {
 		return nil, err
@@ -76,15 +101,15 @@ func (r *SQLLiteRepoPedidos) ConsultaPedido(ctx context.Context, pedidoID string
 		if itemPedido.Tipo == "ingresso" {
 			item.DadosIngresso = &core.DadosIngresso{
 				IngressoID: itemPedido.IngressoID,
-				AssentoID: itemPedido.AssentoID,
-				SessaoID:  itemPedido.SessaoID,
+				AssentoID:  itemPedido.AssentoID,
+				SessaoID:   itemPedido.SessaoID,
 			}
 		}
 
 		itensPedido = append(itensPedido, item)
 	}
 
-	pedido := &core.Pedido{
+	pedido := &core.PedidoCompleto{
 		ID:         pedidoSqlc.ID,
 		UsuarioID:  pedidoSqlc.UsuarioID,
 		Status:     pedidoSqlc.Status,

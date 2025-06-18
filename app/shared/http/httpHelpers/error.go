@@ -1,4 +1,4 @@
-package utils
+package httpHelpers
 
 import (
 	"encoding/json"

@@ -13,6 +13,8 @@ type Request interface {
 	GetQueryParams(key string) string
 	PathValue(key string) string
 	Context() context.Context
+	WithContext(ctx context.Context) Request
+	GetHeader(key string) string
 }
 
 type Response interface {
@@ -24,9 +26,11 @@ type Response interface {
 type Handler interface {
 	Serve(w Response, r Request)
 }
-
-type Router interface {
-	Handle(path string, handler Handler)
-	HandleFunc(path string, handler func(w Response, r Request))
-	ListenAndServe(port string) error
-}
+type (
+	HandlerFunc func(Response, Request)
+	Router      interface {
+		Handle(path string, handler Handler)
+		HandleFunc(path string, handler func(w Response, r Request))
+		ListenAndServe(port string) error
+	}
+)

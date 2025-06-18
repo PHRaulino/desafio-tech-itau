@@ -1,4 +1,4 @@
-run-serve: sqlc wire
+run: sqlc wire
 	clear && go run cmd/main.go
 wire:
 	wire ./...

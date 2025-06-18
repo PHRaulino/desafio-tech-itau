@@ -123,7 +123,7 @@ type Sesso struct {
 type Usuario struct {
 	ID                string
 	Email             string
-	DataNascimento    time.Time
+	Nome              string
 	DataCriacao       time.Time
 	UltimaAtualizacao time.Time
 }

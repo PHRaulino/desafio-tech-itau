@@ -7,12 +7,13 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/pedidos/core"
 	errosPedido "github.com/phraulino/cinetuber/pkgs/pedidos/errors"
 	"github.com/phraulino/cinetuber/pkgs/pedidos/usecases"
+	httpHelpers "github.com/phraulino/cinetuber/shared/http/httpHelpers"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
-	httpHelpers "github.com/phraulino/cinetuber/shared/http/utils"
 )
 
 type PedidosHandler struct {
 	consultaPedidoUseCase     usecases.ConsultaPedidoUseCase
+	listaPedidoUseCase        usecases.ListaPedidosUseCase
 	checkoutPedidoUseCase     usecases.CheckoutPedidoUseCase
 	criaPedidoUseCase         usecases.CriaPedidoUseCase
 	adicionaItemPedidoUseCase usecases.AdicionaItemPedidoUseCase
@@ -20,12 +21,14 @@ type PedidosHandler struct {
 
 func NewPedidosHandler(
 	consultaPedidoUseCase usecases.ConsultaPedidoUseCase,
+	listaPedidoUseCase usecases.ListaPedidosUseCase,
 	checkoutPedidoUseCase usecases.CheckoutPedidoUseCase,
 	criaPedidoUseCase usecases.CriaPedidoUseCase,
 	adicionaItemPedidoUseCase usecases.AdicionaItemPedidoUseCase,
 ) *PedidosHandler {
 	return &PedidosHandler{
 		consultaPedidoUseCase:     consultaPedidoUseCase,
+		listaPedidoUseCase:        listaPedidoUseCase,
 		checkoutPedidoUseCase:     checkoutPedidoUseCase,
 		criaPedidoUseCase:         criaPedidoUseCase,
 		adicionaItemPedidoUseCase: adicionaItemPedidoUseCase,
@@ -51,9 +54,32 @@ func (h *PedidosHandler) consultaPedido(w httpPorts.Response, r httpPorts.Reques
 	w.WriteHeader(http.StatusOK)
 
 	response := struct {
-		Data *core.Pedido `json:"data"`
+		Data *core.PedidoCompleto `json:"data"`
 	}{
 		Data: pedido,
+	}
+	err = json.NewEncoder(w).Encode(response)
+	if err != nil {
+		httpHelpers.HTTPError(w, err.Error(), 409)
+		return
+	}
+}
+
+func (h *PedidosHandler) listaPedidos(w httpPorts.Response, r httpPorts.Request) {
+	ctx := r.Context()
+
+	pedidos, err := h.listaPedidoUseCase.Execute(ctx, &core.PedidosFiltros{})
+	if err != nil {
+		httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+
+	response := struct {
+		Data []*core.Pedido `json:"data"`
+	}{
+		Data: pedidos,
 	}
 	err = json.NewEncoder(w).Encode(response)
 	if err != nil {
@@ -148,6 +174,7 @@ func (h *PedidosHandler) adicionaItemAoPedido(w httpPorts.Response, r httpPorts.
 func (h *PedidosHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router := *httpRouter
 	router.HandleFunc("POST /pedidos", h.criaPedido)
+	router.HandleFunc("GET /pedidos", h.listaPedidos)
 	router.HandleFunc("GET /pedidos/{pedido_id}", h.consultaPedido)
 	router.HandleFunc("POST /pedidos/{pedido_id}/checkout", h.checkoutPedido)
 	router.HandleFunc("POST /pedidos/{pedido_id}/itens", h.adicionaItemAoPedido)

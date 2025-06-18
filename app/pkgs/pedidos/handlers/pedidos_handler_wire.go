@@ -22,6 +22,7 @@ var PedidosSet = wire.NewSet(
 	wire.Bind(new(core.RepoPedidos), new(*adapters.SQLLiteRepoPedidos)),
 	wire.Bind(new(ingressosCore.RepoIngresso), new(*ingressosAdapters.SQLLiteRepoIngressos)),
 	usecases.NewCriaPedidoUseCase,
+	usecases.NewListaPedidosUseCase,
 	usecases.NewConsultaPedidoUseCase,
 	usecases.NewAdicionaItemPedidoUseCase,
 	usecases.NewCheckoutPedidoUseCase,

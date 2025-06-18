@@ -6,8 +6,8 @@ import (
 
 	"github.com/phraulino/cinetuber/pkgs/produtos/core"
 	"github.com/phraulino/cinetuber/pkgs/produtos/usecases"
+	httpHelpers "github.com/phraulino/cinetuber/shared/http/httpHelpers"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
-	httpHelpers "github.com/phraulino/cinetuber/shared/http/utils"
 )
 
 type ProdutosHandler struct {

@@ -7,7 +7,8 @@ import (
 type RepoPedidos interface {
 	CriaPedido(ctx context.Context, usuarioID string) (string, error)
 	BuscaPedidoPendente(ctx context.Context, usuarioID string) string
-	ConsultaPedido(ctx context.Context, pedidoID string) (*Pedido, error)
+	ConsultaPedido(ctx context.Context, pedidoID string) (*PedidoCompleto, error)
+	ListaPedidos(ctx context.Context, filtros *PedidosFiltros) ([]*Pedido, error)
 	VerificaQuantidadeItemPedido(ctx context.Context, pedidoID, itemID, itemTipo string) float64
 	AtualizaStatusPedido(ctx context.Context, pedidoID, status string) error
 	AdicionaProdutoPedido(ctx context.Context, pedidoID, produtoID string, quantidade float64) error

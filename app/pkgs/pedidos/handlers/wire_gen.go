@@ -22,15 +22,16 @@ import (
 func InitializeHandler(db *sql.DB) *PedidosHandler {
 	sqlLiteRepoPedidos := adapters.NewSQLLiteRepoPedidos(db)
 	consultaPedidoUseCase := usecases.NewConsultaPedidoUseCase(sqlLiteRepoPedidos)
+	listaPedidosUseCase := usecases.NewListaPedidosUseCase(sqlLiteRepoPedidos)
 	sqlLiteRepoIngressos := adapters2.NewSQLLiteRepoIngresso(db)
 	atualizaIngressoUseCase := usecases2.NewAtualizaIngressoUseCase(sqlLiteRepoIngressos)
 	checkoutPedidoUseCase := usecases.NewCheckoutPedidoUseCase(sqlLiteRepoPedidos, atualizaIngressoUseCase)
 	criaPedidoUseCase := usecases.NewCriaPedidoUseCase(sqlLiteRepoPedidos)
 	adicionaItemPedidoUseCase := usecases.NewAdicionaItemPedidoUseCase(sqlLiteRepoPedidos)
-	pedidosHandler := NewPedidosHandler(consultaPedidoUseCase, checkoutPedidoUseCase, criaPedidoUseCase, adicionaItemPedidoUseCase)
+	pedidosHandler := NewPedidosHandler(consultaPedidoUseCase, listaPedidosUseCase, checkoutPedidoUseCase, criaPedidoUseCase, adicionaItemPedidoUseCase)
 	return pedidosHandler
 }
 
 // pedidos_handler_wire.go:
 
-var PedidosSet = wire.NewSet(adapters.NewSQLLiteRepoPedidos, adapters2.NewSQLLiteRepoIngresso, wire.Bind(new(core.RepoPedidos), new(*adapters.SQLLiteRepoPedidos)), wire.Bind(new(core2.RepoIngresso), new(*adapters2.SQLLiteRepoIngressos)), usecases.NewCriaPedidoUseCase, usecases.NewConsultaPedidoUseCase, usecases.NewAdicionaItemPedidoUseCase, usecases.NewCheckoutPedidoUseCase, usecases2.NewAtualizaIngressoUseCase)
+var PedidosSet = wire.NewSet(adapters.NewSQLLiteRepoPedidos, adapters2.NewSQLLiteRepoIngresso, wire.Bind(new(core.RepoPedidos), new(*adapters.SQLLiteRepoPedidos)), wire.Bind(new(core2.RepoIngresso), new(*adapters2.SQLLiteRepoIngressos)), usecases.NewCriaPedidoUseCase, usecases.NewListaPedidosUseCase, usecases.NewConsultaPedidoUseCase, usecases.NewAdicionaItemPedidoUseCase, usecases.NewCheckoutPedidoUseCase, usecases2.NewAtualizaIngressoUseCase)

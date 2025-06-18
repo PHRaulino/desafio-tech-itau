@@ -19,9 +19,7 @@ func (a *NetHTTPRequestAdapter) GetBody() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	a.req.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
-
 	return bodyBytes, nil
 }
 
@@ -47,6 +45,13 @@ func (a *NetHTTPRequestAdapter) GetHeader(key string) string {
 
 func (a *NetHTTPRequestAdapter) Context() context.Context {
 	return a.req.Context()
+}
+
+// ✅ Novo método necessário
+func (a *NetHTTPRequestAdapter) WithContext(ctx context.Context) httpPorts.Request {
+	return &NetHTTPRequestAdapter{
+		req: a.req.WithContext(ctx),
+	}
 }
 
 type NetHTTPResponseAdapter struct {

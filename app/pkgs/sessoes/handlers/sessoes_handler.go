@@ -8,8 +8,8 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/sessoes/core"
 	"github.com/phraulino/cinetuber/pkgs/sessoes/errors"
 	"github.com/phraulino/cinetuber/pkgs/sessoes/usecases"
+	httpHelpers "github.com/phraulino/cinetuber/shared/http/httpHelpers"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
-	httpHelpers "github.com/phraulino/cinetuber/shared/http/utils"
 )
 
 type SessoesHandler struct {

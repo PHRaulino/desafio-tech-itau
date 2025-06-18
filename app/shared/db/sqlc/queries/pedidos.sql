@@ -245,4 +245,13 @@ FROM
     pedidos
 WHERE
     usuario_id = :usuario_id
-    AND status in ('pendente', 'em pagamento')
+    AND status in ('pendente', 'em pagamento');
+
+-- name: ListaPedidos :many
+SELECT
+    *
+FROM
+    pedidos
+WHERE
+    (:usuario_id IS NULL OR pedidos.usuario_id = :usuario_id)
+    AND (:status IS NULL OR pedidos.status = :status);

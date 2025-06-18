@@ -6,8 +6,8 @@ import (
 
 	"github.com/phraulino/cinetuber/pkgs/pagamentos/core"
 	"github.com/phraulino/cinetuber/pkgs/pagamentos/usecases"
+	httpHelpers "github.com/phraulino/cinetuber/shared/http/httpHelpers"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
-	httpHelpers "github.com/phraulino/cinetuber/shared/http/utils"
 )
 
 type PagamentoHandler struct {

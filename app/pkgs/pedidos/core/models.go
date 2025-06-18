@@ -3,6 +3,19 @@ package core
 import "time"
 
 type Pedido struct {
+	ID         string    `json:"id"`
+	UsuarioID  string    `json:"usuario_id"`
+	Status     string    `json:"status"`
+	DataPedido time.Time `json:"data"`
+	Total      float64   `json:"total"`
+}
+
+type PedidosFiltros struct {
+	UsuarioID string `json:"status"`
+	Status    string `json:"usuario_id"`
+}
+
+type PedidoCompleto struct {
 	ID         string        `json:"id"`
 	UsuarioID  string        `json:"usuario_id"`
 	Status     string        `json:"status"`
@@ -13,8 +26,8 @@ type Pedido struct {
 
 type DadosIngresso struct {
 	IngressoID string `json:"ingresso_id"`
-	AssentoID string `json:"assento_id"`
-	SessaoID  string `json:"sessao_id"`
+	AssentoID  string `json:"assento_id"`
+	SessaoID   string `json:"sessao_id"`
 }
 
 type ItemPedido struct {

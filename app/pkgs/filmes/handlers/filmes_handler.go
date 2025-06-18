@@ -6,8 +6,8 @@ import (
 
 	"github.com/phraulino/cinetuber/pkgs/filmes/core"
 	"github.com/phraulino/cinetuber/pkgs/filmes/usecases"
+	httpHelpers "github.com/phraulino/cinetuber/shared/http/httpHelpers"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
-	httpHelpers "github.com/phraulino/cinetuber/shared/http/utils"
 )
 
 type FilmesHandler struct {

@@ -7,8 +7,8 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/ingressos/core"
 	errorsIngressos "github.com/phraulino/cinetuber/pkgs/ingressos/errors"
 	"github.com/phraulino/cinetuber/pkgs/ingressos/usecases"
+	httpHelpers "github.com/phraulino/cinetuber/shared/http/httpHelpers"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
-	httpHelpers "github.com/phraulino/cinetuber/shared/http/utils"
 )
 
 type IngressoHandler struct {

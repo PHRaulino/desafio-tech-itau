@@ -179,7 +179,7 @@ FROM
     pedidos
 WHERE
     usuario_id = ?1
-    AND status = 'pendente'
+    AND status in ('pendente', 'em pagamento')
 `
 
 func (q *Queries) BuscaPedidoPendente(ctx context.Context, usuarioID string) (string, error) {
@@ -365,6 +365,50 @@ func (q *Queries) ListaItensPorPedido(ctx context.Context, pedidoID string) ([]L
 			&i.IngressoID,
 			&i.SessaoID,
 			&i.AssentoID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listaPedidos = `-- name: ListaPedidos :many
+SELECT
+    id, usuario_id, status, data_criacao, ultima_atualizacao
+FROM
+    pedidos
+WHERE
+    (?1 IS NULL OR pedidos.usuario_id = ?1)
+    AND (?2 IS NULL OR pedidos.status = ?2)
+`
+
+type ListaPedidosParams struct {
+	UsuarioID interface{}
+	Status    interface{}
+}
+
+func (q *Queries) ListaPedidos(ctx context.Context, arg ListaPedidosParams) ([]Pedido, error) {
+	rows, err := q.db.QueryContext(ctx, listaPedidos, arg.UsuarioID, arg.Status)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Pedido
+	for rows.Next() {
+		var i Pedido
+		if err := rows.Scan(
+			&i.ID,
+			&i.UsuarioID,
+			&i.Status,
+			&i.DataCriacao,
+			&i.UltimaAtualizacao,
 		); err != nil {
 			return nil, err
 		}

@@ -134,18 +134,12 @@ VALUES
 
 -- Usuário
 INSERT INTO
-  usuarios (
-    id,
-    email,
-    data_nascimento,
-    data_criacao,
-    ultima_atualizacao
-  )
+  usuarios (id, email, nome, data_criacao, ultima_atualizacao)
 VALUES
   (
     '66233cc6-7d3e-4070-92fa-66c64093b006',
     'user@example.com',
-    '1990-05-20',
+    'PH Raulino',
     '2025-06-14T20:14:50.829095',
     '2025-06-14T20:14:50.829095'
   );
