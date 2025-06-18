@@ -245,4 +245,4 @@ FROM
     pedidos
 WHERE
     usuario_id = :usuario_id
-    AND status = 'pendente'
+    AND status in ('pendente', 'em pagamento')

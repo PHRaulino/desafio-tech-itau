@@ -13,20 +13,23 @@ type PagamentoUseCase interface {
 }
 
 type PagamentoUseCaseImpl struct {
-	finalizaPedidoUseCase pedidosUseCases.FinalizaPedidoUseCase
-	consultaPedidoUseCase pedidosUseCases.ConsultaPedidoUseCase
-	repo                  core.RepoPagamento
+	revertCheckoutPedidoUseCase pedidosUseCases.ReverteCheckoutPedidoUseCase
+	finalizaPedidoUseCase       pedidosUseCases.FinalizaPedidoUseCase
+	consultaPedidoUseCase       pedidosUseCases.ConsultaPedidoUseCase
+	repo                        core.RepoPagamento
 }
 
 func NewPagamentoUseCase(
+	revertCheckoutPedidoUseCase pedidosUseCases.ReverteCheckoutPedidoUseCase,
 	finalizaPedidoUseCase pedidosUseCases.FinalizaPedidoUseCase,
 	consultaPedidoUseCase pedidosUseCases.ConsultaPedidoUseCase,
 	repo core.RepoPagamento,
 ) PagamentoUseCase {
 	return &PagamentoUseCaseImpl{
-		repo:                  repo,
-		finalizaPedidoUseCase: finalizaPedidoUseCase,
-		consultaPedidoUseCase: consultaPedidoUseCase,
+		finalizaPedidoUseCase:       finalizaPedidoUseCase,
+		revertCheckoutPedidoUseCase: revertCheckoutPedidoUseCase,
+		consultaPedidoUseCase:       consultaPedidoUseCase,
+		repo:                        repo,
 	}
 }
 
@@ -47,6 +50,11 @@ func (c *PagamentoUseCaseImpl) Execute(ctx context.Context, pedidoID string) (*c
 
 	if pagamentoValido {
 		err = c.finalizaPedidoUseCase.Execute(ctx, pedidoID)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		err = c.revertCheckoutPedidoUseCase.Execute(ctx, pedidoID)
 		if err != nil {
 			return nil, err
 		}
