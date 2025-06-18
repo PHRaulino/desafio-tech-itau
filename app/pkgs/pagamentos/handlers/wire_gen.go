@@ -26,14 +26,15 @@ func InitializeHandler(db *sql.DB) *PagamentoHandler {
 	sqlLiteRepoPedidos := adapters.NewSQLLiteRepoPedidos(db)
 	sqlLiteRepoIngressos := adapters2.NewSQLLiteRepoIngresso(db)
 	atualizaIngressoUseCase := usecases.NewAtualizaIngressoUseCase(sqlLiteRepoIngressos)
+	reverteCheckoutPedidoUseCase := usecases2.NewReverteCheckoutPedidoUseCase(sqlLiteRepoPedidos, atualizaIngressoUseCase)
 	finalizaPedidoUseCase := usecases2.NewFinalizaPedidoUseCase(sqlLiteRepoPedidos, atualizaIngressoUseCase)
 	consultaPedidoUseCase := usecases2.NewConsultaPedidoUseCase(sqlLiteRepoPedidos)
 	repoPagamento := adapters3.NewRepoPagamento()
-	pagamentoUseCase := usecases3.NewPagamentoUseCase(finalizaPedidoUseCase, consultaPedidoUseCase, repoPagamento)
+	pagamentoUseCase := usecases3.NewPagamentoUseCase(reverteCheckoutPedidoUseCase, finalizaPedidoUseCase, consultaPedidoUseCase, repoPagamento)
 	pagamentoHandler := NewPagamentoHandler(pagamentoUseCase)
 	return pagamentoHandler
 }
 
 // pagamento_handler_wire.go:
 
-var PagamentoSet = wire.NewSet(adapters3.NewRepoPagamento, adapters.NewSQLLiteRepoPedidos, adapters2.NewSQLLiteRepoIngresso, wire.Bind(new(core.RepoPagamento), new(*adapters3.RepoPagamento)), wire.Bind(new(core2.RepoPedidos), new(*adapters.SQLLiteRepoPedidos)), wire.Bind(new(core3.RepoIngresso), new(*adapters2.SQLLiteRepoIngressos)), usecases3.NewPagamentoUseCase, usecases2.NewFinalizaPedidoUseCase, usecases2.NewConsultaPedidoUseCase, usecases.NewAtualizaIngressoUseCase)
+var PagamentoSet = wire.NewSet(adapters3.NewRepoPagamento, adapters.NewSQLLiteRepoPedidos, adapters2.NewSQLLiteRepoIngresso, wire.Bind(new(core.RepoPagamento), new(*adapters3.RepoPagamento)), wire.Bind(new(core2.RepoPedidos), new(*adapters.SQLLiteRepoPedidos)), wire.Bind(new(core3.RepoIngresso), new(*adapters2.SQLLiteRepoIngressos)), usecases3.NewPagamentoUseCase, usecases2.NewFinalizaPedidoUseCase, usecases2.NewConsultaPedidoUseCase, usecases2.NewReverteCheckoutPedidoUseCase, usecases.NewAtualizaIngressoUseCase)

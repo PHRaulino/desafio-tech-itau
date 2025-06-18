@@ -29,6 +29,7 @@ var PagamentoSet = wire.NewSet(
 	usecases.NewPagamentoUseCase,
 	pedidosUseCases.NewFinalizaPedidoUseCase,
 	pedidosUseCases.NewConsultaPedidoUseCase,
+	pedidosUseCases.NewReverteCheckoutPedidoUseCase,
 	ingressosUseCases.NewAtualizaIngressoUseCase,
 )
 
