@@ -7,7 +7,7 @@ import (
 )
 
 type BuscaIngressoUseCase interface {
-	Execute(ctx context.Context, buscaIngresso core.BuscaIngresso) ([]*core.Ingresso, error)
+	Execute(ctx context.Context, buscaIngresso *core.BuscaIngresso) ([]*core.Ingresso, error)
 }
 
 type BuscaIngressoUseCaseImpl struct {
@@ -18,7 +18,7 @@ func NewBuscaIngressoUseCase(repo core.RepoIngresso) BuscaIngressoUseCase {
 	return &BuscaIngressoUseCaseImpl{repo: repo}
 }
 
-func (c *BuscaIngressoUseCaseImpl) Execute(ctx context.Context, buscaIngresso core.BuscaIngresso) ([]*core.Ingresso, error) {
+func (c *BuscaIngressoUseCaseImpl) Execute(ctx context.Context, buscaIngresso *core.BuscaIngresso) ([]*core.Ingresso, error) {
 	ingressos, err := c.repo.BuscaIngressos(ctx, buscaIngresso)
 	if err != nil {
 		return nil, err

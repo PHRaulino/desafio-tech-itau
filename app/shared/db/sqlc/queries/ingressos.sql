@@ -52,5 +52,5 @@ SELECT
 FROM ingressos
 WHERE
     (:sessao_id IS NULL OR ingressos.sessao_id = :sessao_id)
-    AND (:assento_id IS NULL OR ingressos.sessao_id = :assento_id)
-    AND (:usuario_id IS NULL OR ingressos.sessao_id = :usuario_id);
+    AND (:assento_id IS NULL OR ingressos.assento_id = :assento_id)
+    AND (:usuario_id IS NULL OR ingressos.usuario_id = :usuario_id);

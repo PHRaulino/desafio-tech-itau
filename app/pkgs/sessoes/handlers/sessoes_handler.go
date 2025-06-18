@@ -149,7 +149,7 @@ func (h *SessoesHandler) listaAssentos(w httpPorts.Response, r httpPorts.Request
 func (h *SessoesHandler) reservarAssento(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
-	usuarioToken, err := httpHelpers.UsuarioAutenticado(r.Context())
+	usuarioToken, err := httpHelpers.UsuarioAutenticado(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
 		return

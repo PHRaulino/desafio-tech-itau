@@ -108,8 +108,8 @@ SELECT
 FROM ingressos
 WHERE
     (?1 IS NULL OR ingressos.sessao_id = ?1)
-    AND (?2 IS NULL OR ingressos.sessao_id = ?2)
-    AND (?3 IS NULL OR ingressos.sessao_id = ?3)
+    AND (?2 IS NULL OR ingressos.assento_id = ?2)
+    AND (?3 IS NULL OR ingressos.usuario_id = ?3)
 `
 
 type ListaIngressosParams struct {

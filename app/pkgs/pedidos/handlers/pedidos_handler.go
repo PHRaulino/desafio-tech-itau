@@ -39,7 +39,7 @@ func NewPedidosHandler(
 func (h *PedidosHandler) consultaPedido(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
-	_, err := httpHelpers.UsuarioAutenticado(r.Context())
+	_, err := httpHelpers.UsuarioAutenticado(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
 		return
@@ -98,7 +98,7 @@ func (h *PedidosHandler) listaPedidos(w httpPorts.Response, r httpPorts.Request)
 func (h *PedidosHandler) criaPedido(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
-	usuarioToken, err := httpHelpers.UsuarioAutenticado(r.Context())
+	usuarioToken, err := httpHelpers.UsuarioAutenticado(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
 		return
@@ -127,7 +127,7 @@ func (h *PedidosHandler) criaPedido(w httpPorts.Response, r httpPorts.Request) {
 func (h *PedidosHandler) checkoutPedido(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
-	_, err := httpHelpers.UsuarioAutenticado(r.Context())
+	_, err := httpHelpers.UsuarioAutenticado(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
 		return
@@ -158,7 +158,7 @@ func (h *PedidosHandler) checkoutPedido(w httpPorts.Response, r httpPorts.Reques
 func (h *PedidosHandler) adicionaItemAoPedido(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
-	_, err := httpHelpers.UsuarioAutenticado(r.Context())
+	_, err := httpHelpers.UsuarioAutenticado(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
 		return

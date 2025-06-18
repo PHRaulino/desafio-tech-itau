@@ -50,13 +50,13 @@ func (c *CriaReservaUseCaseImpl) Execute(ctx context.Context, sessaoID, usuarioI
 
 	reservaDisponivel := true
 
-	ingressosSessaoAssento, err = c.buscaIngressos.Execute(ctx, ingressosCore.BuscaIngresso{
+	ingressosSessaoAssento, err = c.buscaIngressos.Execute(ctx, &ingressosCore.BuscaIngresso{
 		SessaoID:  &sessaoID,
 		AssentoID: &assentoID,
 	})
 
 	for _, ingresso := range ingressosSessaoAssento {
-		if (ingresso.Status == "reservado") || (ingresso.Status == "confirmado") {
+		if (ingresso.Status == "reservado") || (ingresso.Status == "confirmado") || (ingresso.Status == "em pagamento"){
 			reservaDisponivel = false
 		}
 

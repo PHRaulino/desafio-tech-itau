@@ -22,7 +22,7 @@ func NewListaIngressosUsuarioUseCase(repo core.RepoUsuarios, buscaIngressosUseCa
 }
 
 func (c *ListaIngressosUsuarioUseCaseImpl) Execute(ctx context.Context, usuarioID string) ([]*ingressosCore.Ingresso, error) {
-	ingressos, err := c.buscaIngressosUseCase.Execute(ctx, ingressosCore.BuscaIngresso{
+	ingressos, err := c.buscaIngressosUseCase.Execute(ctx, &ingressosCore.BuscaIngresso{
 		UsuarioID: &usuarioID,
 	})
 	if err != nil {

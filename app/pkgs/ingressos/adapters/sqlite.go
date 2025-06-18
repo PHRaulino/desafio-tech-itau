@@ -61,11 +61,11 @@ func (r *SQLLiteRepoIngressos) CriaIngresso(ctx context.Context, ingresso core.I
 	return nil
 }
 
-func (r *SQLLiteRepoIngressos) BuscaIngressos(ctx context.Context, buscaIngresso core.BuscaIngresso) ([]*core.Ingresso, error) {
+func (r *SQLLiteRepoIngressos) BuscaIngressos(ctx context.Context, buscaIngresso *core.BuscaIngresso) ([]*core.Ingresso, error) {
 	ingressosSqlc, err := r.queries.ListaIngressos(ctx, sqlcRepositorio.ListaIngressosParams{
-		SessaoID:  nil, // buscaIngresso.SessaoID,
-		AssentoID: nil, // buscaIngresso.AssentoID,
-		UsuarioID: nil, // buscaIngresso.UsuarioID,
+		SessaoID:  buscaIngresso.SessaoID,
+		AssentoID: buscaIngresso.AssentoID,
+		UsuarioID: buscaIngresso.UsuarioID,
 	})
 	if err != nil {
 		return nil, err

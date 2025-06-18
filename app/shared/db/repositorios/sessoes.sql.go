@@ -62,7 +62,7 @@ WITH assentos_sessao as (
     SELECT ingressos.assento_id, ingressos.status FROM ingressos
     WHERE ingressos.sessao_id = ?1
     AND ingressos.status NOT IN ('expirado', 'invalido')
-)
+), todos_assento as (
 SELECT
     assentos_sessao.id as assento_id,
     assentos_sessao.sala_id,
@@ -77,7 +77,9 @@ SELECT
 END AS VARCHAR) AS status
 FROM assentos_sessao
 LEFT JOIN ingressos_sessao
-ON assentos_sessao.id = ingressos_sessao.assento_id
+ON assentos_sessao.id = ingressos_sessao.assento_id)
+SELECT assento_id, sala_id, fileira, numero, descricao, status FROM todos_assento
+ORDER BY status
 `
 
 type ListaAssentosRow struct {
@@ -120,6 +122,8 @@ func (q *Queries) ListaAssentos(ctx context.Context, sessaoID string) ([]ListaAs
 }
 
 const listaAssentosReservados = `-- name: ListaAssentosReservados :many
+;
+
 SELECT ingressos.id FROM ingressos
 WHERE ingressos.sessao_id = ?1
 AND ingressos.status = 'reservado'

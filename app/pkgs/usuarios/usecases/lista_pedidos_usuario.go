@@ -23,7 +23,7 @@ func NewListaPedidosUsuarioUseCase(repo core.RepoUsuarios, buscaIngressosUseCase
 
 func (c *ListaPedidosUsuarioUseCaseImpl) Execute(ctx context.Context, usuarioID string) ([]*pedidosCore.Pedido, error) {
 	pedidos, err := c.buscaIngressosUseCase.Execute(ctx, &pedidosCore.PedidosFiltros{
-		UsuarioID: usuarioID,
+		UsuarioID: &usuarioID,
 	})
 	if err != nil {
 		return nil, err

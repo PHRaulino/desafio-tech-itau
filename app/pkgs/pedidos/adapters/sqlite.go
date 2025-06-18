@@ -58,6 +58,7 @@ func (r *SQLLiteRepoPedidos) ListaPedidos(ctx context.Context, filtros *core.Ped
 	for _, pedidoSqlc := range pedidosSqlc {
 
 		pedido := &core.Pedido{
+			ID:  pedidoSqlc.ID,
 			UsuarioID:  pedidoSqlc.UsuarioID,
 			Status:     pedidoSqlc.Status,
 			DataPedido: pedidoSqlc.DataCriacao,

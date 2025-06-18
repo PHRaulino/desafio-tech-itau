@@ -1,0 +1,1491 @@
+type: spec.insomnia.rest/5.0
+name: Cine Ituber
+meta:
+  id: wrk_66da08408dcc4ea19c8e1cff58241f07
+  created: 1749919304797
+  modified: 1749919304797
+  description: ""
+collection:
+  - name: Produtos
+    meta:
+      id: fld_1e8d0f4ff7b942bda54db025b22385c3
+      created: 1750284396704
+      modified: 1750284396704
+      sortKey: -1750284396704
+      description: Endpoints relacionados a produtos e combos
+    children:
+      - url: "{{ _.base_url }}/produtos"
+        name: Lista os produtos
+        meta:
+          id: req_c7cfa112df394a1183203d0cfe19c119
+          created: 1750284396711
+          modified: 1750284396711
+          isPrivate: false
+          description: Retorna uma lista com todos os produtos avulsos disponíveis para
+            compra
+          sortKey: -1750284396711
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/produtos/combos/{{ _.combo_id }}"
+        name: Lista produtos do combo
+        meta:
+          id: req_bf0c06bba197446fb6be1ccc74baae2c
+          created: 1750284396712
+          modified: 1750284396712
+          isPrivate: false
+          description: Retorna todos os produtos que fazem parte de um combo específico
+          sortKey: -1750284396712
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/produtos/combos"
+        name: Lista os combos
+        meta:
+          id: req_f4b2d825fff04ea89115d85501dd57ce
+          created: 1750284396712
+          modified: 1750284396712
+          isPrivate: false
+          description: Retorna todos os combos promocionais disponíveis
+          sortKey: -1750284396712
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Usuário
+    meta:
+      id: fld_98e68034b1ab42baa61ae1f4ec79a66b
+      created: 1750284396706
+      modified: 1750284396706
+      sortKey: -1750284396706
+      description: Endpoints para informações e histórico do usuário
+    children:
+      - url: "{{ _.base_url }}/usuario/me"
+        name: Informações do usuário autenticado
+        meta:
+          id: req_6dac877c049548de9f36b1288af14052
+          created: 1750284396713
+          modified: 1750285935604
+          isPrivate: false
+          description: Retorna os dados cadastrais do usuário com base no token JWT
+          sortKey: -1750284396713
+        method: GET
+        headers:
+          - id: pair_74ff4ee0524a490c96385f96a41ced30
+            name: ""
+            value: ""
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/usuario/pedidos"
+        name: Lista os pedidos do usuário autenticado
+        meta:
+          id: req_d8b7fb6c4c1c4166802ed46991ee3576
+          created: 1750284396713
+          modified: 1750285931665
+          isPrivate: false
+          description: Retorna os pedidos associados ao usuário, podendo ser filtrados por
+            status
+          sortKey: -1750284396713
+        method: GET
+        parameters:
+          - name: status
+            disabled: true
+            value: string
+        headers:
+          - id: pair_631f7b41726c41eaad5eb2f330f40e32
+            name: ""
+            value: ""
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/usuario/ingressos"
+        name: Lista os ingressos do usuário autenticado
+        meta:
+          id: req_b63bb881c4c04e3cbe1b6c724c936f8a
+          created: 1750284396715
+          modified: 1750285920723
+          isPrivate: false
+          description: Retorna os ingressos do usuário, podendo ser filtrados por status
+            de uso
+          sortKey: -1750284396715
+        method: GET
+        parameters:
+          - name: status
+            disabled: true
+            value: string
+        headers:
+          - id: pair_5afab7e8cccc453b87d2de8d7725e599
+            name: ""
+            value: ""
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/usuarios"
+        name: Lista todos os usuários cadastrados
+        meta:
+          id: req_0b2d8571f3914a2a9aacb79ed5b8d80d
+          created: 1750284396716
+          modified: 1750284396716
+          isPrivate: false
+          description: Retorna uma lista completa de usuários do sistema (não autenticado)
+          sortKey: -1750284396716
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/usuarios"
+        name: Cria um novo usuário
+        meta:
+          id: req_19eb2ea61f80499e82a62a9cd5010086
+          created: 1750284396716
+          modified: 1750285364870
+          isPrivate: false
+          description: Realiza o cadastro de um novo usuário
+          sortKey: -1750284396716
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nome": "Gabi",
+              "email": "usuario@example.com"
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/usuarios/token"
+        name: Gera token JWT para o usuário
+        meta:
+          id: req_e8d701da2d5d4552a1b10e217bf4da28
+          created: 1750284396716
+          modified: 1750287859713
+          isPrivate: false
+          description: Cria um token JWT com base no ID do usuário informado
+          sortKey: -1750284396716
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "usuario_id": "{{ _.usuario_exemplo }}"
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Pagamento
+    meta:
+      id: fld_468d4e7556eb4f1bb2c66683aa5b3c14
+      created: 1750284396707
+      modified: 1750284396707
+      sortKey: -1750284396707
+      description: Processamento de pagamento e confirmação de pedidos
+    children:
+      - url: "{{ _.base_url }}/pagamento"
+        name: Realiza o pagamento de um pedido
+        meta:
+          id: req_155f2f1624df4859bf1237b2cbc9c603
+          created: 1750284396717
+          modified: 1750285598522
+          isPrivate: false
+          description: Realiza o pagamento e registra a finalização de um pedido
+            previamente criado
+          sortKey: -1750284396717
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "pedido_id": "{{ _.pedido_id }}"
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Sessoes
+    meta:
+      id: fld_4da57d2c1cb444199a21013a81e11bce
+      created: 1750284396708
+      modified: 1750284396708
+      sortKey: -1750284396708
+      description: Consulta de sessões e assentos
+    children:
+      - url: "{{ _.base_url }}/sessoes"
+        name: Lista todas as sessões por cinema e dia
+        meta:
+          id: req_51f39eafcd254706a199f8065f4c3f3d
+          created: 1750284396718
+          modified: 1750287475373
+          isPrivate: false
+          description: Retorna a programação de sessões por cinema, sala, filme e/ou data
+          sortKey: -1750284396718
+        method: GET
+        parameters:
+          - name: cinema_id
+            disabled: true
+            value: string
+            id: pair_711b5b5354c24bf3ba53508158c428a2
+          - name: sala_id
+            disabled: true
+            value: string
+            id: pair_67bc93c8d29c46ae90bee74b37b98b74
+          - name: filme_id
+            disabled: true
+            value: b37485a7-fcac-4d6e-a924-80468c6b33c0
+            id: pair_01be1ff9b8514b1291a8f1969cd26c1d
+          - name: data_sessao
+            disabled: true
+            value: 2025-07-01T20:00:00
+            id: pair_b18a154cd7924331bbb8d665efcde683
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/sessoes/{{ _.sessao_id }}/assentos"
+        name: Lista os assentos da sessão com status
+        meta:
+          id: req_fc6a5073ec3845d7ab7a094d1f55f75e
+          created: 1750284396718
+          modified: 1750284396718
+          isPrivate: false
+          description: Retorna todos os assentos da sessão com seus respectivos status
+            (ocupado, reservado, disponível)
+          sortKey: -1750284396718
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/sessoes/{{ _.sessao_id }}/assentos/{{ _.assento_id }}"
+        name: Reservar assento
+        meta:
+          id: req_b016c61b2dad491abd64f3ef479e08e9
+          created: 1750284396719
+          modified: 1750286825042
+          isPrivate: false
+          description: Realiza a reserva de um assento para uma sessão. A reserva é válida
+            por 10 minutos.
+          sortKey: -1750284396719
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "tipo_ingresso": "meia"
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+            id: pair_0712e9b7305d4ef5a96c741bc088520f
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Pedidos
+    meta:
+      id: fld_93734558919c43b3b8eb3bccbdb27d38
+      created: 1750284396708
+      modified: 1750284769241
+      sortKey: -1750284396708
+      description: Criação, detalhamento e modificação de pedidos
+    children:
+      - url: "{{ _.base_url }}/pedidos/{{ _.pedido_id }}/checkout"
+        name: Realiza o checkout do pedido
+        meta:
+          id: req_1ee931d5385d49cdbda1b8298741f6e0
+          created: 1750284396717
+          modified: 1750285113959
+          isPrivate: false
+          description: Altera o status do pedido e dos ingressos para "em pagamento"
+          sortKey: -1750284396717
+        method: POST
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/pedidos"
+        name: Cria ou reutiliza um pedido pendente
+        meta:
+          id: req_295e28408e2d42e9ad26643fe4063475
+          created: 1750284396717
+          modified: 1750284778108
+          isPrivate: false
+          description: Inicia um novo pedido ou retorna o pedido pendente/em pagamento
+            existente
+          sortKey: -1750284396717
+        method: POST
+        body:
+          mimeType: application/json
+          text: "{}"
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/pedidos/{{ _.pedido_id }}"
+        name: Detalhes do pedido
+        meta:
+          id: req_d923aa7d12494975a0abcb07a69088c4
+          created: 1750284396717
+          modified: 1750285081775
+          isPrivate: false
+          description: Retorna as informações completas de um pedido específico
+          sortKey: -1750284396717
+        method: GET
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/pedidos/{{ _.pedido_id }}/itens"
+        name: Adicionar itens ao pedido
+        meta:
+          id: req_bf5f726ba0dc4b23bfd1197ea01638e9
+          created: 1750284396718
+          modified: 1750285065331
+          isPrivate: false
+          description: Adiciona produtos avulsos ou combos a um pedido existente
+          sortKey: -1750284396718
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            [
+              {
+                "item_id": "{{ _.produto_id }}",
+                "tipo": "avulso",
+                "quantidade": 10
+              },
+            	{
+                "item_id": "{{ _.combo_id }}",
+                "tipo": "combo",
+                "quantidade": 2
+              }
+            ]
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        authentication:
+          type: bearer
+          token: "{{ _.token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Ingressos
+    meta:
+      id: fld_fd57e4f64acf4af4b61257929b3fe0d5
+      created: 1750284396709
+      modified: 1750284396709
+      sortKey: -1750284396709
+      description: Consulta de sessões e assentos
+    children:
+      - url: "{{ _.base_url }}/ingressos/valor"
+        name: Consultar valor do ingresso
+        meta:
+          id: req_7c41fbd3e9aa4b3ab2bf71098c97e55d
+          created: 1750284396710
+          modified: 1750284913730
+          isPrivate: false
+          description: Retorna o valor de um ingresso com base no tipo informado inteira,
+            meia
+          sortKey: -1750284396710
+        method: GET
+        parameters:
+          - name: tipo_ingresso
+            disabled: false
+            value: meia
+            id: pair_95a7ed9d2cb14d0393d9f8f771484e9d
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Filmes
+    meta:
+      id: fld_0b21ac0eb675439e8072deae10452a8c
+      created: 1750284396710
+      modified: 1750284396710
+      sortKey: -1750284396710
+      description: Consulta de catálogo de filmes em exibição
+    children:
+      - url: "{{ _.base_url }}/filmes"
+        name: Lista os filmes
+        meta:
+          id: req_6701800c33594cf88d63cde2e48c9446
+          created: 1750284396711
+          modified: 1750284396711
+          isPrivate: false
+          description: Retorna a lista de filmes em exibição nos cinemas
+          sortKey: -1750284396711
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_c5efeaf8818f5646a199c9f9b751538b34ca1368
+    created: 1749919304803
+    modified: 1749919304803
+environments:
+  name: Base Environment
+  meta:
+    id: env_c5efeaf8818f5646a199c9f9b751538b34ca1368
+    created: 1749919304802
+    modified: 1750284396701
+    isPrivate: false
+  data:
+    base_url: "{{ _.scheme }}://{{ _.host }}{{ _.base_path }}"
+  subEnvironments:
+    - name: Testes Locais
+      meta:
+        id: env_4660a0fd48314fa4a934f3714992d95d
+        created: 1749939388173
+        modified: 1750286725362
+        isPrivate: false
+        sortKey: 1749939388173
+      data:
+        scheme: http
+        base_path: ""
+        host: localhost:8080
+        usuario_exemplo: 66233cc6-7d3e-4070-92fa-66c64093b006
+        token: "{% response 'body', 'req_e8d701da2d5d4552a1b10e217bf4da28',
+          'b64::JC5kYXRh::46b', 'always', 60 %}"
+        pedido_id: "{% response 'body', 'req_295e28408e2d42e9ad26643fe4063475',
+          'b64::JC5kYXRh::46b', 'always', 60 %}"
+        sessao_id: "{% response 'body', 'req_51f39eafcd254706a199f8065f4c3f3d',
+          'b64::JC5kYXRhWzBdLmlk::46b', 'always', 60 %}"
+        assento_id: "{% response 'body', 'req_fc6a5073ec3845d7ab7a094d1f55f75e',
+          'b64::JC5kYXRhWzBdLmFzc2VudG9faWQ=::46b', 'always', 60 %}"
+        combo_id: "{% response 'body', 'req_f4b2d825fff04ea89115d85501dd57ce',
+          'b64::JC5kYXRhWzBdLmlk::46b', 'always', 60 %}"
+        produto_id: "{% response 'body', 'req_c7cfa112df394a1183203d0cfe19c119',
+          'b64::JC5kYXRhWzBdLmlk::46b', 'always', 60 %}"
+spec:
+  contents:
+    openapi: 3.0.3
+    info:
+      title: API - Sistema de Bilhetagem
+      version: 1.0.0
+      description: API REST para gestão de reservas, compras de ingressos e produtos
+      contact:
+        name: PH Raulino
+        email: phraulino@outlook.com
+        url: https://github.com/phraulino
+    servers:
+      - url: http://localhost:8080
+        description: Ambiente de Desenvolvimento
+    tags:
+      - name: Produtos
+        description: Endpoints relacionados a produtos e combos
+      - name: Usuário
+        description: Endpoints para informações e histórico do usuário
+      - name: Pagamento
+        description: Processamento de pagamento e confirmação de pedidos
+      - name: Pedidos
+        description: Criação, detalhamento e modificação de pedidos
+      - name: Sessoes
+        description: Consulta de sessões e assentos
+      - name: Ingressos
+        description: Consulta de sessões e assentos
+      - name: Filmes
+        description: Consulta de catálogo de filmes em exibição
+    paths:
+      /ingressos/valor:
+        get:
+          summary: Consultar valor do ingresso
+          description: Retorna o valor de um ingresso com base no tipo informado inteira,
+            meia
+          operationId: consultaValorIngresso
+          tags:
+            - Ingressos
+          parameters:
+            - name: tipo_ingresso
+              in: query
+              required: true
+              schema:
+                type: string
+                enum:
+                  - inteira
+                  - meia
+              description: Tipo do ingresso (inteira ou meia)
+          responses:
+            "200":
+              description: Valor do ingresso retornado com sucesso
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      valor:
+                        type: number
+                        format: float
+                        example: 22.5
+            "400":
+              description: Tipo de ingresso inválido
+      /filmes:
+        get:
+          summary: Lista os filmes
+          description: Retorna a lista de filmes em exibição nos cinemas
+          operationId: listarFilmes
+          tags:
+            - Filmes
+          responses:
+            "200":
+              description: Lista de filmes
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Filme"
+                  example:
+                    data:
+                      - id: b37485a7-fcac-4d6e-a924-80468c6b33c0
+                        nome: A Volta dos Que Não Foram
+                        descricao: Uma comédia sobre improváveis heróis.
+                        capa: https://img.com/capa.jpg
+                        lancamento: 2025-07-01T00:00:00Z
+                        classificacao: "12"
+                        trailer: https://youtu.be/trailer
+      /produtos:
+        get:
+          summary: Lista os produtos
+          description: Retorna uma lista com todos os produtos avulsos disponíveis para
+            compra
+          operationId: listarProdutos
+          tags:
+            - Produtos
+          responses:
+            "200":
+              description: Lista de produtos
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Produto"
+                  example:
+                    data:
+                      - id: 27508be3-bac4-4483-a53f-8925dde988a4
+                        nome: Pipoca Média
+                        descricao: Pipoca salgada média.
+                        valor: 15
+                      - id: 5b6d14a4-3d73-4981-be91-653037cb4734
+                        nome: Refrigerante Lata
+                        descricao: Lata de refrigerante 350ml.
+                        valor: 8
+                      - id: 3525dd22-60f6-4891-bbfa-79cfe8481fe5
+                        nome: Chocolate
+                        descricao: Chocolate ao leite.
+                        valor: 6.5
+      /produtos/combos:
+        get:
+          summary: Lista os combos
+          description: Retorna todos os combos promocionais disponíveis
+          operationId: listarCombos
+          tags:
+            - Produtos
+          responses:
+            "200":
+              description: Lista de combos
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Combo"
+                  example:
+                    data:
+                      - id: 9073c461-2fad-4b33-963e-9961ad31868a
+                        nome: Combo Pipoca + Refri
+                        descricao: Pipoca média + Refrigerante
+                        valor: 22
+      /produtos/combos/{combo_id}:
+        get:
+          summary: Lista produtos do combo
+          description: Retorna todos os produtos que fazem parte de um combo específico
+          operationId: listarProdutosDoCombo
+          tags:
+            - Produtos
+          parameters:
+            - name: combo_id
+              in: path
+              required: true
+              schema:
+                type: string
+          responses:
+            "200":
+              description: Lista de produtos do combo
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Produto"
+                  example:
+                    data:
+                      - id: 27508be3-bac4-4483-a53f-8925dde988a4
+                        nome: Pipoca Média
+                        descricao: Pipoca salgada média.
+                        valor: 15
+                      - id: 5b6d14a4-3d73-4981-be91-653037cb4734
+                        nome: Refrigerante Lata
+                        descricao: Lata de refrigerante 350ml.
+                        valor: 8
+      /usuario/me:
+        get:
+          summary: Informações do usuário autenticado
+          description: Retorna os dados cadastrais do usuário com base no token JWT
+          operationId: obterUsuario
+          tags:
+            - Usuário
+          parameters:
+            - name: Authorization
+              in: header
+              required: true
+              schema:
+                type: string
+          responses:
+            "200":
+              description: Dados do usuário autenticado
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      data:
+                        $ref: "#/components/schemas/Usuario"
+                  example:
+                    data:
+                      id: 66233cc6-7d3e-4070-92fa-66c64093b006
+                      nome: PH Raulino
+                      email: user@example.com
+      /usuario/pedidos:
+        get:
+          summary: Lista os pedidos do usuário autenticado
+          description: Retorna os pedidos associados ao usuário, podendo ser filtrados por
+            status
+          operationId: listarPedidosUsuario
+          tags:
+            - Usuário
+          parameters:
+            - name: Authorization
+              in: header
+              required: true
+              schema:
+                type: string
+            - name: status
+              in: query
+              schema:
+                type: string
+                enum:
+                  - pendente
+                  - concluido
+          responses:
+            "200":
+              description: Lista de pedidos do usuário
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Pedido"
+                  example:
+                    data:
+                      - id: cc37f5d4-1e56-433a-bad3-f5b6d112269c
+                        usuario_id: 66233cc6-7d3e-4070-92fa-66c64093b006
+                        status: pendente
+                        data: 2025-06-18T21:08:14Z
+      /usuario/ingressos:
+        get:
+          summary: Lista os ingressos do usuário autenticado
+          description: Retorna os ingressos do usuário, podendo ser filtrados por status
+            de uso
+          operationId: listarIngressosUsuario
+          tags:
+            - Usuário
+          parameters:
+            - name: Authorization
+              in: header
+              required: true
+              schema:
+                type: string
+            - name: status
+              in: query
+              schema:
+                type: string
+                enum:
+                  - utilizados
+                  - disponiveis
+          responses:
+            "200":
+              description: Lista de ingressos do usuário
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Ingresso"
+                  example:
+                    data:
+                      - IngressoID: 26d5a604-7ff0-459a-9e9b-d930578bf6d5
+                        SessaoID: ceddee5e-b4df-4b12-a22f-e7e76aeb9d82
+                        AssentoID: 75be71fe-ce90-4429-9bc1-5b9cfd3f7ef1
+                        UsuarioID: 66233cc6-7d3e-4070-92fa-66c64093b006
+                        Valor: 15
+                        Status: reservado
+      /usuarios:
+        get:
+          summary: Lista todos os usuários cadastrados
+          description: Retorna uma lista completa de usuários do sistema (não autenticado)
+          operationId: listarUsuarios
+          tags:
+            - Usuário
+          responses:
+            "200":
+              description: Lista de usuários
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Usuario"
+                  example:
+                    data:
+                      - id: 66233cc6-7d3e-4070-92fa-66c64093b006
+                        nome: PH Raulino
+                        email: user@example.com
+                      - id: 897a8709-e40a-44d8-943a-e69dbd5847f0
+                        nome: Paulo Henrique
+                        email: phTest@email.com
+        post:
+          summary: Cria um novo usuário
+          description: Realiza o cadastro de um novo usuário
+          operationId: criarUsuario
+          tags:
+            - Usuário
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/UsuarioCadastro"
+                example:
+                  nome: Paulo Henrique raulino
+                  email: phTester@email.com
+          responses:
+            "201":
+              description: Usuário criado com sucesso
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      data:
+                        type: string
+                        format: uuid
+                  example:
+                    data: 29c33cf9-621c-4fa8-acc0-e7e019279309
+      /usuarios/token:
+        post:
+          summary: Gera token JWT para o usuário
+          description: Cria um token JWT com base no ID do usuário informado
+          operationId: gerarToken
+          tags:
+            - Usuário
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/UsuarioTokenRequest"
+                example:
+                  usuario_id: 66233cc6-7d3e-4070-92fa-66c64093b006
+          responses:
+            "200":
+              description: Token JWT gerado com sucesso
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/TokenResponse"
+                  example:
+                    data: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      /pagamento:
+        post:
+          summary: Realiza o pagamento de um pedido
+          description: Realiza o pagamento e registra a finalização de um pedido
+            previamente criado
+          operationId: realizarPagamento
+          tags:
+            - Pagamento
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/PagamentoRequest"
+                example:
+                  pedido_id: cc37f5d4-1e56-433a-bad3-f5b6d112269c
+          responses:
+            "201":
+              description: Pagamento processado com sucesso
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/PagamentoResponse"
+                  example:
+                    data:
+                      mensagem: Pagamento realizado com sucesso!
+                      valor: 15
+      /pedidos:
+        post:
+          summary: Cria ou reutiliza um pedido pendente
+          description: Inicia um novo pedido ou retorna o pedido pendente/em pagamento
+            existente
+          operationId: criarPedido
+          tags:
+            - Pedidos
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+          responses:
+            "201":
+              description: Pedido criado ou retornado com sucesso
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/PedidoIDResponse"
+      /pedidos/{pedido_id}:
+        get:
+          summary: Detalhes do pedido
+          description: Retorna as informações completas de um pedido específico
+          operationId: detalhesPedido
+          tags:
+            - Pedidos
+          parameters:
+            - name: pedido_id
+              in: path
+              required: true
+              schema:
+                type: string
+          responses:
+            "200":
+              description: Detalhes do pedido
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/PedidoDetalhadoResponse"
+      /pedidos/{pedido_id}/checkout:
+        post:
+          summary: Realiza o checkout do pedido
+          description: Altera o status do pedido e dos ingressos para "em pagamento"
+          operationId: checkoutPedido
+          tags:
+            - Pedidos
+          parameters:
+            - name: pedido_id
+              in: path
+              required: true
+              schema:
+                type: string
+          responses:
+            "200":
+              description: Checkout realizado com sucesso
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/MensagemResponse"
+      /pedidos/{pedido_id}/itens:
+        post:
+          summary: Adicionar itens ao pedido
+          description: Adiciona produtos avulsos ou combos a um pedido existente
+          operationId: adicionarItensPedido
+          tags:
+            - Pedidos
+          parameters:
+            - name: pedido_id
+              in: path
+              required: true
+              schema:
+                type: string
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ItensPedidoRequest"
+                example:
+                  - item_id: 27508be3-bac4-4483-a53f-8925dde988a4
+                    tipo: avulso
+                    quantidade: 2
+                  - item_id: 9073c461-2fad-4b33-963e-9961ad31868a
+                    tipo: combo
+                    quantidade: 1
+          responses:
+            "201":
+              description: Itens adicionados ao pedido com sucesso
+      /sessoes:
+        get:
+          summary: Lista todas as sessões por cinema e dia
+          description: Retorna a programação de sessões por cinema, sala, filme e/ou data
+          operationId: listarSessoes
+          tags:
+            - Sessoes
+          parameters:
+            - name: cinema_id
+              in: query
+              schema:
+                type: string
+            - name: sala_id
+              in: query
+              schema:
+                type: string
+            - name: filme_id
+              in: query
+              schema:
+                type: string
+            - name: data_sessao
+              in: query
+              schema:
+                type: string
+                format: date
+          responses:
+            "200":
+              description: Lista de sessões
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ListaSessoesResponse"
+      /sessoes/{sessao_id}/assentos:
+        get:
+          summary: Lista os assentos da sessão com status
+          description: Retorna todos os assentos da sessão com seus respectivos status
+            (ocupado, reservado, disponível)
+          operationId: listarAssentosSessao
+          tags:
+            - Sessoes
+          parameters:
+            - name: sessao_id
+              in: path
+              required: true
+              schema:
+                type: string
+          responses:
+            "200":
+              description: Lista de assentos
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ListaAssentosResponse"
+      /sessoes/{sessao_id}/assentos/{assento_id}:
+        post:
+          summary: Reservar assento
+          description: Realiza a reserva de um assento para uma sessão. A reserva é válida
+            por 10 minutos.
+          operationId: reservarAssento
+          tags:
+            - Sessoes
+          parameters:
+            - name: sessao_id
+              in: path
+              required: true
+              schema:
+                type: string
+            - name: assento_id
+              in: path
+              required: true
+              schema:
+                type: string
+            - name: Authorization
+              in: header
+              required: true
+              schema:
+                type: string
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  required:
+                    - tipo_ingresso
+                  properties:
+                    tipo_ingresso:
+                      type: string
+                      enum:
+                        - inteira
+                        - meia
+          responses:
+            "201":
+              description: Assento reservado com sucesso. Válido por 10 minutos.
+            "400":
+              description: Assento já foi reservado.
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErroPadrao"
+                  example:
+                    message: Assento já foi reservado
+            "404":
+              description: Sessão ou assento não encontrado.
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErroPadrao"
+                  example:
+                    message: Sessão ou assento não encontrado
+    components:
+      schemas:
+        Sessao:
+          type: object
+          properties:
+            id:
+              type: string
+            filme_id:
+              type: string
+            sala_id:
+              type: string
+            sala_descricao:
+              type: string
+            cinema:
+              type: string
+            status:
+              type: string
+            data_sessao:
+              type: string
+              format: date-time
+        ListaSessoesResponse:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/Sessao"
+        Assento:
+          type: object
+          properties:
+            assento_id:
+              type: string
+            sala_id:
+              type: string
+            status:
+              type: string
+              enum:
+                - disponivel
+                - reservado
+                - ocupado
+            fileira:
+              type: string
+            numero:
+              type: integer
+            descricao:
+              type: string
+        ListaAssentosResponse:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/Assento"
+        PedidoIDResponse:
+          type: object
+          properties:
+            data:
+              type: string
+              format: uuid
+              example: cc37f5d4-1e56-433a-bad3-f5b6d112269c
+        PedidoDetalhadoResponse:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                usuario_id:
+                  type: string
+                  format: uuid
+                status:
+                  type: string
+                  enum:
+                    - pendente
+                    - em_pagamento
+                    - pago
+                    - cancelado
+                data:
+                  type: string
+                  format: date-time
+                total:
+                  type: number
+                  example: 200
+                itens:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      nome:
+                        type: string
+                      descricao:
+                        type: string
+                      tipo:
+                        type: string
+                        enum:
+                          - avulso
+                          - combo
+                          - ingresso
+                      status:
+                        type: string
+                      quantidade:
+                        type: integer
+                      total:
+                        type: number
+                      dados_ingresso:
+                        type: object
+                        nullable: true
+                        properties:
+                          ingresso_id:
+                            type: string
+                            format: uuid
+                          assento_id:
+                            type: string
+                            format: uuid
+                          sessao_id:
+                            type: string
+                            format: uuid
+        ItensPedidoRequest:
+          type: array
+          items:
+            type: object
+            required:
+              - item_id
+              - tipo
+              - quantidade
+            properties:
+              item_id:
+                type: string
+                format: uuid
+              tipo:
+                type: string
+                enum:
+                  - avulso
+                  - combo
+              quantidade:
+                type: number
+                format: float
+        MensagemResponse:
+          type: object
+          properties:
+            data:
+              type: string
+              example: Checkout realizado com sucesso!
+        PagamentoRequest:
+          type: object
+          required:
+            - pedido_id
+          properties:
+            pedido_id:
+              type: string
+              format: uuid
+        PagamentoResponse:
+          type: object
+          properties:
+            data:
+              type: object
+              properties:
+                mensagem:
+                  type: string
+                  example: Pagamento realizado com sucesso!
+                valor:
+                  type: number
+                  example: 15
+        UsuarioCadastro:
+          type: object
+          required:
+            - nome
+            - email
+          properties:
+            nome:
+              type: string
+            email:
+              type: string
+              format: email
+        UsuarioTokenRequest:
+          type: object
+          required:
+            - usuario_id
+          properties:
+            usuario_id:
+              type: string
+              format: uuid
+        TokenResponse:
+          type: object
+          properties:
+            data:
+              type: string
+              description: JWT gerado
+        Usuario:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            nome:
+              type: string
+            email:
+              type: string
+              format: email
+        Pedido:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            usuario_id:
+              type: string
+              format: uuid
+            status:
+              type: string
+              enum:
+                - pendente
+                - concluido
+            data:
+              type: string
+              format: date-time
+        Ingresso:
+          type: object
+          properties:
+            IngressoID:
+              type: string
+            SessaoID:
+              type: string
+            AssentoID:
+              type: string
+            UsuarioID:
+              type: string
+            Valor:
+              type: number
+              format: float
+            Status:
+              type: string
+        Produto:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            nome:
+              type: string
+            descricao:
+              type: string
+            valor:
+              type: number
+              format: float
+        Combo:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            nome:
+              type: string
+            descricao:
+              type: string
+            valor:
+              type: number
+              format: float
+            produtos:
+              type: array
+              nullable: true
+              items:
+                $ref: "#/components/schemas/Produto"
+        ErroPadrao:
+          type: object
+          properties:
+            message:
+              type: string
+        Filme:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            nome:
+              type: string
+            descricao:
+              type: string
+            capa:
+              type: string
+              format: uri
+            lancamento:
+              type: string
+              format: date-time
+            classificacao:
+              type: string
+              description: Classificação indicativa do filme
+            trailer:
+              type: string
+              format: uri
+  meta:
+    id: spc_8c53b278aed64729beaf26391bae64d8
+    created: 1749919304799
+    modified: 1750284904997

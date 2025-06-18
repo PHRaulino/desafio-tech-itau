@@ -7,12 +7,11 @@ type Pedido struct {
 	UsuarioID  string    `json:"usuario_id"`
 	Status     string    `json:"status"`
 	DataPedido time.Time `json:"data"`
-	Total      float64   `json:"total"`
 }
 
 type PedidosFiltros struct {
-	UsuarioID string `json:"status"`
-	Status    string `json:"usuario_id"`
+	UsuarioID *string `json:"status"`
+	Status    *string `json:"usuario_id"`
 }
 
 type PedidoCompleto struct {

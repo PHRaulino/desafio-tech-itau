@@ -55,5 +55,5 @@ func (h *IngressoHandler) consultaValorIngresso(w httpPorts.Response, r httpPort
 
 func (h *IngressoHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router := *httpRouter
-	router.HandleFunc("GET /ingresso/valor", h.consultaValorIngresso)
+	router.HandleFunc("GET /ingressos/valor", h.consultaValorIngresso)
 }

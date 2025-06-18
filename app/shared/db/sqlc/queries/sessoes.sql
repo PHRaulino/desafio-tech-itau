@@ -51,7 +51,7 @@ WITH assentos_sessao as (
     SELECT ingressos.assento_id, ingressos.status FROM ingressos
     WHERE ingressos.sessao_id = :sessao_id
     AND ingressos.status NOT IN ('expirado', 'invalido')
-)
+), todos_assento as (
 SELECT
     assentos_sessao.id as assento_id,
     assentos_sessao.sala_id,
@@ -66,7 +66,10 @@ SELECT
 END AS VARCHAR) AS status
 FROM assentos_sessao
 LEFT JOIN ingressos_sessao
-ON assentos_sessao.id = ingressos_sessao.assento_id;
+ON assentos_sessao.id = ingressos_sessao.assento_id)
+SELECT * FROM todos_assento
+ORDER BY status
+;
 
 -- name: ListaAssentosReservados :many
 SELECT ingressos.id FROM ingressos

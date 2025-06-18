@@ -8,6 +8,7 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/pagamentos/usecases"
 	httpHelpers "github.com/phraulino/cinetuber/shared/http/httpHelpers"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
+	"github.com/phraulino/cinetuber/shared/middlewares"
 )
 
 type PagamentoHandler struct {
@@ -24,7 +25,7 @@ func NewPagamentoHandler(
 
 func (h *PagamentoHandler) efetuarPagamento(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
-	_, err := httpHelpers.UsuarioAutenticado(r.Context())
+	_, err := httpHelpers.UsuarioAutenticado(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
 		return
@@ -64,5 +65,6 @@ func (h *PagamentoHandler) efetuarPagamento(w httpPorts.Response, r httpPorts.Re
 
 func (h *PagamentoHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router := *httpRouter
-	router.HandleFunc("POST /pagamento", h.efetuarPagamento)
+	authMW := middlewares.Auth()
+	router.HandleFunc("POST /pagamento", authMW(h.efetuarPagamento))
 }

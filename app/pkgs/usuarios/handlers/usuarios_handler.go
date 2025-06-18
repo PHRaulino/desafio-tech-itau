@@ -100,7 +100,7 @@ func (h *UsuariosHandler) listaUsuarios(w httpPorts.Response, r httpPorts.Reques
 func (h *UsuariosHandler) listaIngressosUsuarios(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
-	usuarioToken, err := httpHelpers.UsuarioAutenticado(r.Context())
+	usuarioToken, err := httpHelpers.UsuarioAutenticado(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
 		return
@@ -129,7 +129,7 @@ func (h *UsuariosHandler) listaIngressosUsuarios(w httpPorts.Response, r httpPor
 func (h *UsuariosHandler) listaPedidosUsuarios(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
-	usuarioToken, err := httpHelpers.UsuarioAutenticado(r.Context())
+	usuarioToken, err := httpHelpers.UsuarioAutenticado(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
 		return
@@ -158,7 +158,7 @@ func (h *UsuariosHandler) listaPedidosUsuarios(w httpPorts.Response, r httpPorts
 func (h *UsuariosHandler) buscaUsuario(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
-	usuarioToken, err := httpHelpers.UsuarioAutenticado(r.Context())
+	usuarioToken, err := httpHelpers.UsuarioAutenticado(ctx)
 	if err != nil {
 		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
 		return
@@ -227,7 +227,7 @@ func (h *UsuariosHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router.HandleFunc("GET /usuarios", h.listaUsuarios)
 	router.HandleFunc("POST /usuarios", h.criaUsuario)
 	router.HandleFunc("POST /usuarios/token", h.geraToken)
-	router.HandleFunc("GET /usuarios/me", authMW(h.buscaUsuario))
-	router.HandleFunc("GET /usuarios/ingressos", authMW(h.listaIngressosUsuarios))
-	router.HandleFunc("GET /usuarios/pedidos", authMW(h.listaPedidosUsuarios))
+	router.HandleFunc("GET /usuario/me", authMW(h.buscaUsuario))
+	router.HandleFunc("GET /usuario/ingressos", authMW(h.listaIngressosUsuarios))
+	router.HandleFunc("GET /usuario/pedidos", authMW(h.listaPedidosUsuarios))
 }
