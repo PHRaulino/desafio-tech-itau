@@ -9,6 +9,7 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/pedidos/usecases"
 	httpHelpers "github.com/phraulino/cinetuber/shared/http/httpHelpers"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
+	"github.com/phraulino/cinetuber/shared/middlewares"
 )
 
 type PedidosHandler struct {
@@ -37,6 +38,12 @@ func NewPedidosHandler(
 
 func (h *PedidosHandler) consultaPedido(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
+
+	_, err := httpHelpers.UsuarioAutenticado(r.Context())
+	if err != nil {
+		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
+		return
+	}
 
 	pedidoID := r.PathValue("pedido_id")
 
@@ -91,9 +98,13 @@ func (h *PedidosHandler) listaPedidos(w httpPorts.Response, r httpPorts.Request)
 func (h *PedidosHandler) criaPedido(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
-	usuarioID := r.GetQueryParams("usuario_id")
+	usuarioToken, err := httpHelpers.UsuarioAutenticado(r.Context())
+	if err != nil {
+		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
+		return
+	}
 
-	pedidoID, err := h.criaPedidoUseCase.Execute(ctx, usuarioID)
+	pedidoID, err := h.criaPedidoUseCase.Execute(ctx, usuarioToken.ID)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusNotFound)
 		return
@@ -116,9 +127,15 @@ func (h *PedidosHandler) criaPedido(w httpPorts.Response, r httpPorts.Request) {
 func (h *PedidosHandler) checkoutPedido(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
+	_, err := httpHelpers.UsuarioAutenticado(r.Context())
+	if err != nil {
+		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
+		return
+	}
+
 	pedidoID := r.PathValue("pedido_id")
 
-	err := h.checkoutPedidoUseCase.Execute(ctx, pedidoID)
+	err = h.checkoutPedidoUseCase.Execute(ctx, pedidoID)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusBadRequest)
 		return
@@ -140,6 +157,12 @@ func (h *PedidosHandler) checkoutPedido(w httpPorts.Response, r httpPorts.Reques
 
 func (h *PedidosHandler) adicionaItemAoPedido(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
+
+	_, err := httpHelpers.UsuarioAutenticado(r.Context())
+	if err != nil {
+		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
+		return
+	}
 
 	pedidoID := r.PathValue("pedido_id")
 
@@ -173,9 +196,10 @@ func (h *PedidosHandler) adicionaItemAoPedido(w httpPorts.Response, r httpPorts.
 
 func (h *PedidosHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router := *httpRouter
-	router.HandleFunc("POST /pedidos", h.criaPedido)
+	authMW := middlewares.Auth()
+	router.HandleFunc("POST /pedidos", authMW(h.criaPedido))
 	router.HandleFunc("GET /pedidos", h.listaPedidos)
-	router.HandleFunc("GET /pedidos/{pedido_id}", h.consultaPedido)
-	router.HandleFunc("POST /pedidos/{pedido_id}/checkout", h.checkoutPedido)
-	router.HandleFunc("POST /pedidos/{pedido_id}/itens", h.adicionaItemAoPedido)
+	router.HandleFunc("GET /pedidos/{pedido_id}", authMW(h.consultaPedido))
+	router.HandleFunc("POST /pedidos/{pedido_id}/checkout", authMW(h.checkoutPedido))
+	router.HandleFunc("POST /pedidos/{pedido_id}/itens", authMW(h.adicionaItemAoPedido))
 }

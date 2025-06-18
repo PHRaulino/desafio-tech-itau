@@ -24,6 +24,12 @@ func NewPagamentoHandler(
 
 func (h *PagamentoHandler) efetuarPagamento(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
+	_, err := httpHelpers.UsuarioAutenticado(r.Context())
+	if err != nil {
+		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
+		return
+	}
+
 	bodyBytes, err := r.GetBody()
 	if err != nil {
 		httpHelpers.HTTPError(w, "failed to read request body", http.StatusBadRequest)

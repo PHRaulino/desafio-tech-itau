@@ -10,9 +10,9 @@ import (
 	ingressosHandler "github.com/phraulino/cinetuber/pkgs/ingressos/handlers"
 	pagamentoHandler "github.com/phraulino/cinetuber/pkgs/pagamentos/handlers"
 	pedidosHandler "github.com/phraulino/cinetuber/pkgs/pedidos/handlers"
-	usuariosHandler "github.com/phraulino/cinetuber/pkgs/usuarios/handlers"
 	produtosHandler "github.com/phraulino/cinetuber/pkgs/produtos/handlers"
 	sessoesHandler "github.com/phraulino/cinetuber/pkgs/sessoes/handlers"
+	usuariosHandler "github.com/phraulino/cinetuber/pkgs/usuarios/handlers"
 	httpAdapter "github.com/phraulino/cinetuber/shared/adapters/http/net_http"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
 )

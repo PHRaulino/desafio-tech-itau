@@ -10,6 +10,7 @@ import (
 	"github.com/phraulino/cinetuber/pkgs/sessoes/usecases"
 	httpHelpers "github.com/phraulino/cinetuber/shared/http/httpHelpers"
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
+	"github.com/phraulino/cinetuber/shared/middlewares"
 )
 
 type SessoesHandler struct {
@@ -148,6 +149,12 @@ func (h *SessoesHandler) listaAssentos(w httpPorts.Response, r httpPorts.Request
 func (h *SessoesHandler) reservarAssento(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
+	usuarioToken, err := httpHelpers.UsuarioAutenticado(r.Context())
+	if err != nil {
+		httpHelpers.HTTPError(w, "Não autorizado", http.StatusUnauthorized)
+		return
+	}
+
 	assentoID := r.PathValue("assento_id")
 	if assentoID == "" {
 		httpHelpers.HTTPError(w, errors.ErrNenhumaSessaoValidaPassada.Error(), http.StatusBadRequest)
@@ -166,13 +173,16 @@ func (h *SessoesHandler) reservarAssento(w httpPorts.Response, r httpPorts.Reque
 		return
 	}
 
-	var payloadReserva *core.CriaReserva
+	var payloadReserva struct {
+		TipoIngresso string `json:"tipo_ingresso"`
+	}
+
 	if err := json.Unmarshal(bodyBytes, &payloadReserva); err != nil {
 		httpHelpers.HTTPError(w, "payload invalido para criar a reserva", http.StatusBadRequest)
 		return
 	}
 
-	err = h.criaReservaUseCase.Execute(ctx, sessaoID, payloadReserva.UsuarioID, assentoID, payloadReserva.TipoIngresso)
+	err = h.criaReservaUseCase.Execute(ctx, sessaoID, usuarioToken.ID, assentoID, payloadReserva.TipoIngresso)
 	if err != nil {
 		httpHelpers.HTTPError(w, err.Error(), http.StatusBadRequest)
 		return
@@ -183,8 +193,9 @@ func (h *SessoesHandler) reservarAssento(w httpPorts.Response, r httpPorts.Reque
 
 func (h *SessoesHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router := *httpRouter
+	authMW := middlewares.Auth()
 	router.HandleFunc("POST /sessoes", h.criaSessao)
 	router.HandleFunc("GET /sessoes", h.listaSessoes)
 	router.HandleFunc("GET /sessoes/{sessao_id}/assentos", h.listaAssentos)
-	router.HandleFunc("POST /sessoes/{sessao_id}/assentos/{assento_id}", h.reservarAssento)
+	router.HandleFunc("POST /sessoes/{sessao_id}/assentos/{assento_id}", authMW(h.reservarAssento))
 }

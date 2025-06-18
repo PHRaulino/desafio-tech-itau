@@ -23,7 +23,7 @@ func NewIngressoHandler(
 	}
 }
 
-func (h *IngressoHandler) listarFilmes(w httpPorts.Response, r httpPorts.Request) {
+func (h *IngressoHandler) consultaValorIngresso(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 
 	tipoIngresso := r.GetQueryParams("tipo_ingresso")
@@ -55,5 +55,5 @@ func (h *IngressoHandler) listarFilmes(w httpPorts.Response, r httpPorts.Request
 
 func (h *IngressoHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router := *httpRouter
-	router.HandleFunc("GET /ingresso/valor", h.listarFilmes)
+	router.HandleFunc("GET /ingresso/valor", h.consultaValorIngresso)
 }
