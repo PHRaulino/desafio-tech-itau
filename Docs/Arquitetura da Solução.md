@@ -14,8 +14,8 @@ Cada entidade principal do sistema está representada por um pacote Go independe
 - **Usuário**
 - **Pagamento**
 - **Pedidos**
-- **Reservas**
 - **Sessões**
+- **Ingressos**
 - **Filmes**
 
 Cada pacote é responsável por:
@@ -45,7 +45,7 @@ Apesar da separação por domínio, as seguintes camadas são compartilhadas ent
 A camada de entrega (delivery) é composta por handlers HTTP que expõem os casos de uso. Essa camada é responsável por:
 
 - Mapear as rotas da API REST
-- Realizar a autenticação/autorizacção (se aplicável)
+- Realizar a autenticação/autorização (se aplicável)
 - Realizar parse/validação dos dados de entrada
 - Encaminhar para o caso de uso correspondente
 

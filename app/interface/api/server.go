@@ -21,22 +21,7 @@ type Handler interface {
 	RegisterRoutes(router *httpPorts.Router)
 }
 
-func New() {
-	db, err := sql.Open("sqlite3", "cinetuber.db")
-	if err != nil {
-		log.Fatalf("Erro ao abrir a conexão com o banco de dados: %v", err)
-	}
-	defer func() {
-		if err := db.Close(); err != nil {
-			log.Fatalf("Erro ao fechar a conexão com o banco de dados: %v", err)
-		}
-	}()
-
-	_, err = db.Exec("PRAGMA foreign_keys = ON;")
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func New(db *sql.DB) {
 	var router httpPorts.Router = httpAdapter.NewNetHTTPRouterAdapter()
 
 	handlers := []Handler{

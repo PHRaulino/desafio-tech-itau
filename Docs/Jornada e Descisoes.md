@@ -19,21 +19,10 @@ O Contexto do serviço: a solução será exclusiva para o contexto de cinema
 Stacks de desenvolvimento: Go (Backend) - Angular (Frontend)
 Escala da aplicação: Regionalizada focada em SP
 Principio: O desenvolvimento do sistema será orientado a partir da definição da API, que funcionará como o contrato principal entre serviços, frontend, ou qualquer integração externa.
-Estudos e analises para definir arquitetura AWS:
-    - Publico Alvo
-    - Venda de ingressos vs Bomboniere
-    - De acordo com o publico quais produtos poderiam ser listado primeiro?
-    - Média de utilização (Pré e Pós Lancamentos)
-
-#### Feature Bonus caso dê tempo
-    - Serviço que classifica um lançamento e escala preditivamente a infra para atender a demanda (Metrica Simples Google trends ou IA)
-    - Classificação de items após a reserva de ingressos
-    - Login Oauth Google
 
 ### O que irei entregar ao Final deste case
 
-MVP Funcional para apresentação Back e Front
-Estudo sobre o Cinema
+MVP Funcional para apresentação (Back)
 Desenho de arquitetura do projeto para AWS
 
 
@@ -48,22 +37,3 @@ Desenho de arquitetura do projeto para AWS
 - Desenvolver a API
 - Criar os testes
 - Criar script de seed (para popular os dados de cinema, sessão e etc)
-
-### Frontend
-
-- Criar paleta de cores para o projeto
-- Criar wireframe para o fluxos que o usuário irá fazer
-- Criar design no figma (Opcional se der tempo)
-- Criar criar infra do front, adicionar o build em rota do servidor para empacotar tudo junto
-- Criar components reutilizáveis
-- Desenvolver as telas
-
-### Arquitetura AWS
-
-- Analisar estudo
-	- Publico Alvo
-    - Venda de ingressos vs Bomboniere
-    - De acordo com o publico quais produtos poderiam ser listado primeiro?
-    - Média de utilização (Pré e Pós Lancamentos)
-- Criar desenho a partir do dados
-- Finalizar documentações
