@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/phraulino/cinetuber/docs"
+
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
 )
 
@@ -149,4 +151,9 @@ type statusRecorder struct {
 func (rec *statusRecorder) WriteHeader(code int) {
 	rec.status = code
 	rec.ResponseWriter.WriteHeader(code)
+}
+
+func (r *NetHTTPRouterAdapter) ServeOpenAPIDocs() {
+	fs := http.FileServer(http.FS(docs.OpenAPIFS))
+	r.mux.Handle("/docs/", http.StripPrefix("/docs/", fs))
 }

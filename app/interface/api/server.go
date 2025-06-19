@@ -36,6 +36,11 @@ func New(db *sql.DB) {
 		h.RegisterRoutes(&router)
 	}
 
+	routerAdapter, ok := router.(*httpAdapter.NetHTTPRouterAdapter)
+	if ok {
+		routerAdapter.ServeOpenAPIDocs()
+	}
+
 	if err := router.ListenAndServe("8080"); err != nil {
 		log.Fatal("Falha ao iniciar o servidor: ", err)
 	}

@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.1.3
 info:
   title: API - Sistema de Bilhetagem
   version: 1.0.0
@@ -7,7 +7,6 @@ info:
     name: PH Raulino
     email: phraulino@outlook.com
     url: https://github.com/phraulino
-
 
 servers:
   - url: http://localhost:8080
@@ -45,7 +44,7 @@ paths:
             enum: [inteira, meia]
           description: Tipo do ingresso (inteira ou meia)
       responses:
-        '200':
+        "200":
           description: Valor do ingresso retornado com sucesso
           content:
             application/json:
@@ -56,7 +55,7 @@ paths:
                     type: number
                     format: float
                     example: 22.50
-        '400':
+        "400":
           description: Tipo de ingresso inválido
   /filmes:
     get:
@@ -65,7 +64,7 @@ paths:
       operationId: listarFilmes
       tags: [Filmes]
       responses:
-        '200':
+        "200":
           description: Lista de filmes
           content:
             application/json:
@@ -75,7 +74,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Filme'
+                      $ref: "#/components/schemas/Filme"
               example:
                 data:
                   - id: b37485a7-fcac-4d6e-a924-80468c6b33c0
@@ -92,7 +91,7 @@ paths:
       operationId: listarProdutos
       tags: [Produtos]
       responses:
-        '200':
+        "200":
           description: Lista de produtos
           content:
             application/json:
@@ -102,7 +101,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Produto'
+                      $ref: "#/components/schemas/Produto"
               example:
                 data:
                   - id: "27508be3-bac4-4483-a53f-8925dde988a4"
@@ -124,7 +123,7 @@ paths:
       operationId: listarCombos
       tags: [Produtos]
       responses:
-        '200':
+        "200":
           description: Lista de combos
           content:
             application/json:
@@ -134,7 +133,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Combo'
+                      $ref: "#/components/schemas/Combo"
               example:
                 data:
                   - id: "9073c461-2fad-4b33-963e-9961ad31868a"
@@ -155,7 +154,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Lista de produtos do combo
           content:
             application/json:
@@ -165,7 +164,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Produto'
+                      $ref: "#/components/schemas/Produto"
               example:
                 data:
                   - id: "27508be3-bac4-4483-a53f-8925dde988a4"
@@ -189,7 +188,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Dados do usuário autenticado
           content:
             application/json:
@@ -197,7 +196,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Usuario'
+                    $ref: "#/components/schemas/Usuario"
               example:
                 data:
                   id: "66233cc6-7d3e-4070-92fa-66c64093b006"
@@ -221,7 +220,7 @@ paths:
             type: string
             enum: [pendente, concluido]
       responses:
-        '200':
+        "200":
           description: Lista de pedidos do usuário
           content:
             application/json:
@@ -231,7 +230,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Pedido'
+                      $ref: "#/components/schemas/Pedido"
               example:
                 data:
                   - id: "cc37f5d4-1e56-433a-bad3-f5b6d112269c"
@@ -256,7 +255,7 @@ paths:
             type: string
             enum: [utilizados, disponiveis]
       responses:
-        '200':
+        "200":
           description: Lista de ingressos do usuário
           content:
             application/json:
@@ -266,7 +265,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Ingresso'
+                      $ref: "#/components/schemas/Ingresso"
               example:
                 data:
                   - IngressoID: "26d5a604-7ff0-459a-9e9b-d930578bf6d5"
@@ -282,7 +281,7 @@ paths:
       operationId: listarUsuarios
       tags: [Usuário]
       responses:
-        '200':
+        "200":
           description: Lista de usuários
           content:
             application/json:
@@ -292,7 +291,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Usuario'
+                      $ref: "#/components/schemas/Usuario"
               example:
                 data:
                   - id: "66233cc6-7d3e-4070-92fa-66c64093b006"
@@ -311,12 +310,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UsuarioCadastro'
+              $ref: "#/components/schemas/UsuarioCadastro"
             example:
               nome: "Paulo Henrique raulino"
               email: "phTester@email.com"
       responses:
-        '201':
+        "201":
           description: Usuário criado com sucesso
           content:
             application/json:
@@ -339,16 +338,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UsuarioTokenRequest'
+              $ref: "#/components/schemas/UsuarioTokenRequest"
             example:
               usuario_id: "66233cc6-7d3e-4070-92fa-66c64093b006"
       responses:
-        '200':
+        "200":
           description: Token JWT gerado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TokenResponse'
+                $ref: "#/components/schemas/TokenResponse"
               example:
                 data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
   /pagamento:
@@ -362,16 +361,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PagamentoRequest'
+              $ref: "#/components/schemas/PagamentoRequest"
             example:
               pedido_id: "cc37f5d4-1e56-433a-bad3-f5b6d112269c"
       responses:
-        '201':
+        "201":
           description: Pagamento processado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PagamentoResponse'
+                $ref: "#/components/schemas/PagamentoResponse"
               example:
                 data:
                   mensagem: "Pagamento realizado com sucesso!"
@@ -390,12 +389,12 @@ paths:
               type: object
               example: {}
       responses:
-        '201':
+        "201":
           description: Pedido criado ou retornado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PedidoIDResponse'
+                $ref: "#/components/schemas/PedidoIDResponse"
   /pedidos/{pedido_id}:
     get:
       summary: Detalhes do pedido
@@ -409,12 +408,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Detalhes do pedido
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PedidoDetalhadoResponse'
+                $ref: "#/components/schemas/PedidoDetalhadoResponse"
   /pedidos/{pedido_id}/checkout:
     post:
       summary: Realiza o checkout do pedido
@@ -428,12 +427,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Checkout realizado com sucesso
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MensagemResponse'
+                $ref: "#/components/schemas/MensagemResponse"
   /pedidos/{pedido_id}/itens:
     post:
       summary: Adicionar itens ao pedido
@@ -451,7 +450,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ItensPedidoRequest'
+              $ref: "#/components/schemas/ItensPedidoRequest"
             example:
               - item_id: "27508be3-bac4-4483-a53f-8925dde988a4"
                 tipo: "avulso"
@@ -460,7 +459,7 @@ paths:
                 tipo: "combo"
                 quantidade: 1
       responses:
-        '201':
+        "201":
           description: Itens adicionados ao pedido com sucesso
   /sessoes:
     get:
@@ -487,12 +486,12 @@ paths:
             type: string
             format: date
       responses:
-        '200':
+        "200":
           description: Lista de sessões
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListaSessoesResponse'
+                $ref: "#/components/schemas/ListaSessoesResponse"
 
   /sessoes/{sessao_id}/assentos:
     get:
@@ -507,12 +506,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Lista de assentos
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListaAssentosResponse'
+                $ref: "#/components/schemas/ListaAssentosResponse"
   /sessoes/{sessao_id}/assentos/{assento_id}:
     post:
       summary: Reservar assento
@@ -548,25 +547,24 @@ paths:
                   type: string
                   enum: [inteira, meia]
       responses:
-        '201':
+        "201":
           description: Assento reservado com sucesso. Válido por 10 minutos.
-        '400':
+        "400":
           description: Assento já foi reservado.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErroPadrao'
+                $ref: "#/components/schemas/ErroPadrao"
               example:
                 message: "Assento já foi reservado"
-        '404':
+        "404":
           description: Sessão ou assento não encontrado.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErroPadrao'
+                $ref: "#/components/schemas/ErroPadrao"
               example:
                 message: "Sessão ou assento não encontrado"
-
 
 components:
   schemas:
@@ -595,7 +593,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Sessao'
+            $ref: "#/components/schemas/Sessao"
 
     Assento:
       type: object
@@ -620,7 +618,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Assento'
+            $ref: "#/components/schemas/Assento"
     PedidoIDResponse:
       type: object
       properties:
@@ -821,7 +819,7 @@ components:
           type: array
           nullable: true
           items:
-            $ref: '#/components/schemas/Produto'
+            $ref: "#/components/schemas/Produto"
     ErroPadrao:
       type: object
       properties:

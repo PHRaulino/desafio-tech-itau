@@ -11,5 +11,5 @@ type Combo struct {
 	Nome      string    `json:"nome"`
 	Descricao string    `json:"descricao"`
 	Valor     float64   `json:"valor"`
-	Produtos  []Produto `json:"produtos"`
+	Produtos  []Produto `json:"produtos,omitempty"`
 }
