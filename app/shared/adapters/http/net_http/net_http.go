@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 
 	httpPorts "github.com/phraulino/cinetuber/shared/http/ports"
 )
@@ -117,6 +118,35 @@ func (r *NetHTTPRouterAdapter) GetMux() *http.ServeMux {
 }
 
 func (r *NetHTTPRouterAdapter) ListenAndServe(port string) error {
+	loggedHandler := http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		start := time.Now()
+		path := req.URL.Path
+		method := req.Method
+
+		// Captura status com um wrapper
+		wrapped := &statusRecorder{ResponseWriter: w, status: 200}
+		r.mux.ServeHTTP(wrapped, req)
+
+		duration := time.Since(start)
+		fmt.Printf("[HTTP] %s %s -> %d (%s) UA: %s\n",
+			method,
+			path,
+			wrapped.status,
+			duration,
+			req.Header.Get("User-Agent"),
+		)
+	})
+
 	fmt.Printf("Servidor rodando na porta %s\n", port)
-	return http.ListenAndServe(fmt.Sprintf(":%s", port), r.mux)
+	return http.ListenAndServe(fmt.Sprintf(":%s", port), loggedHandler)
+}
+
+type statusRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (rec *statusRecorder) WriteHeader(code int) {
+	rec.status = code
+	rec.ResponseWriter.WriteHeader(code)
 }
