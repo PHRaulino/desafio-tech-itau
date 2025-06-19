@@ -18,7 +18,7 @@ func NewSQLiteConnection(path string) *sql.DB {
 	_, err := os.Stat(path)
 	dbExists := err == nil
 
-	db, err := sql.Open("sqlite3", path)
+	db, err := sql.Open("sqlite", path)
 	if err != nil {
 		log.Fatalf("Erro ao abrir o banco: %v", err)
 	}

@@ -4,8 +4,6 @@ import (
 	"database/sql"
 	"log"
 
-	_ "github.com/mattn/go-sqlite3"
-
 	filmesHandler "github.com/phraulino/cinetuber/pkgs/filmes/handlers"
 	ingressosHandler "github.com/phraulino/cinetuber/pkgs/ingressos/handlers"
 	pagamentoHandler "github.com/phraulino/cinetuber/pkgs/pagamentos/handlers"
