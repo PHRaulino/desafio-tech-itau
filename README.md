@@ -1,59 +1,83 @@
-## Visão Geral
+# 🎟️ Sistema de Bilhetagem – Case Técnico
 
-A solução é estruturada com foco em escalabilidade e organização modular de código, aproveitando as boas práticas de separação de responsabilidades. A linguagem utilizada é Go, e mesmo com uma única base de código, os serviços são organizados de forma isolada em pacotes, simulando uma arquitetura de microserviços dentro de um monorepo.
+## 🔍 Visão Geral
 
-Essa organização permite que, no futuro, cada pacote possa ser extraído e convertido em um serviço independente com mínimo acoplamento.
+Esta solução foi projetada com foco em **escalabilidade**, **modularidade** e **organização de código**, aproveitando os princípios de separação de responsabilidades e orientação a domínios.
+
+A aplicação foi desenvolvida em **Go**, utilizando uma única base de código (`monorepo`) organizada em pacotes isolados que simulam uma arquitetura de microserviços. Essa estrutura permite que, futuramente, os pacotes possam ser extraídos como serviços independentes com **mínimo acoplamento**.
 
 ---
 
-## Estrutura de Pacotes por Domínio
+## 🧱 Estrutura Modular por Domínio
 
-Cada entidade principal do sistema está representada por um pacote Go independente, contendo suas regras de domínio e casos de uso (use cases). Os pacotes definidos no projeto são:
+Cada domínio principal do sistema está representado por um pacote Go independente, contendo:
 
-- **Produtos**
-- **Usuário**
-- **Pagamento**
-- **Pedidos**
-- **Sessões**
-- **Ingressos**
-- **Filmes**
+- Definição das **entidades**
+- Implementação dos **casos de uso (use cases)**
+- **Validações** específicas do domínio
 
-Cada pacote é responsável por:
-- Definir suas **entidades** e regras de negócio.
-- Implementar seus **casos de uso**.
-- Realizar **validações** específicas do domínio.
+### 📦 Pacotes existentes:
+
+- `produtos`
+- `usuarios`
+- `pagamentos`
+- `pedidos`
+- `sessoes`
+- `ingressos`
+- `filmes`
+
 ---
-## Compartilhamento de Camadas
 
-Apesar da separação por domínio, as seguintes camadas são compartilhadas entre os pacotes:
+## 🔗 Camadas Compartilhadas
 
-### Repositories
+Algumas camadas são compartilhadas entre os domínios para promover reaproveitamento de código e consistência:
 
-- Interfaces que definem os contratos de acesso a dados (PostgreSQL, Redis, etc).
-- Implementações concretas compartilhadas entre os serviços, quando aplicável.
+### 🔄 Repositories
 
-### Adapters
+- Interfaces que definem contratos para acesso a dados (PostgreSQL, Redis, etc).
+- Implementações concretas reutilizáveis por múltiplos domínios.
 
-- Implementações de integração externa e persistência.
+### 🔌 Adapters
+
+- Cuidam da integração com recursos externos ou infraestrutura.
 - Exemplos:
-    - Adaptador SQL (PostgreSQL)
-    - Adaptador Redis (cache e reserva de assentos)
-
----
-## Interface de Entrada
-
-A camada de entrega (delivery) é composta por handlers HTTP que expõem os casos de uso. Essa camada é responsável por:
-
-- Mapear as rotas da API REST
-- Realizar a autenticação/autorização (se aplicável)
-- Realizar parse/validação dos dados de entrada
-- Encaminhar para o caso de uso correspondente
+  - Adaptador SQL para PostgreSQL/SQLite
+  - Adaptador Redis para cache e controle de assentos
 
 ---
 
-## Benefícios dessa Estrutura
+## 🌐 Interface de Entrada
 
-- **Escalabilidade**: facilita transformação de pacotes em microserviços reais no futuro.
-- **Organização**: separa responsabilidades de forma clara e intuitiva.
-- **Testabilidade**: cada pacote pode ser testado isoladamente.
-- **Baixo acoplamento**: cada módulo tem dependências mínimas entre si.
+A camada de **entrega** (delivery) é composta por handlers HTTP responsáveis por:
+
+- Mapeamento das rotas REST da API
+- Autenticação e autorização (quando necessário)
+- Validação e parsing de entrada
+- Encaminhamento das chamadas para os casos de uso
+
+---
+
+## ✅ Benefícios da Arquitetura
+
+- **Escalável**: fácil evolução para uma arquitetura baseada em microserviços reais.
+- **Organizada**: estrutura clara e separada por contexto de negócio.
+- **Testável**: pacotes isolados com lógica de domínio facilmente testável.
+- **Desacoplada**: baixa dependência entre módulos.
+
+---
+
+## 🧭 Diagramas
+
+### 🗂️ Arquitetura da Solução
+
+> Representação de alto nível da estrutura de serviços e integrações.
+
+![Arquitetura da Solução](Docs/imgs/Arquitetura%20Case.png)
+
+---
+
+### 🧩 Modelagem de Domínio
+
+> Diagrama ER com relacionamentos entre entidades do sistema.
+
+![Modelagem de Domínio](Docs/imgs/Modelagem%20Case%20Itau%20-%20PH.png)
