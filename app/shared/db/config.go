@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 //go:embed sqlc/schema.sql
