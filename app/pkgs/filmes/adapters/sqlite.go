@@ -5,6 +5,7 @@ import (
 	"database/sql"
 
 	"github.com/phraulino/cinetuber/pkgs/filmes/core"
+	"github.com/phraulino/cinetuber/pkgs/filmes/errors"
 	sqlcRepositorio "github.com/phraulino/cinetuber/shared/db/repositorios"
 )
 
@@ -23,7 +24,7 @@ func NewSQLLiteRepoFilmes(db *sql.DB) *SQLLiteRepoFilmes {
 func (r *SQLLiteRepoFilmes) ListarTodos(ctx context.Context) ([]*core.Filme, error) {
 	filmesSqlc, err := r.queries.ListaFilmes(ctx)
 	if err != nil {
-		return nil, err
+		return nil, errors.ErrNenhumFilmeEncontrado
 	}
 
 	filmes := make([]*core.Filme, 0, len(filmesSqlc))

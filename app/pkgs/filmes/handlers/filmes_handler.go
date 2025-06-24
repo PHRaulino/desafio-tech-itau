@@ -22,7 +22,7 @@ func NewFilmesHandler(
 	}
 }
 
-func (h *FilmesHandler) listarFilmes(w httpPorts.Response, r httpPorts.Request) {
+func (h *FilmesHandler) ListarFilmes(w httpPorts.Response, r httpPorts.Request) {
 	ctx := r.Context()
 	filmes, err := h.listaFilmesUseCase.Execute(ctx)
 	if err != nil {
@@ -39,12 +39,12 @@ func (h *FilmesHandler) listarFilmes(w httpPorts.Response, r httpPorts.Request) 
 	}
 	err = json.NewEncoder(w).Encode(response)
 	if err != nil {
-		httpHelpers.HTTPError(w, err.Error(), 409)
+		httpHelpers.HTTPError(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
 
 func (h *FilmesHandler) RegisterRoutes(httpRouter *httpPorts.Router) {
 	router := *httpRouter
-	router.HandleFunc("GET /filmes", h.listarFilmes)
+	router.HandleFunc("GET /filmes", h.ListarFilmes)
 }
